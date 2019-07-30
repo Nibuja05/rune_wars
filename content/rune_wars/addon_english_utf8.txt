@@ -1,0 +1,105 @@
+﻿"lang"
+{
+	"Language"		"English"
+	"Tokens"
+	{		
+		"addon_game_name"											"Generic Ability Test"
+
+		"DOTA_AbilityTooltip_ExtraAttributes" 						"{s:extra_attributes}"
+		"DOTA_Tooltip_ability_generic_ability_layout"               "Generic Ability Layout"
+		"DOTA_Tooltip_ability_generic_ability_layout_Description"   "Basic Description"
+		"DOTA_Tooltip_ability_generic_ability_layout_val_01"        "VAL 01:"
+		"DOTA_Tooltip_ability_generic_ability_layout_Lore"        	"A Lor.e"
+		"DOTA_Tooltip_ability_generic_ability_layout_Note0"        	"Some extra information"
+
+		"DOTA_Tooltip_ability_generic_ability_q"                    "Ability Q"
+		"DOTA_Tooltip_ability_generic_ability_q_Description"        ""
+
+		"DOTA_Tooltip_ability_trigger_ability"                      "Activate Dragon Slave"
+		"DOTA_Tooltip_ability_trigger_ability_Description"          "Use the power of the dragons!"
+
+		"DOTA_Tooltip_ability_trigger_ability_2"                    "Activate Overload"
+		"DOTA_Tooltip_ability_trigger_ability_2_Description"        "Keep overloading!"
+
+		"DOTA_AbilityTooltip_DispelType_Custom"						"DISPELLABLE: "
+		"DOTA_AbilityTooltip_TargetType_Custom"						"AFFECTS: "
+		"DOTA_AbilityTooltip_CastType_Custom" 						"ABILITY: "
+		"DOTA_AbilityTooltip_DamageType_Custom"						"DAMAGE TYPE: "
+		"DOTA_AbilityTooltip_SpellImmunityType_Custom" 				"PIERCES SPELL IMMUNITY: "
+
+		"DOTA_AbilityTooltip_DispelType_Custom_No"					"<font color='#CC0000'>No</font>"
+		"DOTA_AbilityTooltip_DispelType_Custom_Yes"					"Yes"
+		"DOTA_AbilityTooltip_DispelType_Custom_Strong"				"<font color='#CC0000'>Strong Dispels Only</font>"
+
+		"DOTA_AbilityTooltip_TargetType_Custom_Enemy"				"Enemy"
+		"DOTA_AbilityTooltip_TargetType_Custom_Allied"				"Allied"
+		"DOTA_AbilityTooltip_TargetType_Custom_Unit"				"Units"
+		"DOTA_AbilityTooltip_TargetType_Custom_Hero"				"Heroes"
+		"DOTA_AbilityTooltip_TargetType_Custom_Building"			"Building"
+
+		"DOTA_AbilityTooltip_CastType_Custom_Passive" 				"Passive"
+		"DOTA_AbilityTooltip_CastType_Custom_Point" 				"Target Point"
+		"DOTA_AbilityTooltip_CastType_Custom_Unit" 					"Target Unit"
+		"DOTA_AbilityTooltip_CastType_Custom_None" 					"No Target"
+		"DOTA_AbilityTooltip_CastType_Custom_Channel" 				"Channeling"
+		"DOTA_AbilityTooltip_CastType_Custom_Aura" 					"Aura"
+
+		"DOTA_AbilityTooltip_DamageType_Custom_Magical"				"<font color='#5B93D1'>Magical</font>"
+		"DOTA_AbilityTooltip_DamageType_Custom_Physical"			"<font color='#AD2F28'>Physical</font>"
+		"DOTA_AbilityTooltip_DamageType_Custom_Pure"				"<font color='#D7AD53'>Pure</font>"
+
+		"DOTA_AbilityTooltip_SpellImmunityType_Custom_Yes" 			"<font color='#6FE971'>Yes</font>"
+		"DOTA_AbilityTooltip_SpellImmunityType_Custom_No" 			"No"
+
+
+		// ITEMS
+		// Common: No color
+		// Uncommon 
+
+		"DOTA_Tooltip_ability_item_ability_core_common_spark"                             "Ability Core: Spark" //Common
+		"DOTA_Tooltip_ability_item_ability_core_common_spark_Description"                 "Shocks a single enemy to deal damage."
+		"DOTA_Tooltip_ability_item_ability_core_common_spark_damage"                      "DAMAGE:"
+		"DOTA_Tooltip_ability_item_ability_core_common_spark_range"                       "RANGE:"
+		"DOTA_Tooltip_ability_item_ability_core_common_spark_cooldown"                    "COOLDOWN:"
+		"DOTA_Tooltip_ability_item_ability_core_common_spark_manacost"                    "MANACOST:"
+
+		"DOTA_Tooltip_ability_item_ability_core_common_fireball"                          "Ability Core: Fireball"  //Common
+		"DOTA_Tooltip_ability_item_ability_core_common_fireball_Description"              "Fires a fireball in a traight line, damaging the first enemy hit."
+		"DOTA_Tooltip_ability_item_ability_core_common_fireball_damage"                   "DAMAGE:"
+		"DOTA_Tooltip_ability_item_ability_core_common_fireball_range"                    "RANGE:"
+		"DOTA_Tooltip_ability_item_ability_core_common_fireball_cooldown"                 "COOLDOWN:"
+		"DOTA_Tooltip_ability_item_ability_core_common_fireball_manacost"                 "MANACOST:"
+
+		"DOTA_Tooltip_ability_item_ability_core_common_freeze"                            "Ability Core: Freeze"  //Common
+		"DOTA_Tooltip_ability_item_ability_core_common_freeze_Description"                "Shoots a homing ice projecitle, that freezes the the enemy and deals minor damage."
+		"DOTA_Tooltip_ability_item_ability_core_common_freeze_damage"                     "DAMAGE:"
+		"DOTA_Tooltip_ability_item_ability_core_common_freeze_range"                      "RANGE:"
+		"DOTA_Tooltip_ability_item_ability_core_common_freeze_cooldown"                   "COOLDOWN:"
+		"DOTA_Tooltip_ability_item_ability_core_common_freeze_manacost"                   "MANACOST:"
+		"DOTA_Tooltip_ability_item_ability_core_common_freeze_freeze_duration"            "FREEZE DURATION:"
+
+		"DOTA_Tooltip_ability_item_ability_core_common_heal"                             "Ability Core: Heal"  //Common
+		"DOTA_Tooltip_ability_item_ability_core_common_heal_Description"                  "Heals the user for a small amount."
+		"DOTA_Tooltip_ability_item_ability_core_common_heal_heal"                         "HEAL:"
+		"DOTA_Tooltip_ability_item_ability_core_common_heal_cooldown"                     "COOLDOWN:"
+		"DOTA_Tooltip_ability_item_ability_core_common_heal_manacost"                     "MANACOST:"
+
+		"DOTA_Tooltip_ability_item_ability_core_common_shake"                             "Ability Core: Shake"  //Common
+		"DOTA_Tooltip_ability_item_ability_core_common_shake_Description"                 "Shakes the ground in an area to damage all enemies within over time."
+		"DOTA_Tooltip_ability_item_ability_core_common_shake_total_damage"                "TOTAL DAMAGE:"
+		"DOTA_Tooltip_ability_item_ability_core_common_shake_range"                       "RANGE:"
+		"DOTA_Tooltip_ability_item_ability_core_common_shake_radius"                      "RADIUS:"
+		"DOTA_Tooltip_ability_item_ability_core_common_shake_duration"                    "DURATION:"
+		"DOTA_Tooltip_ability_item_ability_core_common_shake_cooldown"                    "COOLDOWN:"
+		"DOTA_Tooltip_ability_item_ability_core_common_shake_manacost"                    "MANACOST:"
+
+		"DOTA_Tooltip_ability_item_ability_core_common_weakness"                          "Ability Core: Weakness"  //Common
+		"DOTA_Tooltip_ability_item_ability_core_common_weakness_Description"              "Emits a dark aura, that weakens enemies."
+		"DOTA_Tooltip_ability_item_ability_core_common_weakness_radius"                   "RADIUS:"
+		"DOTA_Tooltip_ability_item_ability_core_common_weakness_damage_amplificaton"      "DAMAGE AMPLIFICATON:"
+		"DOTA_Tooltip_ability_item_ability_core_common_weakness_attack_damage_reduction"  "ATTACK DAMAGE REDUCTION:"
+
+		"DOTA_Tooltip_ability_item_enchanted_ore_test"                                    "Enchanted Ore"
+		"DOTA_Tooltip_ability_item_enchanted_ore_test_Description"                        ""
+	}
+}

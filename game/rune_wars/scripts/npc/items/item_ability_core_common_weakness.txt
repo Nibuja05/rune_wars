@@ -1,0 +1,52 @@
+"item_ability_core_common_weakness" 
+{
+	"ID"                    "2004"
+	"BaseClass"             "item_datadriven"
+	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityTextureName"    "item_gem"
+	"Model"                 "models/props_gameplay/gem01.vmdl" 
+	"Effect"                "particles/generic_gameplay/dropped_item.vpcf"
+	"ItemQuality"           "common"
+	// "Defense"               "1"
+
+	"ItemDisassembleRule"	"DOTA_ITEM_DISASSEMBLE_NEVER"
+	"ItemCost"				"0"
+	"ItemKillable"			"0" 
+	"ItemSellable"			"0"
+	"ItemPurchasable"		"1"
+	"ItemDroppable"			"1"
+	"ItemShareability"		"ITEM_FULLY_SHAREABLE_STACKING"
+
+	"SideShop"				"1" 
+	"SecretShop"			"0"
+
+	"ItemStackable"			"0"
+	"ItemPermanent"			"0"
+
+	"ItemInitialCharges"	"0"
+	"ItemDisplayCharges"	"0"
+	"ItemRequiresCharges"	"0"
+
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_CHAOS"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_PASSIVE | SPECIAL_ABILITY_KEY_AOE | SPECIAL_ABILITY_KEY_BUFF"
+	"SpecialSpellName"		"weakness"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"radius"					"300 450 600 750"
+		}
+		"02"
+		{
+			"var_type"					"FIELD_FLOAT"
+			"damage_amplificaton"		"5.0 7.5 10 12.5"
+		}
+		"03"
+		{
+			"var_type"					"FIELD_FLOAT"
+			"damage_reduction"	"8.0 12.0 16.0 20.0"
+		}
+	}
+} 

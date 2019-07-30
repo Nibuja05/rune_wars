@@ -1,0 +1,8 @@
+
+"generic_ability_e"
+{
+	"BaseClass"     					"ability_lua"
+	"ScriptFile"    					"abilities/generic_ability_e"
+	"FightRecapLevel"    				"1"
+	"AbilityTextureName"				"rubick_empty1"
+}
