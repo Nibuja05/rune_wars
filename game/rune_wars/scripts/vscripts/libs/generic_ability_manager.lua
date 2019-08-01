@@ -37,7 +37,7 @@ function GenericAbility:InitHero(hero)
 				abilityTable.manaCost = "0"
 				abilityTable.aoeRadius = "0"
 				abilityTable.duration = "0"
-				abilityTable.castPoint = "0"
+				abilityTable.castPoint = "0.3"
 
 				abilityTable.name = abilityName
 				abilityTable.title = "Variable Ability"
@@ -88,7 +88,7 @@ function GenericAbility:ResetAbility(hero, ability, index)
 	abilityTable.manaCost = "0"
 	abilityTable.aoeRadius = "0"
 	abilityTable.duration = "0"
-	abilityTable.castPoint = "0"
+	abilityTable.castPoint = "0.3"
 
 	abilityTable.name = abilityName
 	abilityTable.title = "Variable Ability"
