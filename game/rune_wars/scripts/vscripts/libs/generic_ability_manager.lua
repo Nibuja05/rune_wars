@@ -37,6 +37,7 @@ function GenericAbility:InitHero(hero)
 				abilityTable.manaCost = "0"
 				abilityTable.aoeRadius = "0"
 				abilityTable.duration = "0"
+				abilityTable.castPoint = "0"
 
 				abilityTable.name = abilityName
 				abilityTable.title = "Variable Ability"
@@ -87,6 +88,7 @@ function GenericAbility:ResetAbility(hero, ability, index)
 	abilityTable.manaCost = "0"
 	abilityTable.aoeRadius = "0"
 	abilityTable.duration = "0"
+	abilityTable.castPoint = "0"
 
 	abilityTable.name = abilityName
 	abilityTable.title = "Variable Ability"
@@ -139,6 +141,7 @@ function GenericAbility:LoadAbilityFromTable(ability, abilityTable)
 	if abilityTable.Manacost then ability:SetManaCost(abilityTable.Manacost) end
 	if abilityTable.Aoeradius then ability:SetAOERadius(abilityTable.Aoeradius) end
 	if abilityTable.Duration then ability:SetAbilityDuration(abilityTable.Duration) end
+	if abilityTable.Castpoint then ability:SetCastPoint(abilityTable.Castpoint) end
 	if abilityTable.Texture then ability:SetAbilityTextureName(abilityTable.Texture) end
 	if abilityTable.Targettype then ability:SetAbilityTargetType(abilityTable.Targettype) end
 	if abilityTable.Targetflags then ability:SetAbilityTargetFlags(abilityTable.Targetflags) end

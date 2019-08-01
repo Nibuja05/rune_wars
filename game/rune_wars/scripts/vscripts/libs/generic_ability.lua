@@ -95,6 +95,15 @@ function generic_ability:SetAbilityTextureName(texture)
 	self:SetValues("texture", texture)
 end
 
+function generic_ability:GetCastPoint()
+	return self:GetNumberValue("castPoint")
+end
+
+function generic_ability:SetCastPoint(castPoint)
+	self:SetValues("castPoint", castPoint)
+	self:UpdateCastPoint()
+end
+
 function generic_ability:GetAbilityTargetType()
 	return self:GetNumberValue("targetType")
 end
@@ -204,6 +213,7 @@ function generic_ability:ReloadAbility()
 	self:UpdateModifier("spellImmunity")
 	self:UpdateModifier("aoeRadius")
 	self:UpdateModifier("duration")
+	self:UpdateModifier("castPoint")
 
 	if self["GetPassives"] then
 		local passives = self:GetPassives()
@@ -213,6 +223,8 @@ function generic_ability:ReloadAbility()
 			end
 		end
 	end
+
+	self:UpdateCastPoint()
 end
 
 function generic_ability:DealDamage(damage, attacker, victim, specialDamageType)
@@ -301,6 +313,10 @@ function generic_ability:GetNumberValue(valType)
 		if values[self:GetLevel()] then
 			curVal = values[self:GetLevel()]
 		end
+	end
+	if IsClient() then
+		print("Client? :O")
+		print(valType)
 	end
 	self.valType = curVal
 	return tonumber(curVal)
@@ -459,6 +475,11 @@ function generic_ability:AddPassives(passives)
 			caster:AddNewModifier(caster, self, passive, nil)
 		end
 	end
+end
+
+function generic_ability:UpdateCastPoint()
+	local castPoint = self:GetCastPoint()
+	self:SetOverrideCastPoint(castPoint)
 end
 
 -- function generic_ability:CheckReloaded()
