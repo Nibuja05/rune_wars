@@ -3,6 +3,7 @@
         <include src="file://{resources}/scripts/custom_game/generic_ability.js" />
     </scripts>
 	<Panel>
-		<!-- <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/health_bar.xml" /> -->
+		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/stat_hud.xml" />
+		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/rune_slots.xml" />
 	</Panel>
 </root>
