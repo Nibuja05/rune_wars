@@ -8,12 +8,16 @@
 		"item"			"item_ability_core_common_fireball"
 		"item"			"item_ability_core_common_shake"
 		"item"			"item_ability_core_common_freeze"
+		"item"			"item_ability_core_common_healing_touch"
+		"item"			"item_ability_core_common_energy_bolt"
+		"item"			"item_ability_core_passive_fiendish_hunger"
 	}
 
 	"attributes"
 	{
 		"item"			"item_ability_core_common_freeze"
 		"item"			"item_ability_core_common_shake"
+
 	}
 
 	"weapons_armor"

@@ -58,7 +58,7 @@
 			"05"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"projectile_speed"	"800"
+				"projectile_speed"	"1200"
 			}
 		}
 	} 
@@ -338,17 +338,17 @@
 			"01"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"radius"					"300 450 600 750"
+				"radius"					"550"
 			}
 			"02"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"damage_amplificaton"		"5.0 7.5 10 12.5"
+				"damage_amplificaton"		"6 8.5 11 13.5"
 			}
 			"03"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"damage_reduction"	"8.0 12.0 16.0 20.0"
+				"damage_reduction"	"6 8.5 11 13.5"
 			}
 		}
 	} 
@@ -380,5 +380,275 @@
 		"ItemInitialCharges"	"0"
 		"ItemDisplayCharges"	"0"
 		"ItemRequiresCharges"	"0"
+	}
+	"item_ability_core_common_energy_bolt" 
+	{
+		"ID"                    "2009"
+		"BaseClass"             "item_datadriven"
+		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"    "item_gem"
+		"Model"                 "models/props_gameplay/gem01.vmdl" 
+		"Effect"                "particles/generic_gameplay/dropped_item.vpcf"
+		"ItemQuality"           "common"
+		// "Defense"               "1"
+
+		"ItemDisassembleRule"	"DOTA_ITEM_DISASSEMBLE_NEVER"
+		"ItemCost"				"0"
+		"ItemKillable"			"0" 
+		"ItemSellable"			"0"
+		"ItemPurchasable"		"1"
+		"ItemDroppable"			"1"
+		"ItemShareability"		"ITEM_FULLY_SHAREABLE_STACKING"
+
+		"SideShop"				"1" 
+		"SecretShop"			"0"
+		
+		"ItemStackable"			"0"
+		"ItemPermanent"			"0"
+		
+		"ItemInitialCharges"	"0"
+		"ItemDisplayCharges"	"0"
+		"ItemRequiresCharges"	"0"
+		
+		"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_ORDER"
+		"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_UNIT | SPECIAL_ABILITY_KEY_TRACKING_PROJECTILE | SPECIAL_ABILITY_KEY_SINGLE_TARGET | SPECIAL_ABILITY_KEY_DAMAGE"
+		"SpecialSpellName"		"energy_bolt"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"60 100 140 180"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"range"				"550"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"cooldown"			"9.0"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"manacost"			"60"
+			}
+		}
 	} 
+	"item_ability_core_common_healing_touch" 
+	{
+		"ID"                    "2010"
+		"BaseClass"             "item_datadriven"
+		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"    "item_gem"
+		"Model"                 "models/props_gameplay/gem01.vmdl" 
+		"Effect"                "particles/generic_gameplay/dropped_item.vpcf"
+		"ItemQuality"           "common"
+		// "Defense"               "1"
+
+		"ItemDisassembleRule"	"DOTA_ITEM_DISASSEMBLE_NEVER"
+		"ItemCost"				"0"
+		"ItemKillable"			"0" 
+		"ItemSellable"			"0"
+		"ItemPurchasable"		"1"
+		"ItemDroppable"			"1"
+		"ItemShareability"		"ITEM_FULLY_SHAREABLE_STACKING"
+
+		"SideShop"				"1" 
+		"SecretShop"			"0"
+
+		"ItemStackable"			"0"
+		"ItemPermanent"			"0"
+
+		"ItemInitialCharges"	"0"
+		"ItemDisplayCharges"	"0"
+		"ItemRequiresCharges"	"0"
+
+		"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_NONE"
+		"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_UNIT | SPECIAL_ABILITY_KEY_TRACKING_PROJECTILE | SPECIAL_ABILITY_KEY_SINGLE_TARGET | SPECIAL_ABILITY_KEY_HEAL"
+		"SpecialSpellName"		"healing_touch"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"heal"			"40 70 100 130"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"range"				"600"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"cooldown"			"8"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"manacost"			"55"
+			}
+		}
+	} 
+	"item_ability_core_passive_fiendish_hunger" 
+	{
+		"ID"                    "2011"
+		"BaseClass"             "item_datadriven"
+		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"    "item_gem"
+		"Model"                 "models/props_gameplay/gem01.vmdl" 
+		"Effect"                "particles/generic_gameplay/dropped_item.vpcf"
+		"ItemQuality"           "common"
+		// "Defense"               "1"
+
+		"ItemDisassembleRule"	"DOTA_ITEM_DISASSEMBLE_NEVER"
+		"ItemCost"				"0"
+		"ItemKillable"			"0" 
+		"ItemSellable"			"0"
+		"ItemPurchasable"		"1"
+		"ItemDroppable"			"1"
+		"ItemShareability"		"ITEM_FULLY_SHAREABLE_STACKING"
+
+		"SideShop"				"1" 
+		"SecretShop"			"0"
+
+		"ItemStackable"			"0"
+		"ItemPermanent"			"0"
+
+		"ItemInitialCharges"	"0"
+		"ItemDisplayCharges"	"0"
+		"ItemRequiresCharges"	"0"
+
+		"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_CHAOS"
+		"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_PASSIVE | SPECIAL_ABILITY_KEY_BUFF"
+		"SpecialSpellName"		"fiendish_hunger"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"lifesteal_percentage"					"8 16 24 32"
+			}
+		}
+	}
+	"item_ability_core_common_dispel_magic" 
+	{
+		"ID"                    "2012"
+		"BaseClass"             "item_datadriven"
+		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"    "item_gem"
+		"Model"                 "models/props_gameplay/gem01.vmdl" 
+		"Effect"                "particles/generic_gameplay/dropped_item.vpcf"
+		"ItemQuality"           "common"
+		// "Defense"               "1"
+
+		"ItemDisassembleRule"	"DOTA_ITEM_DISASSEMBLE_NEVER"
+		"ItemCost"				"0"
+		"ItemKillable"			"0" 
+		"ItemSellable"			"0"
+		"ItemPurchasable"		"1"
+		"ItemDroppable"			"1"
+		"ItemShareability"		"ITEM_FULLY_SHAREABLE_STACKING"
+
+		"SideShop"				"1" 
+		"SecretShop"			"0"
+
+		"ItemStackable"			"0"
+		"ItemPermanent"			"0"
+
+		"ItemInitialCharges"	"0"
+		"ItemDisplayCharges"	"0"
+		"ItemRequiresCharges"	"0"
+
+		"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_NONE"
+		"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_SELF | SPECIAL_ABILITY_KEY_SINGLE_TARGET | SPECIAL_ABILITY_KEY_BUFF"
+		"SpecialSpellName"		"dispel_magic"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"bonus_resistance"				"15 20 25 30"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"duration"				"5"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"cooldown"			"25"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"manacost"			"40"
+			}
+		}
+	}
+	"item_ability_core_common_blink_strike" 
+	{
+		"ID"                    "2013"
+		"BaseClass"             "item_datadriven"
+		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"    "item_gem"
+		"Model"                 "models/props_gameplay/gem01.vmdl" 
+		"Effect"                "particles/generic_gameplay/dropped_item.vpcf"
+		"ItemQuality"           "common"
+		// "Defense"               "1"
+
+		"ItemDisassembleRule"	"DOTA_ITEM_DISASSEMBLE_NEVER"
+		"ItemCost"				"0"
+		"ItemKillable"			"0" 
+		"ItemSellable"			"0"
+		"ItemPurchasable"		"1"
+		"ItemDroppable"			"1"
+		"ItemShareability"		"ITEM_FULLY_SHAREABLE_STACKING"
+
+		"SideShop"				"1" 
+		"SecretShop"			"0"
+
+		"ItemStackable"			"0"
+		"ItemPermanent"			"0"
+
+		"ItemInitialCharges"	"0"
+		"ItemDisplayCharges"	"0"
+		"ItemRequiresCharges"	"0"
+
+		"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_STORM"
+		"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_UNIT | SPECIAL_ABILITY_KEY_SINGLE_TARGET | SPECIAL_ABILITY_KEY_DAMAGE"
+		"SpecialSpellName"		"spark"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"25 50 75 100"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"range"				"500"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"cooldown"			"9"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"manacost"			"55"
+			}
+		}
+	}  
 }

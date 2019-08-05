@@ -25,8 +25,8 @@ function weakness:GetAbilityTable()
 		Dispel = DOTA_EXTRA_ENUMS.DOTA_ABILITY_DISPEL_TYPE_NONE,
 		Spellimmunity = DOTA_EXTRA_ENUMS.SPELL_IMMUNITY_NONE,
 		Damagetype = DAMAGE_TYPE_NONE,
-		Title = "Weakness",
-		Description = "Emits a dark aura, that weakens enemies.",
+		Title = "Weakness Aura",
+		Description = "Emits a dark aura, that weakens enemies, reducing their damage dealt while amplifying their damage taken from any type of damage.",
 		Lore = "Basic Lore :(",
 	}
 	return abilityTable

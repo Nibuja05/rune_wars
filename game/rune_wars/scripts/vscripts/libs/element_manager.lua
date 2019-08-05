@@ -63,7 +63,7 @@ end
 
 function Elements:HealUnit(target, source, amount)
 	local pfx = "particles/msg_fx/msg_heal.vpcf"
-	local particle = ParticleManager:CreateParticle(pfx, PATTACH_ABSORIGIN_FOLLOW, target)
+	local particle = ParticleManager:CreateParticle(pfx, PATTACH_ABSORIGIN_FOLLOW, source)
 
 	amount = math.floor(amount)
 	local color = Vector(0, 255, 0)
@@ -78,5 +78,6 @@ function Elements:HealUnit(target, source, amount)
 	ParticleManager:SetParticleControl(particle, 3, color)
 	ParticleManager:ReleaseParticleIndex(particle)
 
-	target:Heal(amount, source)
+	source:Heal(amount, target)
 end
+

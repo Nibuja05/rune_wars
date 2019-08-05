@@ -12,14 +12,17 @@
 		"DOTA_Tooltip_ability_generic_ability_layout_Lore"        	"A Lor.e"
 		"DOTA_Tooltip_ability_generic_ability_layout_Note0"        	"Some extra information"
 
-		"DOTA_Tooltip_ability_generic_ability_q"                    "Ability Q"
-		"DOTA_Tooltip_ability_generic_ability_q_Description"        ""
+		"DOTA_Tooltip_ability_generic_ability_q"                    "Empty Ability Q"
+		"DOTA_Tooltip_ability_generic_ability_q_Description"        "Currently empty."
 
-		"DOTA_Tooltip_ability_trigger_ability"                      "Activate Dragon Slave"
-		"DOTA_Tooltip_ability_trigger_ability_Description"          "Use the power of the dragons!"
+		"DOTA_Tooltip_ability_generic_ability_e"                    "Empty Ability W"
+		"DOTA_Tooltip_ability_generic_ability_e_Description"        "Currently empty."
 
-		"DOTA_Tooltip_ability_trigger_ability_2"                    "Activate Overload"
-		"DOTA_Tooltip_ability_trigger_ability_2_Description"        "Keep overloading!"
+		"DOTA_Tooltip_ability_generic_ability_w"                    "Empty Ability E"
+		"DOTA_Tooltip_ability_generic_ability_w_Description"        "Currently empty."
+
+		"DOTA_Tooltip_ability_trigger_ability"                      "Check Abilities"
+		"DOTA_Tooltip_ability_trigger_ability_Description"          "Checks inventory and backpack to build abilities!"
 
 		"DOTA_AbilityTooltip_DispelType_Custom"						"DISPELLABLE: "
 		"DOTA_AbilityTooltip_TargetType_Custom"						"AFFECTS: "
@@ -101,5 +104,10 @@
 
 		"DOTA_Tooltip_ability_item_enchanted_ore_test"                                    "Enchanted Ore"
 		"DOTA_Tooltip_ability_item_enchanted_ore_test_Description"                        ""
+
+		"DOTA_Tooltip_ability_shadow_shaman_dragon_spirit"                                "Heroic Ability: Dragon Spirit"
+		"DOTA_Tooltip_ability_shadow_shaman_dragon_spirit_Description"                    "Shadow Shaman carries an invulnerable and uncontrollable Dragon Spirit that protects him. Dragon Spirit attacks to enemies in a cone that Shadow Shaman is facing, deal %base_damage% (+%per_level% per Level) damage on impact every 1.25 seconds."
+		//"DOTA_Tooltip_ability_shadow_shaman_dragon_spirit_base_damage"                    "BASE DAMAGE:"
+		//"DOTA_Tooltip_ability_shadow_shaman_dragon_spirit_per_level"                      "PER LEVEL:"
 	}
 }

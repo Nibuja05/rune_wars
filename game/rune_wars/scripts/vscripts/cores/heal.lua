@@ -42,6 +42,7 @@ function heal:OnSpellStart()
 	local caster = self:GetCaster()
 	local count = self:GetSpecialValueFor("heal")
 
+
 	self:PlayEffect(caster)
 	self:HealUnit(caster, caster, count)
 end

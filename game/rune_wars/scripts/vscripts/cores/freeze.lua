@@ -21,7 +21,6 @@ function freeze:GetAbilityTable()
 		Manacost = "%manacost",
 		Castrange = "%range",
 		Texture = "crystal_maiden_frostbite",
-		Castpoint = "1.0 0.7 0.4 0.1",
 		Targettype = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
 		Targetflags = DOTA_UNIT_TARGET_FLAG,
 		Targetteam = DOTA_UNIT_TARGET_TEAM_ENEMY,

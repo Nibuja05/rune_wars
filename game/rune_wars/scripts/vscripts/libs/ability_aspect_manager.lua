@@ -64,7 +64,6 @@ function AbilityAspects:BuildCoreAbility(caster)
 	local playerID = caster:GetPlayerID()
 	local player = PlayerResource:GetPlayer(playerID)
 	CustomGameEventManager:Send_ServerToPlayer(player, "init_tooltips", {})
-	CustomGameEventManager:Send_ServerToPlayer(player, "init_stat_tooltips", {})
 end
 
 function AbilityAspects:AddAbilitySpecialKeys(ability, specials)

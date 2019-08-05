@@ -25,6 +25,7 @@ var shown = false;
 var started = false;
 var open = false;
 
+// var rainbow = ["#9400D3", "#4B0082", "#0000FF", "#00FF00", "#00FF00", "#FF7F00", "#FF0000"];
 var rainbow = [];
 var rainbowStart = 0;
 var lastIndex;
@@ -87,7 +88,7 @@ function InitializeTooltips() {
 	GenerateColor(RAINBOW_DENSITY);
 	if (!started) {RainbowInc();};
 
-	// $.Msg("SHOW: " + shown)
+	$.Msg("SHOW: " + shown)
 	if (shown) {
 		if (lastIndex !== undefined) {
 			var abilityPanel = abilityPanels[lastIndex];
@@ -97,11 +98,6 @@ function InitializeTooltips() {
 	}
 
 	$.Msg("Panorama Init Complete!");
-}
-
-function TestShop(arg) {
-	$.Msg("Test shop toggle");
-	$.Msg(arg);
 }
 
 function SetPanelEvents(abilityPanel, index) {
@@ -177,6 +173,7 @@ function ChangeTooltip(index, show) {
 	// var attributeText = GenerateAttributeText(abilityTable, Entities.GetAbilityByName(mainSelected, name))
 	
 	var ability = Entities.GetAbilityByName(mainSelected, name);
+	$.Msg(ability);
 	var level = Abilities.GetLevel(ability);
 	var cooldown = GenerateCooldownText(abilityTable, level);
 	var manaCost = GenerateManaCostText(abilityTable, level);
@@ -266,6 +263,7 @@ function GetAbilityTargetString(key, val, opt) {
 			}
 			break;
 		case "Cast":
+			$.Msg(val);
 			title = $.Localize("#DOTA_AbilityTooltip_CastType_Custom");
 			if (val & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_PASSIVE) {
 				text += $.Localize("#DOTA_AbilityTooltip_CastType_Custom_Passive");
