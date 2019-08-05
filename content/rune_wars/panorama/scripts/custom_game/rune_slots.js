@@ -30,6 +30,10 @@ function ReplaceButtons() {
 	newRuneButton.AddClass("new_rune_button_default");
 	newRuneButton.SetParent(glyphScanContainer);
 
+	PositionContextPanel();
+}
+
+function PositionContextPanel() {
 	var margin = minimap.actuallayoutheight + 35;
 	if (minimap.BAscendantHasClass("MinimapExtraLarge")) {
 		margin += 10;
@@ -51,7 +55,6 @@ function RuneButtonLeave() {
 }
 
 function ToggleRunesHUD() {
-	$.Msg("Activate!");
 	var containerQ = $("#rune_container_q");
 	var containerW = $("#rune_container_w");
 	var containerE = $("#rune_container_e");
@@ -66,7 +69,7 @@ function ToggleRunesHUD() {
 		SetClosed(containerE);
 		RUNES_OPEN = true;
 	}
-	$.Msg(containerQ.style);
+	PositionContextPanel();
 }
 
 function SetOpen(element) {

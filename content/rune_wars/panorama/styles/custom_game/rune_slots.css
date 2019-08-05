@@ -16,7 +16,6 @@
 	height: 100px;
 	margin-bottom: 10px;
 	/*vertical-align: bottom;*/
-	background-color: green;
 	flow-children: right;
 	background-image: url("s2r://panorama/images/hud/reborn/ability_bg_psd.vtex");
 }

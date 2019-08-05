@@ -4,36 +4,35 @@ if not Elements then
 end
 
 function Elements:ApplyDamage(damageTable, specialType)
-	local damage = damageTable.damage
 	local reduction = 0
 	local amplification = 0
 	if specialType == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_STORM then
-		reduction = victim:GetModifierStackCount("modifier_storm_resistance" , self)
-		amplification = attacker:GetModifierStackCount("modifier_storm_power", self )	
+		reduction = damageTable.victim:GetModifierStackCount("modifier_storm_resistance" , self)
+		amplification = damageTable.attacker:GetModifierStackCount("modifier_storm_power", self )	
 
 	elseif specialType == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_ORDER then
-		reduction = victim:GetModifierStackCount("modifier_order_resistance" , self)
-		amplification = attacker:GetModifierStackCount("modifier_order_power", self )
+		reduction = damageTable.victim:GetModifierStackCount("modifier_order_resistance" , self)
+		amplification = damageTable.attacker:GetModifierStackCount("modifier_order_power", self )
 
 	elseif specialType == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_CHAOS then
-		reduction = victim:GetModifierStackCount("modifier_chaos_resistance" , self)
-		amplification = attacker:GetModifierStackCount("modifier_chaos_power", self )
+		reduction = damageTable.victim:GetModifierStackCount("modifier_chaos_resistance" , self)
+		amplification = damageTable.attacker:GetModifierStackCount("modifier_chaos_power", self )
 
 	elseif specialType == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_EARTH then
-		reduction = victim:GetModifierStackCount("modifier_earth_resistance" , self)
-		amplification = attacker:GetModifierStackCount("modifier_earth_power", self )
+		reduction = damageTable.victim:GetModifierStackCount("modifier_earth_resistance" , self)
+		amplification = damageTable.attacker:GetModifierStackCount("modifier_earth_power", self )
 
 	elseif specialType == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_FIRE then
-		reduction = victim:GetModifierStackCount("modifier_fire_resistance" , self)
-		amplification = attacker:GetModifierStackCount("modifier_fire_power", self )
+		reduction = damageTable.victim:GetModifierStackCount("modifier_fire_resistance" , self)
+		amplification = damageTable.attacker:GetModifierStackCount("modifier_fire_power", self )
 
 	elseif specialType == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_WATER then
-		reduction = victim:GetModifierStackCount("modifier_water_resistance" , self)
-		amplification = attacker:GetModifierStackCount("modifier_water_power", self )
+		reduction = damageTable.victim:GetModifierStackCount("modifier_water_resistance" , self)
+		amplification = damageTable.attacker:GetModifierStackCount("modifier_water_power", self )
 
 	end
 
-	damageTable.damage = (amplification - reduction + 100 ) * damage / 100
+	damageTable.damage = (amplification - reduction + 100 ) * damageTable.damage / 100
 	ApplyDamage(damageTable)
 	if specialType ~= DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_NONE then
 		self:ShowDamageNumbers(damageTable.victim, damageTable.damage, specialType)
