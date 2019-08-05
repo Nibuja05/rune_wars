@@ -95,6 +95,15 @@ function generic_ability:SetAbilityTextureName(texture)
 	self:SetValues("texture", texture)
 end
 
+function generic_ability:GetCastPoint()
+	return self:GetNumberValue("castPoint")
+end
+
+function generic_ability:SetCastPoint(castPoint)
+	self:SetValues("castPoint", castPoint)
+	self:UpdateCastPoint()
+end
+
 function generic_ability:GetAbilityTargetType()
 	return self:GetNumberValue("targetType")
 end
@@ -204,6 +213,7 @@ function generic_ability:ReloadAbility()
 	self:UpdateModifier("spellImmunity")
 	self:UpdateModifier("aoeRadius")
 	self:UpdateModifier("duration")
+	self:UpdateModifier("castPoint")
 
 	if self["GetPassives"] then
 		local passives = self:GetPassives()
@@ -213,156 +223,19 @@ function generic_ability:ReloadAbility()
 			end
 		end
 	end
+
+	self:UpdateCastPoint()
 end
 
 function generic_ability:DealDamage(damage, attacker, victim, specialDamageType)
-	local damagetype = specialDamageType
-	if damagetype == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_STORM then
-		local reduction = victim:GetModifierStackCount("modifier_storm_resistance" , self)
-		local amplification = attacker:GetModifierStackCount("modifier_storm_power", self )	
-		
-		local dmg = (amplification - reduction + 100 ) * damage / 100
-		print("storm")
-		local damageTable = {
-			damage = dmg,
-			attacker = attacker,
-			victim = victim,
-			damage_type = DAMAGE_TYPE_MAGICAL,
-			ability = self,
-		}
-		Elements:ApplyDamage(damageTable, specialDamageType)
-		print(dmg)
-		if attacker:HasModifier("modifier_passive_fiendish_hunger") then
-			local modifier = attacker:FindModifierByName("modifier_passive_fiendish_hunger")
-			local level = modifier:GetAbility():GetLevel()
-			local lifesteal = 6 + (3 * level)
-			local heal = lifesteal * dmg / 100
-			attacker:Heal(heal, attacker)
-			print(heal)
-		end
-		
-		
-	elseif damagetype == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_ORDER then
-		local reduction = victim:GetModifierStackCount("modifier_order_resistance" , self)
-		local amplification = attacker:GetModifierStackCount("modifier_order_power", self )
-
-		local dmg = (amplification - reduction + 100 ) * damage / 100
-		print("order")
-		local damageTable = {
-			damage = dmg,
-			attacker = attacker,
-			victim = victim,
-			damage_type = DAMAGE_TYPE_MAGICAL,
-			ability = self,
-		}
-		Elements:ApplyDamage(damageTable, specialDamageType)
-		print(dmg)
-		if attacker:HasModifier("modifier_passive_fiendish_hunger") then
-			local modifier = attacker:FindModifierByName("modifier_passive_fiendish_hunger")
-			local level = modifier:GetAbility():GetLevel()
-			local lifesteal = 6 + (3 * level)
-			local heal = lifesteal * dmg / 100
-			attacker:Heal(heal, attacker)
-			print(heal)
-		end
-
-	elseif damagetype == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_CHAOS then
-		local reduction = victim:GetModifierStackCount("modifier_chaos_resistance" , self)
-		local amplification = attacker:GetModifierStackCount("modifier_chaos_power", self )
-
-		local dmg = (amplification - reduction + 100 ) * damage / 100
-		print("chaos")
-		local damageTable = {
-			damage = dmg,
-			attacker = attacker,
-			victim = victim,
-			damage_type = DAMAGE_TYPE_MAGICAL,
-			ability = self,
-		}
-		Elements:ApplyDamage(damageTable, specialDamageType)
-		print(dmg)
-		if attacker:HasModifier("modifier_passive_fiendish_hunger") then
-			local modifier = attacker:FindModifierByName("modifier_passive_fiendish_hunger")
-			local level = modifier:GetAbility():GetLevel()
-			local lifesteal = 6 + (3 * level)
-			local heal = lifesteal * dmg / 100
-			attacker:Heal(heal, attacker)
-			print(heal)
-		end
-	elseif damagetype == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_EARTH then
-		local reduction = victim:GetModifierStackCount("modifier_earth_resistance" , self)
-		local amplification = attacker:GetModifierStackCount("modifier_earth_power", self )
-
-		local dmg = (amplification - reduction + 100 ) * damage / 100
-		print("earth")
-		local damageTable = {
-			damage = dmg,
-			attacker = attacker,
-			victim = victim,
-			damage_type = DAMAGE_TYPE_MAGICAL,
-			ability = self,
-		}
-		Elements:ApplyDamage(damageTable, specialDamageType)
-		print(dmg)
-		if attacker:HasModifier("modifier_passive_fiendish_hunger") then
-			local modifier = attacker:FindModifierByName("modifier_passive_fiendish_hunger")
-			local level = modifier:GetAbility():GetLevel()
-			local lifesteal = 6 + (3 * level)
-			local heal = lifesteal * dmg / 100
-			attacker:Heal(heal, attacker)
-			print(heal)
-		end
-
-	elseif damagetype == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_FIRE then
-		local reduction = victim:GetModifierStackCount("modifier_fire_resistance" , self)
-		local amplification = attacker:GetModifierStackCount("modifier_fire_power", self )
-
-		local dmg = (amplification - reduction + 100 ) * damage / 100
-		print("fire")
-		local damageTable = {
-			damage = dmg,
-			attacker = attacker,
-			victim = victim,
-			damage_type = DAMAGE_TYPE_MAGICAL,
-			ability = self,
-		}
-		Elements:ApplyDamage(damageTable, specialDamageType)
-		print(dmg)
-		if attacker:HasModifier("modifier_passive_fiendish_hunger") then
-			local modifier = attacker:FindModifierByName("modifier_passive_fiendish_hunger")
-			local level = modifier:GetAbility():GetLevel()
-			local lifesteal = 6 + (3 * level)
-			local heal = lifesteal * dmg / 100
-			attacker:Heal(heal, attacker)
-			print(heal)
-		end
-
-	elseif damagetype == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_WATER then
-		local reduction = victim:GetModifierStackCount("modifier_water_resistance" , self)
-		local amplification = attacker:GetModifierStackCount("modifier_water_power", self )
-
-		local dmg = (amplification - reduction + 100 ) * damage / 100
-		print("water")
-		local damageTable = {
-			damage = dmg,
-			attacker = attacker,
-			victim = victim,
-			damage_type = DAMAGE_TYPE_PURE,
-			ability = self,
-		}
-		Elements:ApplyDamage(damageTable, specialDamageType)
-		print(dmg)
-		if attacker:HasModifier("modifier_passive_fiendish_hunger") then
-			local modifier = attacker:FindModifierByName("modifier_passive_fiendish_hunger")
-			local level = modifier:GetAbility():GetLevel()
-			local lifesteal = 6 + (3 * level)
-			local heal = lifesteal * dmg / 100
-			attacker:Heal(heal, attacker)
-			print(heal)
-		end
-	end
-
-
+	local damageTable = {
+		damage = damage,
+		attacker = attacker,
+		victim = victim,
+		damage_type = DAMAGE_TYPE_PURE,
+		ability = self,
+	}
+	Elements:ApplyDamage(damageTable, specialDamageType)
 end
 
 function generic_ability:HealUnit(target, source, amount)
@@ -440,6 +313,10 @@ function generic_ability:GetNumberValue(valType)
 		if values[self:GetLevel()] then
 			curVal = values[self:GetLevel()]
 		end
+	end
+	if IsClient() then
+		print("Client? :O")
+		print(valType)
 	end
 	self.valType = curVal
 	return tonumber(curVal)
@@ -598,6 +475,11 @@ function generic_ability:AddPassives(passives)
 			caster:AddNewModifier(caster, self, passive, nil)
 		end
 	end
+end
+
+function generic_ability:UpdateCastPoint()
+	local castPoint = self:GetCastPoint()
+	self:SetOverrideCastPoint(castPoint)
 end
 
 -- function generic_ability:CheckReloaded()

@@ -9,6 +9,7 @@ LinkLuaModifier("modifier_targetflags_generic_ability_e", "abilities/generic_abi
 LinkLuaModifier("modifier_spellimmunity_generic_ability_e", "abilities/generic_ability_e.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_duration_generic_ability_e", "abilities/generic_ability_e.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_aoeradius_generic_ability_e", "abilities/generic_ability_e.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_castpoint_generic_ability_e", "abilities/generic_ability_e.lua", LUA_MODIFIER_MOTION_NONE)
 
 require("libs/generic_ability")
 
@@ -177,5 +178,19 @@ function modifier_duration_generic_ability_e:IsDebuff()
 end
 
 function modifier_duration_generic_ability_e:IsPurgable()
+	return false
+end
+
+modifier_castpoint_generic_ability_e = class({})
+
+function modifier_castpoint_generic_ability_e:IsHidden()
+	return true
+end
+
+function modifier_castpoint_generic_ability_e:IsDebuff()
+	return false
+end
+
+function modifier_castpoint_generic_ability_e:IsPurgable()
 	return false
 end

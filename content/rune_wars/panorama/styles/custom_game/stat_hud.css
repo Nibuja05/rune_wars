@@ -1,0 +1,16 @@
+
+#CompileElementIcons
+{
+	background-image: url("file://{images}/custom_game/fire.png");
+	background-image: url("file://{images}/custom_game/earth.png");
+	background-image: url("file://{images}/custom_game/storm.png");
+	background-image: url("file://{images}/custom_game/water.png");
+	background-image: url("file://{images}/custom_game/order.png");
+	background-image: url("file://{images}/custom_game/chaos.png");
+	background-image: url("file://{images}/custom_game/fire_small.png");
+	background-image: url("file://{images}/custom_game/earth_small.png");
+	background-image: url("file://{images}/custom_game/storm_small.png");
+	background-image: url("file://{images}/custom_game/water_small.png");
+	background-image: url("file://{images}/custom_game/order_small.png");
+	background-image: url("file://{images}/custom_game/chaos_small.png");
+}

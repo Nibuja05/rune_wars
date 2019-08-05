@@ -57,13 +57,18 @@ function modifier_passive_fiendish_hunger:IsHidden()
 end 
 
 function modifier_passive_fiendish_hunger:DeclareFunctions()
-    local funcs =  {
-        MODIFIER_EVENT_ON_ATTACK,
-    }
-    return funcs
+	local funcs =  {
+		MODIFIER_EVENT_ON_TAKEDAMAGE,
+	}
+	return funcs
 end
 
-function modifier_passive_fiendish_hunger:OnAttack( event )
-    print("Attack!")
+function modifier_passive_fiendish_hunger:OnTakeDamage( event )
+	if event.attacker == self:GetParent() then
+		local level = self:GetAbility():GetLevel()
+		local lifesteal = 6 + (3 * level)
+		local heal = lifesteal * event.damage / 100
+		Elements:HealUnit(event.attacker, event.attacker, heal)
+	end
 end
 
