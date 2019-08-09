@@ -19,7 +19,7 @@ function move( keys )
 
 	local fv = keys.caster:GetForwardVector()
 	local origin = keys.caster:GetAbsOrigin()
-	local distance = -35
+	local distance = -30
 
 
 	local position = origin + fv * distance
@@ -33,7 +33,7 @@ function move( keys )
 			local target_owner = nearby_ally:GetPlayerOwner() 
 			if caster_owner == target_owner then
 
-				local final_position = Vector(position.x, position.y, position.z + 90)
+				local final_position = Vector(position.x, position.y, position.z + 70)
 				nearby_ally:SetAbsOrigin(final_position)
 				nearby_ally:SetForwardVector(fv)
 			end		

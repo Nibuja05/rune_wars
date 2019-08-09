@@ -105,9 +105,11 @@
 		"DOTA_Tooltip_ability_item_enchanted_ore_test"                                    "Enchanted Ore"
 		"DOTA_Tooltip_ability_item_enchanted_ore_test_Description"                        ""
 
-		"DOTA_Tooltip_ability_shadow_shaman_dragon_spirit"                                "Heroic Ability: Dragon Spirit"
-		"DOTA_Tooltip_ability_shadow_shaman_dragon_spirit_Description"                    "Shadow Shaman carries an invulnerable and uncontrollable Dragon Spirit that protects him. Dragon Spirit attacks to enemies in a cone that Shadow Shaman is facing, deal %base_damage% (+%per_level% per Level) damage on impact every 1.25 seconds."
+		"DOTA_Tooltip_ability_shadow_shaman_dragon_spirit"                                "Dragon Spirit"
+		"DOTA_Tooltip_ability_shadow_shaman_dragon_spirit_Description"                    "Shadow Shaman carries an invulnerable and uncontrollable Dragon Spirit that protects him. Dragon Spirit attacks every 1.4 seconds to the closest enemy on the direction that Shadow Shaman is facing. On impact Dragon Spirit's attacks deal %base_damage% (+%per_level% per Level) damage reduce their attack damage by %dmg_reduction%%  for %duration%  seconds."
 		//"DOTA_Tooltip_ability_shadow_shaman_dragon_spirit_base_damage"                    "BASE DAMAGE:"
 		//"DOTA_Tooltip_ability_shadow_shaman_dragon_spirit_per_level"                      "PER LEVEL:"
+		"DOTA_Tooltip_modifier_shaman_spirit_guide_curse"                                 "Dragon Spirit"
+		"DOTA_Tooltip_modifier_shaman_spirit_guide_curse_Description"                     "You have been attacked by the Dragon Spirit. Your attack damage is reduced."
 	}
 }

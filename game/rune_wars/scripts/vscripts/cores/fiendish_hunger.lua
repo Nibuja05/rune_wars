@@ -25,7 +25,7 @@ function fiendish_hunger:GetAbilityTable()
 		Spellimmunity = DOTA_EXTRA_ENUMS.SPELL_IMMUNITY_NONE,
 		Damagetype = DAMAGE_TYPE_NONE,
 		Title = "Fiendish Hunger",
-		Description = "Passively heals caster with percentage of elemental damage dealt.",
+		Description = "Allows caster to restore health upon dealing damage based on percentage of damage dealt.",
 		Lore = "Basic Lore :(",
 	}
 	return abilityTable

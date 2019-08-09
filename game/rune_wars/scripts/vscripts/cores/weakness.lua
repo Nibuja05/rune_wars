@@ -26,7 +26,7 @@ function weakness:GetAbilityTable()
 		Spellimmunity = DOTA_EXTRA_ENUMS.SPELL_IMMUNITY_NONE,
 		Damagetype = DAMAGE_TYPE_NONE,
 		Title = "Weakness Aura",
-		Description = "Emits a dark aura, that weakens enemies, reducing their damage dealt while amplifying their damage taken from any type of damage.",
+		Description = "Emits a dark aura that weakens enemies, reducing their damage dealt while amplifying their damage taken from any source.",
 		Lore = "Basic Lore :(",
 	}
 	return abilityTable
