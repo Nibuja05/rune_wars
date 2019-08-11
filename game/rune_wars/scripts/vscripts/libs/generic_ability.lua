@@ -314,10 +314,6 @@ function generic_ability:GetNumberValue(valType)
 			curVal = values[self:GetLevel()]
 		end
 	end
-	if IsClient() then
-		print("Client? :O")
-		print(valType)
-	end
 	self.valType = curVal
 	return tonumber(curVal)
 end

@@ -1,12 +1,19 @@
-//=================================================================================================================
-// HERO: Templar Assassin
-//=================================================================================================================
 "npc_dota_hero_shaman"
 {
 	"override_hero"				"npc_dota_hero_shadow_shaman"			// Hero to override
 	"Ability1"					"generic_ability_q"							// Ability 1
 	"Ability2"					"generic_ability_w"							// Ability 2
 	"Ability3"					"generic_ability_e"							// Ability 3
-	"Ability6"					"trigger_ability"						// Test Ability
-	"VisionNighttimeRange"		"1800"										// Range of vision at night time.
+	"Ability6"					"shadow_shaman_dragon_spirit"
+	"Ability5"					"hero_stat"
+	"ModelScale"		"1"
+	"AttributeBaseStrength"		"0"
+	"AttributeStrengthGain"		"0"
+	"AttributeBaseIntelligence"		"0"
+	"AttributeIntelligenceGain"		"0"
+	"AttributeBaseAgility"		"0"
+	"AttributeAgilityGain"		"0"
+
+	"VisionDaytimeRange"		"1000"
+	"VisionNighttimeRange"		"1000"										// Range of vision at night time.
 }

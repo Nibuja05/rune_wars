@@ -1,0 +1,109 @@
+"templar_psi_blades_custom"
+{
+	// General
+	//-------------------------------------------------------------------------------------------------------------
+	"BaseClass"				"ability_datadriven"
+	"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityTextureName"	"templar_assassin_psi_blades"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+
+	// Precache
+	//-------------------------------------------------------------------------------------------------------------
+	"precache"
+	 {
+	  "soundfile"   "soundevents/game_sounds_heroes/game_sounds_bounty_hunter.vsndevts"
+	  "particle"	"particles/units/heroes/hero_bounty_hunter/bounty_hunter_jinda_slow.vpcf"
+	  "particle"	"particles/units/heroes/hero_bounty_hunter/status_effect_bounty_hunter_jinda_slow.vpcf"
+	 
+	 }
+
+	// Stats
+	//-------------------------------------------------------------------------------------------------------------
+	"AbilityCooldown"				"6.0"
+	"MaxLevel"		"1"
+		
+	// Special
+	//-------------------------------------------------------------------------------------------------------------
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"crit_multiplier"		"200"
+		}
+	}
+	"OnCreated"
+	{
+		"RunScript"
+		{
+			"ScriptFile"	"hero_stats.lua"
+			"Function"		"LevelUpAbility"
+		}
+	}
+
+	"Modifiers"
+	{
+
+		"modifier_psi_blades_custom"
+		{
+			"Passive"	"1"
+			"IsHidden"	"1"
+			"EffectName"		"particles/units/heroes/hero_templar_assassin/templar_assassin_meld_armor.vpcf"
+			"EffectAttachType"	"follow_hitloc"
+			"Orb"
+			{
+				"Priority"					"DOTA_ORB_PRIORITY_ABILITY"
+				"ProjectileName"    "particles/econ/items/templar_assassin/templar_assassin_focal/ta_focal_base_attack.vpcf"
+				"CastAttack"				"0"
+			}
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE"	"%crit_multiplier"
+			}
+
+			"OnAttackLanded"
+			{
+
+				"FireEffect"
+				{
+					"EffectName"	"particles/units/heroes/hero_templar_assassin/templar_assassin_psi_blade.vpcf"
+					"EffectAttachType"	"start_at_customorigin"
+					
+		
+					"ControlPointEntities"
+					{
+						"CASTER"	"attach_attack1"
+						"TARGET"	"attach_hitloc"
+					}
+				}
+
+				"FireSound"
+				{
+					"EffectName"	"Hero_TemplarAssassin.Refraction.Damage"
+					"Target"		"TARGET" 
+				}
+
+				"RunScript"
+				{
+					"ScriptFile"	"scripts/vscripts/heroes/templar/psi_blades.lua"	
+					"Function"		"cooldown"	
+				}
+			}
+		}
+		"modifier_psi_blades_custom_checker"
+		{
+			"Passive"	"1"
+			"IsHidden"	"1"
+
+			"ThinkInterval"	"0.5"
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"scripts/vscripts/heroes/templar/psi_blades.lua"
+					"Function"		"remaining"
+				}
+			}	
+		}	
+	}
+}

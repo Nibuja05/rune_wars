@@ -1,5 +1,163 @@
 "DOTAAbilities"
 {
+	"rune"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"				"ability_datadriven"
+		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityTextureName"			"ursa_fury_swipes"
+		
+		"Modifiers"
+		{
+			"modifier_rune_stat_changer"
+			{
+				"Passive"						"1"
+				"IsHidden"						"1"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+			
+				"ThinkInterval"	"1"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"perks_start.lua"
+						"Function"		"level_based_stacks"
+					}
+				}
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_BONUS"				"1"
+				}
+			}
+			"modifier_rune_lethal_rythm"
+			{
+				"Passive"						"1"
+				"IsHidden"						"0"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"TextureName"	"rune_lethal_rythm_ready"
+			
+				"OnAttack"
+				{
+					"RunScript"
+					{
+						"ScriptFile"			"perks_start.lua"
+						"Function"				"lethal_rythm"
+					}
+				}
+			}
+			"modifier_rune_lethal_rythm_stacker"
+			{
+				"IsHidden"					"1"
+				"IsPurgable"				"0"
+				"IsDebuff"					"1"
+			}
+			"modifier_rune_lethal_rythm_cooldown"
+			{
+				"IsHidden"					"0"
+				"IsPurgable"				"0"
+				"IsDebuff"					"1"
+				"Duration"					"40"
+				"TextureName"	"rune_lethal_rythm_cooldown"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"OnCreated"
+				{
+					"RemoveModifier"
+					{
+						"ModifierName"	"modifier_rune_lethal_rythm"
+						"Target"		"CASTER"
+					}
+				}
+				"OnDestroy"
+				{
+					"ApplyModifier"
+					{
+						"ModifierName"	"modifier_rune_lethal_rythm"
+						"Target"		"CASTER"
+					}
+				}
+			}
+			"modifier_rune_lethal_rythm_active"
+			{
+				"IsHidden"					"0"
+				"IsPurgable"				"0"
+				"IsDebuff"					"0"
+				"TextureName"	"rune_lethal_rythm_active"
+				
+				"EffectName"				"particles/econ/items/ogre_magi/ogre_ti8_immortal_weapon/ogre_ti8_immortal_bloodlust_buff_hands_glow.vpcf"
+				"EffectAttachType"			"attach_attack"
+				
+				"OnCreated"
+				{
+					"FireEffect"
+					{
+						"Target"				"CASTER"
+						"EffectName"			"particles/econ/items/ogre_magi/ogre_ti8_immortal_weapon/ogre_ti8_immortal_bloodlust_buff_ground_ring_c.vpcf"
+						"EffectAttachType"		"follow_origin"
+					}
+				}
+				"OnDestroy"
+				{
+					"ApplyModifier"
+					{
+						"ModifierName"	"modifier_rune_lethal_rythm_cooldown"
+						"Target"		"CASTER"
+					}
+				}
+				 "Properties"
+	            {
+	                "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "1"
+	            }
+			}
+	
+	
+			"modifier_rune_bonus_magic_damage"
+			{
+				"Passive"						"1"
+				"IsHidden"						"0"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"TextureName"	"rune_lethal_rythm_ready"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE"		"0.1"
+				}
+			}
+			"modifier_rune_bonus_magic_res"
+			{
+				"Passive"						"1"
+				"IsHidden"						"0"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"TextureName"	"rune_lethal_rythm_ready"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"	"0.1"
+				}
+			}	
+	
+			 "modifier_vampiric_aura_lifesteal"
+		    {
+				"Passive"						"1"
+				"IsHidden"						"0"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"TextureName"	"rune_lethal_rythm_ready"
+		    	"OnDealDamage"
+				{
+					"Lifesteal"
+					{
+						"Target" 				"ATTACKER"
+						"LifestealPercent"		"5"
+					}
+				}
+			}			
+		}
+	}
 	
 	"generic_ability"
 	{
@@ -67,37 +225,6 @@
 		"FightRecapLevel"    				"1"
 		"AbilityTextureName"				"rubick_empty1"
 	}
-	
-	
-	"trigger_ability"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_YES"
-		"AbilityUnitTargetFlags"	"DOTA_UNIT_TARGET_FLAG_NONE"
-		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityTextureName"		"modifier_invulnerable"
-	
-		"AbilityCooldown"			"0"
-		"AbilityManaCost"			"0"
-		"AbilityCastRange"			"0"
-		"AbilityCastPoint"			"0.0"
-		"AbilityDuration"			"0"
-		"AbilityChannelTime"		"0"
-	
-		"OnSpellStart"
-		{
-			"RunScript"
-			{
-				"ScriptFile"	"abilities/trigger_ability.lua"
-				"Function"		"Trigger"
-			}
-		}
-	
-	}
 	"hero_stat"
 	{
 		"BaseClass"          			    "ability_datadriven"
@@ -113,7 +240,7 @@
 				"Function"		"LevelUpAbility"
 			}
 		}
-
+	
 		"Modifiers"
 		{
 			"modifier_fire_power"
@@ -230,6 +357,403 @@
 			}	
 		}
 	}
+	
+	
+	"trigger_ability"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityUnitTargetFlags"	"DOTA_UNIT_TARGET_FLAG_NONE"
+		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityTextureName"		"modifier_invulnerable"
+	
+		"AbilityCooldown"			"0"
+		"AbilityManaCost"			"0"
+		"AbilityCastRange"			"0"
+		"AbilityCastPoint"			"0.0"
+		"AbilityDuration"			"0"
+		"AbilityChannelTime"		"0"
+	
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"abilities/trigger_ability.lua"
+				"Function"		"Trigger"
+			}
+		}
+	
+	}
+	"elementalist_cycle_of_power"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"				"ability_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityTextureName" 	"120px-Blessing_of_the_Crested_Umbra_Nether_Swap_icon"
+		"MaxLevel"				"1"
+		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_2"
+		// Precache
+		//-------------------------------------------------------------------------------------------------------------
+		"precache"
+		 {
+		  "soundfile"   "soundevents/game_sounds_heroes/game_sounds_slardar.vsndevts"
+		  "particle"	"particles/units/heroes/hero_slardar/slardar_sprint.vpcf"
+	
+		 }
+	
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"300"
+		"AbilityCastPoint"				"0.15"
+	
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"16"
+		
+		"AbilitySpecial"	
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"damage_bonus"				"8"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage_bonus_per_level"				"2.6"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"cast_range"					"300"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration"					"0.35"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"active_cooldown_reduction"				"35"
+			}
+			"06"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage_bonus_per_power"				"1.2"
+			}
+		}
+		"OnCreated"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"hero_stats.lua"
+				"Function"		"LevelUpAbility"
+			}
+		}
+	
+		"OnSpellStart"
+		{
+			"FireSound"
+			{
+				"EffectName" "Hero_Slardar.Sprint"
+				"Target"	 "CASTER"
+			}
+			"RunScript"
+			{
+				"ScriptFile"	"heroic_abilities/cycle_of_power.lua"
+				"Function"		"Leap"
+			}
+	
+			"ApplyMotionController"
+			{
+				"Target" 		"CASTER"
+				"ScriptFile"    "heroic_abilities/cycle_of_power.lua"
+				"HorizontalControlFunction" "LeapHorizonal"
+				"VerticalControlFunction" 	"LeapVertical"         
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_cycle_settings"
+			{
+				"Passive"       "1"
+				"IsHidden"	"1"
+				"IsPurgable"	"0" 
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"OnAttackLanded"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"heroic_abilities/cycle_of_power.lua"
+						"Function"		"cycle_damage"	   		
+					}
+				}
+				"OnCreated"
+				{
+					"ApplyModifier"
+					{
+						"Target" "CASTER"
+						"ModifierName" "modifier_cycle_fire"
+					}
+				}
+	
+			}
+			"modifier_cycle_fire"
+			{
+				"Passive"       "0"
+				"IsHidden"	"0"
+				"IsPurgable"	"0" 
+				"TextureName"	"element_fire" 
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"EffectName"	"particles/heroic_abilities/cycle_of_power/fire.vpcf"
+				"EffectAttachType"	"follow_origin"
+				"OnCreated"
+				{
+					"ApplyModifier"
+					{
+						"Target" "CASTER"
+						"ModifierName" "modifier_cycle_of_power_active_visual_fire"
+					}
+				}
+	
+				"OnAttack"
+				{	
+					"FireEffect"
+					{
+						"EffectName"	"particles/heroic_abilities/cycle_of_power/attack_fire.vpcf"
+						"EffectAttachType"	"start_at_customorigin"
+						
+			
+						"ControlPointEntities"
+						{
+							"CASTER"	"follow_origin"
+							"CASTER"	"follow_origin"
+						}
+					}
+				}
+			}
+			"modifier_cycle_water"
+			{
+				"Passive"       "0"
+				"IsHidden"	"0"
+				"IsPurgable"	"0" 
+				"TextureName"	"element_water" 
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"EffectName"	"particles/heroic_abilities/cycle_of_power/water.vpcf"
+				"EffectAttachType"	"follow_origin"
+				"OnCreated"
+				{
+					"ApplyModifier"
+					{
+						"Target" "CASTER"
+						"ModifierName" "modifier_cycle_of_power_active_visual_water"
+					}
+				}
+				"OnAttack"
+				{
+					"FireEffect"
+					{
+						"EffectName"	"particles/heroic_abilities/cycle_of_power/attack_water.vpcf"
+						"EffectAttachType"	"start_at_customorigin"
+						
+			
+						"ControlPointEntities"
+						{
+							"CASTER"	"follow_origin"
+							"CASTER"	"follow_origin"
+						}
+					}
+				}
+			}
+			"modifier_cycle_earth"
+			{
+				"Passive"       "0"
+				"IsHidden"	"0"
+				"IsPurgable"	"0" 
+				"TextureName"	"element_earth" 
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"EffectName"	"particles/heroic_abilities/cycle_of_power/earth.vpcf"
+				"EffectAttachType"	"follow_origin"
+				"OnCreated"
+				{
+					"ApplyModifier"
+					{
+						"Target" "CASTER"
+						"ModifierName" "modifier_cycle_of_power_active_visual_earth"
+					}
+				}
+				"OnAttack"
+				{
+					"FireEffect"
+					{
+						"EffectName"	"particles/heroic_abilities/cycle_of_power/attack_earth.vpcf"
+						"EffectAttachType"	"start_at_customorigin"
+						
+			
+						"ControlPointEntities"
+						{
+							"CASTER"	"follow_origin"
+							"CASTER"	"follow_origin"
+						}
+					}
+				}
+			}
+			"modifier_cycle_storm"
+			{
+				"Passive"       "0"
+				"IsHidden"	"0"
+				"IsPurgable"	"0" 
+				"TextureName"	"element_storm" 
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"EffectName"	"particles/heroic_abilities/cycle_of_power/storm.vpcf"
+				"EffectAttachType"	"follow_origin"
+				"OnCreated"
+				{
+					"ApplyModifier"
+					{
+						"Target" "CASTER"
+						"ModifierName" "modifier_cycle_of_power_active_visual_storm"
+					}
+				}
+				"OnAttack"
+				{
+					"FireEffect"
+					{
+						"EffectName"	"particles/heroic_abilities/cycle_of_power/attack_storm.vpcf"
+						"EffectAttachType"	"start_at_customorigin"
+						
+			
+						"ControlPointEntities"
+						{
+							"CASTER"	"follow_origin"
+							"CASTER"	"follow_origin"
+						}
+					}
+				}
+			}
+			"modifier_cycle_order"
+			{
+				"Passive"       "0"
+				"IsHidden"	"0"
+				"IsPurgable"	"0" 
+				"TextureName"	"element_order" 
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"EffectName"	"particles/heroic_abilities/cycle_of_power/order.vpcf"
+				"EffectAttachType"	"follow_origin"
+				"OnCreated"
+				{
+					"ApplyModifier"
+					{
+						"Target" "CASTER"
+						"ModifierName" "modifier_cycle_of_power_active_visual_order"
+					}
+				}
+				"OnAttack"
+				{
+					"FireEffect"
+					{
+						"EffectName"	"particles/heroic_abilities/cycle_of_power/attack_order.vpcf"
+						"EffectAttachType"	"start_at_customorigin"
+						
+			
+						"ControlPointEntities"
+						{
+							"CASTER"	"follow_origin"
+							"CASTER"	"follow_origin"
+						}
+					}
+				}
+			}
+			
+			"modifier_cycle_chaos"
+			{
+				"Passive"       "0"
+				"IsHidden"	"0"
+				"IsPurgable"	"0" 
+				"TextureName"	"element_chaos" 
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"EffectName"	"particles/heroic_abilities/cycle_of_power/chaos.vpcf"
+				"EffectAttachType"	"follow_origin"
+				"OnCreated"
+				{
+					"ApplyModifier"
+					{
+						"Target" "CASTER"
+						"ModifierName" "modifier_cycle_of_power_active_visual_chaos"
+					}
+				}
+				"OnAttack"
+				{
+					"FireEffect"
+					{
+						"EffectName"	"particles/heroic_abilities/cycle_of_power/attack_chaos.vpcf"
+						"EffectAttachType"	"start_at_customorigin"
+						
+			
+						"ControlPointEntities"
+						{
+							"CASTER"	"follow_origin"
+							"CASTER"	"follow_origin"
+						}
+					}
+				}
+			}
+			"modifier_cycle_of_power_active_visual_fire"
+			{
+				"IsBuff" "1"
+				"IsHidden"	"1"
+				"Duration" "%duration"
+				"EffectName"	"particles/heroic_abilities/cycle_of_power/dash_fire_glow.vpcf"
+				"EffectAttachType"	"follow_hitloc"
+			}
+			"modifier_cycle_of_power_active_visual_water"
+			{
+				"IsBuff" "1"
+				"IsHidden"	"1"
+				"Duration" "%duration"
+				"EffectName"	"particles/heroic_abilities/cycle_of_power/dash_water_glow.vpcf"
+				"EffectAttachType"	"follow_hitloc"
+			}
+			"modifier_cycle_of_power_active_visual_earth"
+			{
+				"IsBuff" "1"
+				"IsHidden"	"1"
+				"Duration" "%duration"
+				"EffectName"	"particles/heroic_abilities/cycle_of_power/dash_earth_glow.vpcf"
+				"EffectAttachType"	"follow_hitloc"
+			}
+			"modifier_cycle_of_power_active_visual_storm"
+			{
+				"IsBuff" "1"
+				"IsHidden"	"1"
+				"Duration" "%duration"
+				"EffectName"	"particles/heroic_abilities/cycle_of_power/dash_storm_glow.vpcf"
+				"EffectAttachType"	"follow_hitloc"
+			}
+			"modifier_cycle_of_power_active_visual_order"
+			{
+				"IsBuff" "1"
+				"IsHidden"	"1"
+				"Duration" "%duration"
+				"EffectName"	"particles/heroic_abilities/cycle_of_power/dash_order_glow.vpcf"
+				"EffectAttachType"	"follow_hitloc"
+			}
+			"modifier_cycle_of_power_active_visual_chaos"
+			{
+				"IsBuff" "1"
+				"IsHidden"	"1"
+				"Duration" "%duration"
+				"EffectName"	"particles/heroic_abilities/cycle_of_power/dash_chaos_glow.vpcf"
+				"EffectAttachType"	"follow_hitloc"
+			}
+		}
+	}
 	"shadow_shaman_dragon_spirit"
 	{
 		// General
@@ -311,9 +835,9 @@
 						"ScriptFile"	"heroic_abilities/shaman_dragon_spirit.lua"
 						"Function"		"move"
 					}
-
+	
 				}
-
+	
 				"OnCreated"
 				{
 					"SpawnUnit"
@@ -539,49 +1063,6 @@
 				}	
 			}	
 		}
-	
-	}
-
-	"perk_amplified_damage"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"BaseClass"				"ability_datadriven"
-		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
-		"AbilityTextureName"			"perk_damage_bonus"
-		
-		"Modifiers"
-		{
-			"modifier_rune_stat_changer"
-			{
-				"Passive"						"1"
-				"IsHidden"						"1"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-			
-				"ThinkInterval"	"1"
-				"OnIntervalThink"
-				{
-					"RunScript"
-					{
-						"ScriptFile"	"perks_start.lua"
-						"Function"		"level_based_stacks"
-					}
-				}
-			}
-			"modifier_rune_bonus_damage"
-			{
-				"Passive"						"1"
-				"IsHidden"						"0"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE"  "0.1"
-				}
-			}
-		}
 	}
 	"perk_alacrity"
 	{
@@ -620,6 +1101,47 @@
 				"Properties"
 				{
 	                "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "1"
+				}
+			}
+		}
+	}
+	"perk_amplified_damage"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"				"ability_datadriven"
+		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityTextureName"			"perk_damage_bonus"
+		
+		"Modifiers"
+		{
+			"modifier_rune_stat_changer"
+			{
+				"Passive"						"1"
+				"IsHidden"						"1"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+			
+				"ThinkInterval"	"1"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"perks_start.lua"
+						"Function"		"level_based_stacks"
+					}
+				}
+			}
+			"modifier_rune_bonus_damage"
+			{
+				"Passive"						"1"
+				"IsHidden"						"0"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE"  "0.1"
 				}
 			}
 		}
@@ -665,528 +1187,4 @@
 			}
 		}
 	}
-	"rune"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"BaseClass"				"ability_datadriven"
-		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
-		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-		"AbilityTextureName"			"ursa_fury_swipes"
-		
-		"Modifiers"
-		{
-			"modifier_rune_stat_changer"
-			{
-				"Passive"						"1"
-				"IsHidden"						"1"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-			
-				"ThinkInterval"	"1"
-				"OnIntervalThink"
-				{
-					"RunScript"
-					{
-						"ScriptFile"	"perks_start.lua"
-						"Function"		"level_based_stacks"
-					}
-				}
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_HEALTH_BONUS"				"1"
-				}
-			}
-			"modifier_rune_lethal_rythm"
-			{
-				"Passive"						"1"
-				"IsHidden"						"0"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"TextureName"	"rune_lethal_rythm_ready"
-			
-				"OnAttack"
-				{
-					"RunScript"
-					{
-						"ScriptFile"			"perks_start.lua"
-						"Function"				"lethal_rythm"
-					}
-				}
-			}
-			"modifier_rune_lethal_rythm_stacker"
-			{
-				"IsHidden"					"1"
-				"IsPurgable"				"0"
-				"IsDebuff"					"1"
-			}
-			"modifier_rune_lethal_rythm_cooldown"
-			{
-				"IsHidden"					"0"
-				"IsPurgable"				"0"
-				"IsDebuff"					"1"
-				"Duration"					"40"
-				"TextureName"	"rune_lethal_rythm_cooldown"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"OnCreated"
-				{
-					"RemoveModifier"
-					{
-						"ModifierName"	"modifier_rune_lethal_rythm"
-						"Target"		"CASTER"
-					}
-				}
-				"OnDestroy"
-				{
-					"ApplyModifier"
-					{
-						"ModifierName"	"modifier_rune_lethal_rythm"
-						"Target"		"CASTER"
-					}
-				}
-			}
-			"modifier_rune_lethal_rythm_active"
-			{
-				"IsHidden"					"0"
-				"IsPurgable"				"0"
-				"IsDebuff"					"0"
-				"TextureName"	"rune_lethal_rythm_active"
-				
-				"EffectName"				"particles/econ/items/ogre_magi/ogre_ti8_immortal_weapon/ogre_ti8_immortal_bloodlust_buff_hands_glow.vpcf"
-				"EffectAttachType"			"attach_attack"
-				
-				"OnCreated"
-				{
-					"FireEffect"
-					{
-						"Target"				"CASTER"
-						"EffectName"			"particles/econ/items/ogre_magi/ogre_ti8_immortal_weapon/ogre_ti8_immortal_bloodlust_buff_ground_ring_c.vpcf"
-						"EffectAttachType"		"follow_origin"
-					}
-				}
-				"OnDestroy"
-				{
-					"ApplyModifier"
-					{
-						"ModifierName"	"modifier_rune_lethal_rythm_cooldown"
-						"Target"		"CASTER"
-					}
-				}
-				 "Properties"
-	            {
-	                "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "1"
-	            }
-			}
-
-
-			"modifier_rune_bonus_magic_damage"
-			{
-				"Passive"						"1"
-				"IsHidden"						"0"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"TextureName"	"rune_lethal_rythm_ready"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE"		"0.1"
-				}
-			}
-			"modifier_rune_bonus_magic_res"
-			{
-				"Passive"						"1"
-				"IsHidden"						"0"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"TextureName"	"rune_lethal_rythm_ready"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"	"0.1"
-				}
-			}	
-
-			 "modifier_vampiric_aura_lifesteal"
-		    {
-				"Passive"						"1"
-				"IsHidden"						"0"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"TextureName"	"rune_lethal_rythm_ready"
-		    	"OnDealDamage"
-				{
-					"Lifesteal"
-					{
-						"Target" 				"ATTACKER"
-						"LifestealPercent"		"5"
-					}
-				}
-			}			
-		}
-	}
-	"elementalist_cycle_of_power"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"BaseClass"				"ability_datadriven"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
-		"AbilityTextureName" 	"120px-Blessing_of_the_Crested_Umbra_Nether_Swap_icon"
-		"MaxLevel"				"1"
-		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_2"
-		// Precache
-		//-------------------------------------------------------------------------------------------------------------
-		"precache"
-		 {
-		  "soundfile"   "soundevents/game_sounds_heroes/game_sounds_slardar.vsndevts"
-		  "particle"	"particles/units/heroes/hero_slardar/slardar_sprint.vpcf"
-	
-		 }
-	
-		// Casting
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"300"
-		"AbilityCastPoint"				"0.15"
-	
-		// Time		
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"16"
-		
-		"AbilitySpecial"	
-		{
-			"01"
-			{
-				"var_type"					"FIELD_INTEGER"
-				"damage_bonus"				"8"
-			}
-			"02"
-			{
-				"var_type"					"FIELD_FLOAT"
-				"damage_bonus_per_level"				"2.6"
-			}
-			"03"
-			{
-				"var_type"					"FIELD_FLOAT"
-				"cast_range"					"300"
-			}
-			"04"
-			{
-				"var_type"					"FIELD_FLOAT"
-				"duration"					"0.35"
-			}
-			"05"
-			{
-				"var_type"					"FIELD_INTEGER"
-				"active_cooldown_reduction"				"35"
-			}
-			"06"
-			{
-				"var_type"					"FIELD_FLOAT"
-				"damage_bonus_per_power"				"1.2"
-			}
-		}
-		"OnCreated"
-		{
-			"RunScript"
-			{
-				"ScriptFile"	"hero_stats.lua"
-				"Function"		"LevelUpAbility"
-			}
-		}
-	
-		"OnSpellStart"
-	    {
-	        "FireSound"
-	        {
-	        	"EffectName" "Hero_Slardar.Sprint"
-	        	"Target"	 "CASTER"
-	        }
-			"RunScript"
-			{
-				"ScriptFile"	"heroic_abilities/cycle_of_power.lua"
-				"Function"		"Leap"
-			}
-
-			"ApplyMotionController"
-			{
-			    "Target" 		"CASTER"
-			    "ScriptFile"    "heroic_abilities/cycle_of_power.lua"
-			    "HorizontalControlFunction" "LeapHorizonal"
-			    "VerticalControlFunction" 	"LeapVertical"         
-			}
-	    }
-	    "Modifiers"
-	    {
-	    	"modifier_cycle_settings"
-			{
-				"Passive"       "1"
-				"IsHidden"	"1"
-				"IsPurgable"	"0" 
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"OnAttackLanded"
-				{
-					"RunScript"
-				  	{
-						"ScriptFile"	"heroic_abilities/cycle_of_power.lua"
-						"Function"		"cycle_damage"	   		
-				 	}
-				}
-				"OnCreated"
-				{
-					"ApplyModifier"
-			        {
-			            "Target" "CASTER"
-			            "ModifierName" "modifier_cycle_fire"
-			        }
-				}
-
-			}
-	    	"modifier_cycle_fire"
-			{
-				"Passive"       "0"
-				"IsHidden"	"0"
-				"IsPurgable"	"0" 
-				"TextureName"	"element_fire" 
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"EffectName"	"particles/heroic_abilities/cycle_of_power/fire.vpcf"
-		    	"EffectAttachType"	"follow_origin"
-		    	"OnCreated"
-		    	{
-				    "ApplyModifier"
-			        {
-			            "Target" "CASTER"
-			            "ModifierName" "modifier_cycle_of_power_active_visual_fire"
-			        }
-		    	}
-
-		    	"OnAttack"
-				{	
-					"FireEffect"
-					{
-						"EffectName"	"particles/heroic_abilities/cycle_of_power/attack_fire.vpcf"
-						"EffectAttachType"	"start_at_customorigin"
-						
-			
-						"ControlPointEntities"
-						{
-							"CASTER"	"follow_origin"
-							"CASTER"	"follow_origin"
-						}
-					}
-				}
-			}
-			"modifier_cycle_water"
-			{
-				"Passive"       "0"
-				"IsHidden"	"0"
-				"IsPurgable"	"0" 
-				"TextureName"	"element_water" 
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"EffectName"	"particles/heroic_abilities/cycle_of_power/water.vpcf"
-		    	"EffectAttachType"	"follow_origin"
-		    	"OnCreated"
-		    	{
-				    "ApplyModifier"
-			        {
-			            "Target" "CASTER"
-			            "ModifierName" "modifier_cycle_of_power_active_visual_water"
-			        }
-		    	}
-		    	"OnAttack"
-				{
-					"FireEffect"
-					{
-						"EffectName"	"particles/heroic_abilities/cycle_of_power/attack_water.vpcf"
-						"EffectAttachType"	"start_at_customorigin"
-						
-			
-						"ControlPointEntities"
-						{
-							"CASTER"	"follow_origin"
-							"CASTER"	"follow_origin"
-						}
-					}
-				}
-			}
-			"modifier_cycle_earth"
-			{
-				"Passive"       "0"
-				"IsHidden"	"0"
-				"IsPurgable"	"0" 
-				"TextureName"	"element_earth" 
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"EffectName"	"particles/heroic_abilities/cycle_of_power/earth.vpcf"
-		    	"EffectAttachType"	"follow_origin"
-		    	"OnCreated"
-		    	{
-				    "ApplyModifier"
-			        {
-			            "Target" "CASTER"
-			            "ModifierName" "modifier_cycle_of_power_active_visual_earth"
-			        }
-		    	}
-		    	"OnAttack"
-				{
-					"FireEffect"
-					{
-						"EffectName"	"particles/heroic_abilities/cycle_of_power/attack_earth.vpcf"
-						"EffectAttachType"	"start_at_customorigin"
-						
-			
-						"ControlPointEntities"
-						{
-							"CASTER"	"follow_origin"
-							"CASTER"	"follow_origin"
-						}
-					}
-				}
-			}
-			"modifier_cycle_storm"
-			{
-				"Passive"       "0"
-				"IsHidden"	"0"
-				"IsPurgable"	"0" 
-				"TextureName"	"element_storm" 
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"EffectName"	"particles/heroic_abilities/cycle_of_power/storm.vpcf"
-		    	"EffectAttachType"	"follow_origin"
-		    	"OnCreated"
-		    	{
-				    "ApplyModifier"
-			        {
-			            "Target" "CASTER"
-			            "ModifierName" "modifier_cycle_of_power_active_visual_storm"
-			        }
-		    	}
-		    	"OnAttack"
-				{
-					"FireEffect"
-					{
-						"EffectName"	"particles/heroic_abilities/cycle_of_power/attack_storm.vpcf"
-						"EffectAttachType"	"start_at_customorigin"
-						
-			
-						"ControlPointEntities"
-						{
-							"CASTER"	"follow_origin"
-							"CASTER"	"follow_origin"
-						}
-					}
-				}
-			}
-			"modifier_cycle_order"
-			{
-				"Passive"       "0"
-				"IsHidden"	"0"
-				"IsPurgable"	"0" 
-				"TextureName"	"element_order" 
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"EffectName"	"particles/heroic_abilities/cycle_of_power/order.vpcf"
-		    	"EffectAttachType"	"follow_origin"
-		    	"OnCreated"
-		    	{
-				    "ApplyModifier"
-			        {
-			            "Target" "CASTER"
-			            "ModifierName" "modifier_cycle_of_power_active_visual_order"
-			        }
-		    	}
-		    	"OnAttack"
-				{
-					"FireEffect"
-					{
-						"EffectName"	"particles/heroic_abilities/cycle_of_power/attack_order.vpcf"
-						"EffectAttachType"	"start_at_customorigin"
-						
-			
-						"ControlPointEntities"
-						{
-							"CASTER"	"follow_origin"
-							"CASTER"	"follow_origin"
-						}
-					}
-				}
-			}
-			
-			"modifier_cycle_chaos"
-			{
-				"Passive"       "0"
-				"IsHidden"	"0"
-				"IsPurgable"	"0" 
-				"TextureName"	"element_chaos" 
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"EffectName"	"particles/heroic_abilities/cycle_of_power/chaos.vpcf"
-		    	"EffectAttachType"	"follow_origin"
-		    	"OnCreated"
-		    	{
-				    "ApplyModifier"
-			        {
-			            "Target" "CASTER"
-			            "ModifierName" "modifier_cycle_of_power_active_visual_chaos"
-			        }
-		    	}
-		    	"OnAttack"
-				{
-					"FireEffect"
-					{
-						"EffectName"	"particles/heroic_abilities/cycle_of_power/attack_chaos.vpcf"
-						"EffectAttachType"	"start_at_customorigin"
-						
-			
-						"ControlPointEntities"
-						{
-							"CASTER"	"follow_origin"
-							"CASTER"	"follow_origin"
-						}
-					}
-				}
-			}
-			"modifier_cycle_of_power_active_visual_fire"
-	    	{
-	    		"IsBuff" "1"
-	    		"IsHidden"	"1"
-	    		"Duration" "%duration"
-	    		"EffectName"	"particles/heroic_abilities/cycle_of_power/dash_fire_glow.vpcf"
-		    	"EffectAttachType"	"follow_hitloc"
-	    	}
-	    	"modifier_cycle_of_power_active_visual_water"
-	    	{
-	    		"IsBuff" "1"
-	    		"IsHidden"	"1"
-	    		"Duration" "%duration"
-	    		"EffectName"	"particles/heroic_abilities/cycle_of_power/dash_water_glow.vpcf"
-		    	"EffectAttachType"	"follow_hitloc"
-	    	}
-	    	"modifier_cycle_of_power_active_visual_earth"
-	    	{
-	    		"IsBuff" "1"
-	    		"IsHidden"	"1"
-	    		"Duration" "%duration"
-	    		"EffectName"	"particles/heroic_abilities/cycle_of_power/dash_earth_glow.vpcf"
-		    	"EffectAttachType"	"follow_hitloc"
-	    	}
-	    	"modifier_cycle_of_power_active_visual_storm"
-	    	{
-	    		"IsBuff" "1"
-	    		"IsHidden"	"1"
-	    		"Duration" "%duration"
-	    		"EffectName"	"particles/heroic_abilities/cycle_of_power/dash_storm_glow.vpcf"
-		    	"EffectAttachType"	"follow_hitloc"
-	    	}
-	    	"modifier_cycle_of_power_active_visual_order"
-	    	{
-	    		"IsBuff" "1"
-	    		"IsHidden"	"1"
-	    		"Duration" "%duration"
-	    		"EffectName"	"particles/heroic_abilities/cycle_of_power/dash_order_glow.vpcf"
-		    	"EffectAttachType"	"follow_hitloc"
-	    	}
-	    	"modifier_cycle_of_power_active_visual_chaos"
-	    	{
-	    		"IsBuff" "1"
-	    		"IsHidden"	"1"
-	    		"Duration" "%duration"
-	    		"EffectName"	"particles/heroic_abilities/cycle_of_power/dash_chaos_glow.vpcf"
-		    	"EffectAttachType"	"follow_hitloc"
-	    	}
-	    }
-	}	
 }

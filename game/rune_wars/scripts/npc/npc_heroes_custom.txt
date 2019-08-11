@@ -1,8 +1,237 @@
 "DOTAHeroes"
 {
-	//=================================================================================================================
-	// HERO: Templar Assassin
-	//=================================================================================================================
+	"npc_dota_hero_phantom_assassin"
+		{
+			"Model"		"models/heroes/phantom_assassin/phantom_assassin.vmdl"
+			"IdleExpression"		"scenes/phantom_assassin/phantom_assassin_exp_idle_01.vcd"
+			"SoundSet"		"Hero_PhantomAssassin"
+			"Enabled"		"1"
+			"BotImplemented"		"1"
+			"HeroUnlockOrder"		"1"
+			"Role"			"Carry,Escape"
+			"Rolelevels"	"3,1"
+			"Complexity"	"1"
+			"Team"		"Bad"
+			"HeroID"		"44"
+			"ModelScale"		"0.860000"
+			"VersusScale"		"0.930000"
+			"LoadoutScale"		"0.930000"
+			"SpectatorLoadoutScale" "0.95"
+			"HeroGlowColor"		"154 97 133"
+			"PickSound"		"phantom_assassin_phass_spawn_01"
+			"BanSound"		"phantom_assassin_phass_anger_08"
+			"NameAliases"		"pa;mortred"
+			"CMEnabled"		"1"
+			"workshop_guide_name"		"Phantom Assassin"
+			"new_player_enable"		"1"
+			"LastHitChallengeRival"		"npc_dota_hero_bounty_hunter"
+			"HeroSelectSoundEffect"		"Hero_PhantomAssassin.Pick"
+			"GibType"		"default"
+			"Ability1"					"generic_ability_q"							// Ability 1
+			"Ability2"					"generic_ability_w"							// Ability 2
+			"Ability3"					"generic_ability_e"	
+			"Ability4"					"trigger_ability"
+			"Ability6"					"elementalist_cycle_of_power"						// Test Ability
+			"Ability5"					"hero_stat"
+			"Ability10"		"special_bonus_hp_225"
+			"Ability11"		"special_bonus_attack_damage_15"
+			"Ability12"		"special_bonus_lifesteal_15"
+			"Ability13"		"special_bonus_cleave_25"
+			"Ability14"		"special_bonus_corruption_4"
+			"Ability15"		"special_bonus_unique_phantom_assassin_3"
+			"Ability16"		"special_bonus_unique_phantom_assassin_2"
+			"Ability17"		"special_bonus_unique_phantom_assassin"
+			"ArmorPhysical"		"1"
+			"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+			"AttackDamageMin"		"24"
+			"AttackDamageMax"		"26"
+			"AttackRate"		"1.700000"
+			"AttackAnimationPoint"		"0.300000"
+			"AttackSpeedActivityModifiers"
+			{
+				"fast"		"249"
+				"faster"	"350"
+				"fastest"	"450"
+			}
+			"AttackAcquisitionRange"		"600"
+			"AttackRange"		"150"
+			"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+			"AttributeBaseStrength"		"0"
+			"AttributeStrengthGain"		"00000"
+			"AttributeBaseAgility"		"0"
+			"AttributeAgilityGain"		"0"
+			"AttributeBaseIntelligence"		"0"
+			"AttributeIntelligenceGain"		"0"
+			"StatusHealthRegen"		"0.25"
+			"MovementSpeed"		"305"
+			"MovementTurnRate"		"3"
+			"HasAggressiveStance"		"1"
+			"RenderablePortrait"
+			{
+				"Particles"
+				{
+					"particles/units/heroes/hero_phantom_assassin/phantom_assassin_loadout.vpcf"		"loadout"
+				}
+			}
+			"ItemSlots"
+			{
+				"0"
+				{
+					"SlotIndex"		"0"
+					"SlotName"		"weapon"
+					"SlotText"		"#LoadoutSlot_Weapon"
+					"TextureWidth"		"256"
+					"TextureHeight"		"256"
+					"MaxPolygonsLOD0"		"1000"
+					"MaxPolygonsLOD1"		"600"
+				}
+				"1"
+				{
+					"SlotIndex"		"1"
+					"SlotName"		"head"
+					"SlotText"		"#LoadoutSlot_Head_Accessory"
+					"TextureWidth"		"256"
+					"TextureHeight"		"256"
+					"MaxPolygonsLOD0"		"1200"
+					"MaxPolygonsLOD1"		"600"
+				}
+				"2"
+				{
+					"SlotIndex"		"2"
+					"SlotName"		"shoulder"
+					"SlotText"		"#LoadoutSlot_Shoulder"
+					"TextureWidth"		"256"
+					"TextureHeight"		"256"
+					"MaxPolygonsLOD0"		"1000"
+					"MaxPolygonsLOD1"		"550"
+				}
+				"3"
+				{
+					"SlotIndex"		"3"
+					"SlotName"		"back"
+					"TextureWidth"		"256"
+					"TextureHeight"		"256"
+					"MaxPolygonsLOD0"		"600"
+					"MaxPolygonsLOD1"		"450"
+					"SlotText"		"#LoadoutSlot_Back"
+				}
+				"4"
+				{
+					"SlotIndex"		"4"
+					"SlotName"		"belt"
+					"SlotText"		"#LoadoutSlot_Belt"
+					"TextureWidth"		"256"
+					"TextureHeight"		"256"
+					"MaxPolygonsLOD0"		"800"
+					"MaxPolygonsLOD1"		"600"
+				}
+				"5"
+				{
+					"SlotIndex"		"5"
+					"SlotName"		"taunt"
+					"SlotText"		"#LoadoutSlot_Taunt"
+				}
+			}
+			"BoundsHullName"		"DOTA_HULL_SIZE_HERO"
+			"particle_folder"		"particles/units/heroes/hero_phantom_assassin"
+			"GameSoundsFile"		"soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts"
+			"VoiceFile"		"soundevents/voscripts/game_sounds_vo_phantom_assassin.vsndevts"
+			"Bot"
+			{
+				"Loadout"
+				{
+					"item_tango"			"ITEM_CONSUMABLE | ITEM_SELLABLE"
+					"item_flask"			"ITEM_CONSUMABLE | ITEM_SELLABLE"
+					"item_stout_shield"		"ITEM_CORE | ITEM_SELLABLE"
+	
+					"item_branches"			"ITEM_CORE"
+					"item_branches"			"ITEM_CORE"
+					"item_magic_stick"		"ITEM_CORE"
+	
+					"item_boots"			"ITEM_CORE"
+	
+					"item_recipe_magic_wand"		"ITEM_CORE"
+					"item_magic_wand"	"ITEM_DERIVED | ITEM_SELLABLE"
+	
+					"item_blades_of_attack"			"ITEM_CORE"
+					"item_boots_of_elves"	"ITEM_CORE"
+					"item_power_treads"		"ITEM_DERIVED"
+	
+					"item_ogre_axe"					"ITEM_LUXURY"
+					"item_mithril_hammer"			"ITEM_LUXURY"
+					"item_recipe_black_king_bar"	"ITEM_EXTENSION"
+					"item_black_king_bar"			"ITEM_DERIVED"
+	
+					"item_javelin"				"ITEM_LUXURY"
+					"item_belt_of_strength"		"ITEM_LUXURY"
+					"item_recipe_basher"		"ITEM_LUXURY"
+					"item_basher"				"ITEM_DERIVED"
+	
+					"item_stout_shield"			"ITEM_LUXURY"
+					"item_ring_of_health"		"ITEM_LUXURY"
+					"item_vitality_booster"		"ITEM_LUXURY"
+					"item_vanguard"				"ITEM_DERIVED"
+	
+					"item_recipe_abyssal_blade"	"ITEM_LUXURY"
+					"item_abyssal_blade"		"ITEM_DERIVED"
+	
+					"item_lifesteal"		"ITEM_LUXURY"
+					"item_reaver"			"ITEM_LUXURY"
+					"item_claymore"			"ITEM_LUXURY"
+					"item_satanic"			"ITEM_DERIVED"
+	
+					"item_platemail"		"ITEM_LUXURY"
+					"item_hyperstone"		"ITEM_LUXURY"
+					"item_chainmail"		"ITEM_LUXURY"
+					"item_recipe_assault"	"ITEM_LUXURY"
+					"item_assault"			"ITEM_DERIVED"
+	
+					"item_javelin"			"ITEM_LUXURY"
+					"item_javelin"			"ITEM_LUXURY"
+					"item_hyperstone"		"ITEM_LUXURY"
+					"item_monkey_king_bar"	"ITEM_DERIVED"
+				}
+				"Build"
+				{
+					"1"		"phantom_assassin_stifling_dagger"
+					"2"		"phantom_assassin_phantom_strike"
+					"3"		"phantom_assassin_stifling_dagger"
+					"4"		"phantom_assassin_blur"
+					"5"		"phantom_assassin_stifling_dagger"
+					"6"		"phantom_assassin_coup_de_grace"
+					"7"		"phantom_assassin_stifling_dagger"
+					"8"		"phantom_assassin_phantom_strike"
+					"9"		"phantom_assassin_phantom_strike"
+					"10"		"special_bonus_attack_damage_15"
+					"11"		"phantom_assassin_phantom_strike"
+					"12"		"phantom_assassin_coup_de_grace"
+					"13"		"phantom_assassin_blur"
+					"14"		"phantom_assassin_blur"
+					"15"		"special_bonus_cleave_25"
+					"16"		"phantom_assassin_blur"
+					"17"		""
+					"18"		"phantom_assassin_coup_de_grace"
+					"19"		""
+					"20"		"special_bonus_unique_phantom_assassin"
+					"21"		""
+					"22"		""
+					"23"		""
+					"24"		""
+					"25"		"special_bonus_unique_phantom_assassin_2"
+				}
+				"HeroType"		"DOTA_BOT_HARD_CARRY"
+				"LaningInfo"
+				{
+					"SoloDesire"		"0"
+					"RequiresBabysit"		"2"
+					"ProvidesBabysit"		"0"
+					"SurvivalRating"		"1"
+					"RequiresFarm"		"2"
+					"ProvidesSetup"		"0"
+					"RequiresSetup"		"2"
+				}
+			}
+		}
 	"npc_dota_hero_shaman"
 	{
 		"override_hero"				"npc_dota_hero_shadow_shaman"			// Hero to override
@@ -10,7 +239,6 @@
 		"Ability2"					"generic_ability_w"							// Ability 2
 		"Ability3"					"generic_ability_e"							// Ability 3
 		"Ability6"					"shadow_shaman_dragon_spirit"
-		"Ability4"					"trigger_ability"						// Test Ability
 		"Ability5"					"hero_stat"
 		"ModelScale"		"1"
 		"AttributeBaseStrength"		"0"
@@ -19,240 +247,8 @@
 		"AttributeIntelligenceGain"		"0"
 		"AttributeBaseAgility"		"0"
 		"AttributeAgilityGain"		"0"
-
+	
 		"VisionDaytimeRange"		"1000"
 		"VisionNighttimeRange"		"1000"										// Range of vision at night time.
-	}
-	"npc_dota_hero_phantom_assassin"
-	{
-		"Model"		"models/heroes/phantom_assassin/phantom_assassin.vmdl"
-		"IdleExpression"		"scenes/phantom_assassin/phantom_assassin_exp_idle_01.vcd"
-		"SoundSet"		"Hero_PhantomAssassin"
-		"Enabled"		"1"
-		"BotImplemented"		"1"
-		"HeroUnlockOrder"		"1"
-		"Role"			"Carry,Escape"
-		"Rolelevels"	"3,1"
-		"Complexity"	"1"
-		"Team"		"Bad"
-		"HeroID"		"44"
-		"ModelScale"		"0.860000"
-		"VersusScale"		"0.930000"
-		"LoadoutScale"		"0.930000"
-		"SpectatorLoadoutScale" "0.95"
-		"HeroGlowColor"		"154 97 133"
-		"PickSound"		"phantom_assassin_phass_spawn_01"
-		"BanSound"		"phantom_assassin_phass_anger_08"
-		"NameAliases"		"pa;mortred"
-		"CMEnabled"		"1"
-		"workshop_guide_name"		"Phantom Assassin"
-		"new_player_enable"		"1"
-		"LastHitChallengeRival"		"npc_dota_hero_bounty_hunter"
-		"HeroSelectSoundEffect"		"Hero_PhantomAssassin.Pick"
-		"GibType"		"default"
-		"Ability1"					"generic_ability_q"							// Ability 1
-		"Ability2"					"generic_ability_w"							// Ability 2
-		"Ability3"					"generic_ability_e"	
-		"Ability4"					"trigger_ability"
-		"Ability6"					"elementalist_cycle_of_power"						// Test Ability
-		"Ability5"					"hero_stat"
-		"Ability10"		"special_bonus_hp_225"
-		"Ability11"		"special_bonus_attack_damage_15"
-		"Ability12"		"special_bonus_lifesteal_15"
-		"Ability13"		"special_bonus_cleave_25"
-		"Ability14"		"special_bonus_corruption_4"
-		"Ability15"		"special_bonus_unique_phantom_assassin_3"
-		"Ability16"		"special_bonus_unique_phantom_assassin_2"
-		"Ability17"		"special_bonus_unique_phantom_assassin"
-		"ArmorPhysical"		"1"
-		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
-		"AttackDamageMin"		"24"
-		"AttackDamageMax"		"26"
-		"AttackRate"		"1.700000"
-		"AttackAnimationPoint"		"0.300000"
-		"AttackSpeedActivityModifiers"
-		{
-			"fast"		"249"
-			"faster"	"350"
-			"fastest"	"450"
-		}
-		"AttackAcquisitionRange"		"600"
-		"AttackRange"		"150"
-		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
-		"AttributeBaseStrength"		"0"
-		"AttributeStrengthGain"		"00000"
-		"AttributeBaseAgility"		"0"
-		"AttributeAgilityGain"		"0"
-		"AttributeBaseIntelligence"		"0"
-		"AttributeIntelligenceGain"		"0"
-		"StatusHealthRegen"		"0.25"
-		"MovementSpeed"		"305"
-		"MovementTurnRate"		"3"
-		"HasAggressiveStance"		"1"
-		"RenderablePortrait"
-		{
-			"Particles"
-			{
-				"particles/units/heroes/hero_phantom_assassin/phantom_assassin_loadout.vpcf"		"loadout"
-			}
-		}
-		"ItemSlots"
-		{
-			"0"
-			{
-				"SlotIndex"		"0"
-				"SlotName"		"weapon"
-				"SlotText"		"#LoadoutSlot_Weapon"
-				"TextureWidth"		"256"
-				"TextureHeight"		"256"
-				"MaxPolygonsLOD0"		"1000"
-				"MaxPolygonsLOD1"		"600"
-			}
-			"1"
-			{
-				"SlotIndex"		"1"
-				"SlotName"		"head"
-				"SlotText"		"#LoadoutSlot_Head_Accessory"
-				"TextureWidth"		"256"
-				"TextureHeight"		"256"
-				"MaxPolygonsLOD0"		"1200"
-				"MaxPolygonsLOD1"		"600"
-			}
-			"2"
-			{
-				"SlotIndex"		"2"
-				"SlotName"		"shoulder"
-				"SlotText"		"#LoadoutSlot_Shoulder"
-				"TextureWidth"		"256"
-				"TextureHeight"		"256"
-				"MaxPolygonsLOD0"		"1000"
-				"MaxPolygonsLOD1"		"550"
-			}
-			"3"
-			{
-				"SlotIndex"		"3"
-				"SlotName"		"back"
-				"TextureWidth"		"256"
-				"TextureHeight"		"256"
-				"MaxPolygonsLOD0"		"600"
-				"MaxPolygonsLOD1"		"450"
-				"SlotText"		"#LoadoutSlot_Back"
-			}
-			"4"
-			{
-				"SlotIndex"		"4"
-				"SlotName"		"belt"
-				"SlotText"		"#LoadoutSlot_Belt"
-				"TextureWidth"		"256"
-				"TextureHeight"		"256"
-				"MaxPolygonsLOD0"		"800"
-				"MaxPolygonsLOD1"		"600"
-			}
-			"5"
-			{
-				"SlotIndex"		"5"
-				"SlotName"		"taunt"
-				"SlotText"		"#LoadoutSlot_Taunt"
-			}
-		}
-		"BoundsHullName"		"DOTA_HULL_SIZE_HERO"
-		"particle_folder"		"particles/units/heroes/hero_phantom_assassin"
-		"GameSoundsFile"		"soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts"
-		"VoiceFile"		"soundevents/voscripts/game_sounds_vo_phantom_assassin.vsndevts"
-		"Bot"
-		{
-			"Loadout"
-			{
-				"item_tango"			"ITEM_CONSUMABLE | ITEM_SELLABLE"
-				"item_flask"			"ITEM_CONSUMABLE | ITEM_SELLABLE"
-				"item_stout_shield"		"ITEM_CORE | ITEM_SELLABLE"
-
-				"item_branches"			"ITEM_CORE"
-				"item_branches"			"ITEM_CORE"
-				"item_magic_stick"		"ITEM_CORE"
-
-				"item_boots"			"ITEM_CORE"
-
-				"item_recipe_magic_wand"		"ITEM_CORE"
-				"item_magic_wand"	"ITEM_DERIVED | ITEM_SELLABLE"
-
-				"item_blades_of_attack"			"ITEM_CORE"
-				"item_boots_of_elves"	"ITEM_CORE"
-				"item_power_treads"		"ITEM_DERIVED"
-
-				"item_ogre_axe"					"ITEM_LUXURY"
-				"item_mithril_hammer"			"ITEM_LUXURY"
-				"item_recipe_black_king_bar"	"ITEM_EXTENSION"
-				"item_black_king_bar"			"ITEM_DERIVED"
-
-				"item_javelin"				"ITEM_LUXURY"
-				"item_belt_of_strength"		"ITEM_LUXURY"
-				"item_recipe_basher"		"ITEM_LUXURY"
-				"item_basher"				"ITEM_DERIVED"
-
-				"item_stout_shield"			"ITEM_LUXURY"
-				"item_ring_of_health"		"ITEM_LUXURY"
-				"item_vitality_booster"		"ITEM_LUXURY"
-				"item_vanguard"				"ITEM_DERIVED"
-
-				"item_recipe_abyssal_blade"	"ITEM_LUXURY"
-				"item_abyssal_blade"		"ITEM_DERIVED"
-
-				"item_lifesteal"		"ITEM_LUXURY"
-				"item_reaver"			"ITEM_LUXURY"
-				"item_claymore"			"ITEM_LUXURY"
-				"item_satanic"			"ITEM_DERIVED"
-
-				"item_platemail"		"ITEM_LUXURY"
-				"item_hyperstone"		"ITEM_LUXURY"
-				"item_chainmail"		"ITEM_LUXURY"
-				"item_recipe_assault"	"ITEM_LUXURY"
-				"item_assault"			"ITEM_DERIVED"
-
-				"item_javelin"			"ITEM_LUXURY"
-				"item_javelin"			"ITEM_LUXURY"
-				"item_hyperstone"		"ITEM_LUXURY"
-				"item_monkey_king_bar"	"ITEM_DERIVED"
-			}
-			"Build"
-			{
-				"1"		"phantom_assassin_stifling_dagger"
-				"2"		"phantom_assassin_phantom_strike"
-				"3"		"phantom_assassin_stifling_dagger"
-				"4"		"phantom_assassin_blur"
-				"5"		"phantom_assassin_stifling_dagger"
-				"6"		"phantom_assassin_coup_de_grace"
-				"7"		"phantom_assassin_stifling_dagger"
-				"8"		"phantom_assassin_phantom_strike"
-				"9"		"phantom_assassin_phantom_strike"
-				"10"		"special_bonus_attack_damage_15"
-				"11"		"phantom_assassin_phantom_strike"
-				"12"		"phantom_assassin_coup_de_grace"
-				"13"		"phantom_assassin_blur"
-				"14"		"phantom_assassin_blur"
-				"15"		"special_bonus_cleave_25"
-				"16"		"phantom_assassin_blur"
-				"17"		""
-				"18"		"phantom_assassin_coup_de_grace"
-				"19"		""
-				"20"		"special_bonus_unique_phantom_assassin"
-				"21"		""
-				"22"		""
-				"23"		""
-				"24"		""
-				"25"		"special_bonus_unique_phantom_assassin_2"
-			}
-			"HeroType"		"DOTA_BOT_HARD_CARRY"
-			"LaningInfo"
-			{
-				"SoloDesire"		"0"
-				"RequiresBabysit"		"2"
-				"ProvidesBabysit"		"0"
-				"SurvivalRating"		"1"
-				"RequiresFarm"		"2"
-				"ProvidesSetup"		"0"
-				"RequiresSetup"		"2"
-			}
-		}
 	}
 }

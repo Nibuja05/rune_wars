@@ -7,10 +7,27 @@ function AbilityAspects:BuildCoreAbility(caster)
 
 	local inv = self:GetInventory(caster, "backpack")
 	local cores = {}
-	for k,v in pairs(inv) do
-		if v:GetName():find("item_ability_core") then
-			if not core then
-				cores[k % 3] = v
+	-- for k,v in pairs(inv) do
+	-- 	if v:GetName():find("item_ability_core") then
+	-- 		if not core then
+	-- 			cores[k % 3] = v
+	-- 		end
+	-- 	end
+	-- end
+	local runeTable = CustomNetTables:GetTableValue("rune_slots", tostring(caster:entindex()))
+	for key,val in pairs(runeTable) do
+		local coreIndex = -1
+		if key == "abilityQ" then
+			coreIndex = 0
+		elseif key == "abilityW" then
+			coreIndex = 1
+		elseif key == "abilityE" then
+			coreIndex = 2
+		end
+		if coreIndex >= 0 and tonumber(val.core) >= 0 then
+			local core = EntIndexToHScript(tonumber(val.core))
+			if core:GetName():find("item_ability_core") then
+				cores[coreIndex] = core
 			end
 		end
 	end
@@ -60,11 +77,7 @@ function AbilityAspects:BuildCoreAbility(caster)
 		ability:ReloadAbility()
 
 	end
-
-	local playerID = caster:GetPlayerID()
-	local player = PlayerResource:GetPlayer(playerID)
-	CustomGameEventManager:Send_ServerToPlayer(player, "init_tooltips", {})
-	CustomGameEventManager:Send_ServerToPlayer(player, "init_stat_tooltips", {})
+	
 end
 
 function AbilityAspects:AddAbilitySpecialKeys(ability, specials)

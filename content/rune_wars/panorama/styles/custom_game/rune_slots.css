@@ -58,6 +58,11 @@
 	}
 }
 
+.close_rune_container_hidden
+{
+	visibility: collapse;
+}
+
 .core_slot
 {
 	height: 55px;
@@ -94,8 +99,6 @@
 	transition-duration: .06s, .1s;
 	transition-timing-function: ease-out;
 	background-image: url("s2r://panorama/images/hud/reborn/inventory_item_well_psd.vtex");
-	/*background-image: url("s2r://panorama/images/hud/reborn/inventory_item_bevel_psd.vtex");*/
-	/*background-image: url("s2r://panorama/images/hud/reborn/inventory_panel_png.vtex");*/
 }
 
 #new_rune_button
@@ -106,7 +109,16 @@
 	horizontal-align: right;
 	margin-right: 24px;
 	margin-bottom: 49px;
-	/*background-image: url("file://{images}/custom_game/setting_icon.png");*/
+}
+
+#new_perk_button
+{
+	width: 44px;
+	height: 44px;
+	vertical-align: bottom;
+	horizontal-align: right;
+	margin-right: 24px;
+	margin-bottom: 5px;
 }
 
 .new_rune_button_default
@@ -142,4 +154,96 @@
 {
 	from {opacity: 1;}
 	to {opacity: 0.2;}
+}
+
+#new_item_image
+{
+	width: 100%;
+	height: 100%;
+	vertical-align: top;
+	horizontal-align: left;
+}
+
+/*stretch-to-fix-x-preserve-aspect*/
+
+#DropTargetHighlight
+{
+  width: 100%;
+  height: 100%;
+  background-color: gradient( radial, 50% -20%, 0% 0%, 80% 80%, from( #FFFFFF ), to( #FFFFFF00 ) );
+  opacity: 0;
+}
+
+.potential_drop_target #DropTargetHighlight
+{
+  opacity: 0.3;
+}
+
+.dragging_from
+{
+  saturation: 0.5;
+  wash-color: #808080;
+}
+
+#remove_image
+{
+	height: 35px;
+	width: 50px;
+	horizontal-align: center;
+	vertical-align: center;
+}
+
+#rune_remove_slot:hover
+{
+	background-color: #565859;
+	animation-name: rune_remove_hover;
+	animation-duration: 0.2s;
+}
+
+.rune_remove_slot_hover
+{
+	background-color: #565859;
+	animation-name: rune_remove_hover;
+	animation-duration: 0.2s;
+}
+
+@keyframes 'rune_remove_hover'
+{
+	from {background-color: #2C2F30;}
+	to {background-color: #565859;}
+}
+
+.rune_container_remove
+{
+	clip: rect( 0px, 130px, 100px, 0px);
+	width: 130px;
+	height: 100px;
+	margin-bottom: 10px;
+	background-image: url("s2r://panorama/images/hud/reborn/ability_bg_psd.vtex");
+}
+
+.rune_remove_closed
+{
+	clip: rect( 0px, 0, 100px, 0px);
+	animation-name: rune_remove_close;
+	animation-duration: 0.2s;
+}
+
+@keyframes 'rune_remove_close'
+{
+	from {clip: rect( 0px, 130px, 100px, 0px);}
+	to {clip: rect( 0px, 0, 100px, 0px);}
+}
+
+.rune_remove_opened
+{
+	clip: rect( 0px, 130px, 100px, 0px);
+	animation-name: rune_remove_open;
+	animation-duration: 0.2s;
+}
+
+@keyframes 'rune_remove_open'
+{
+	from {clip: rect( 0px, 0, 100px, 0px);}
+	to {clip: rect( 0px, 130px, 100px, 0px);}
 }

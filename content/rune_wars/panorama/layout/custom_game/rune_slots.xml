@@ -7,47 +7,83 @@
   </scripts>
   
   <Panel class="custom_rune_slots" hittest="false">
-  	<Panel id="rune_container_e" class="rune_container">
-      <Panel id="core_slot_e" class="core_slot" >
-      	<Panel id="item_core_e" class="item_slot" />
-      </Panel>
-      <Panel id="rune1_slot_e" class="rune_slot" >
-      	<Panel id="item_rune1_e" class="item_slot" />
-      </Panel>
-      <Panel id="run2_slot_e" class="rune_slot" >
-      	<Panel id="item_rune2_e" class="item_slot" />
-      </Panel>
-      <Panel id="rune3_slot_e" class="rune_slot" >
-      	<Panel id="item_rune3_e" class="item_slot" />
+
+  	<Panel id="rune_container_e" class="rune_container close_rune_container_hidden" hittest="true">
+      <Button id="core_slot_e" class="core_slot" draggable="false" hittest="false">
+        <Panel id="item_core_e" class="item_slot"  hittest="false"/>
+        <DOTAItemImage id="new_item_image" scaling="stretch-to-cover-preserve-aspect" draggable="true" hittest="true"/>
+        <Panel id="DropTargetHighlight" hittest="false"/>
+      </Button>
+      <Button id="rune1_slot_e" class="rune_slot" draggable="true" hittest="true">
+        <Panel id="item_rune1_e" class="item_slot"  hittest="false"/>
+        <DOTAItemImage id="new_item_image" scaling="stretch-to-cover-preserve-aspect" draggable="true" hittest="true"/>
+        <Panel id="DropTargetHighlight" hittest="false" />
+      </Button>
+      <Button id="rune2_slot_e" class="rune_slot" draggable="true" hittest="true">
+        <Panel id="item_rune2_e" class="item_slot"  hittest="false"/>
+        <DOTAItemImage id="new_item_image" scaling="stretch-to-cover-preserve-aspect" draggable="true" hittest="true"/>
+        <Panel id="DropTargetHighlight" hittest="false" />
+      </Button>
+      <Button id="rune3_slot_e" class="rune_slot" draggable="true" hittest="true">
+        <Panel id="item_rune3_e" class="item_slot"  hittest="false"/>
+        <DOTAItemImage id="new_item_image" scaling="stretch-to-cover-preserve-aspect" draggable="true" hittest="true"/>
+        <Panel id="DropTargetHighlight" hittest="false" />
+      </Button>
+    </Panel>
+
+    <Panel id="rune_container_w" class="rune_container close_rune_container_hidden" hittest="true">
+      <Button id="core_slot_w" class="core_slot" hittest="false">
+        <Panel id="item_core_w" class="item_slot"  hittest="false"/>
+        <DOTAItemImage id="new_item_image" scaling="stretch-to-cover-preserve-aspect" draggable="true" hittest="true"/>
+        <Panel id="DropTargetHighlight" hittest="false"/>
+      </Button>
+      <Button id="rune1_slot_w" class="rune_slot" draggable="true" hittest="true">
+        <Panel id="item_rune1_w" class="item_slot"  hittest="false"/>
+        <DOTAItemImage id="new_item_image" scaling="stretch-to-cover-preserve-aspect" draggable="true" hittest="true"/>
+        <Panel id="DropTargetHighlight" hittest="false" />
+      </Button>
+      <Button id="rune2_slot_w" class="rune_slot" draggable="true" hittest="true">
+        <Panel id="item_rune2_w" class="item_slot"  hittest="false"/>
+        <DOTAItemImage id="new_item_image" scaling="stretch-to-cover-preserve-aspect" draggable="true" hittest="true"/>
+        <Panel id="DropTargetHighlight" hittest="false" />
+      </Button>
+      <Button id="rune3_slot_w" class="rune_slot" draggable="true" hittest="true">
+        <Panel id="item_rune3_w" class="item_slot"  hittest="false"/>
+        <DOTAItemImage id="new_item_image" scaling="stretch-to-cover-preserve-aspect" draggable="true" hittest="true"/>
+        <Panel id="DropTargetHighlight" hittest="false" />
+      </Button>
+    </Panel>
+
+    <Panel id="rune_container_q" class="rune_container close_rune_container_hidden" hittest="true">
+      <Button id="core_slot_q" class="core_slot" hittest="false">
+      	<Panel id="item_core_q" class="item_slot"  hittest="false"/>
+        <DOTAItemImage id="new_item_image" scaling="stretch-to-cover-preserve-aspect" draggable="true" hittest="true"/>
+        <Panel id="DropTargetHighlight" hittest="false"/>
+      </Button>
+      <Button id="rune1_slot_q" class="rune_slot" hittest="false">
+      	<Panel id="item_rune1_q" class="item_slot"  hittest="false"/>
+        <DOTAItemImage id="new_item_image" scaling="stretch-to-cover-preserve-aspect" draggable="true" hittest="true"/>
+        <Panel id="DropTargetHighlight" hittest="false" />
+      </Button>
+      <Button id="rune2_slot_q" class="rune_slot" hittest="false">
+      	<Panel id="item_rune2_q" class="item_slot"  hittest="false"/>
+        <DOTAItemImage id="new_item_image" scaling="stretch-to-cover-preserve-aspect" draggable="true" hittest="true"/>
+        <Panel id="DropTargetHighlight" hittest="false" />
+      </Button>
+      <Button id="rune3_slot_q" class="rune_slot" hittest="false">
+      	<Panel id="item_rune3_q" class="item_slot"  hittest="false"/>
+        <DOTAItemImage id="new_item_image" scaling="stretch-to-cover-preserve-aspect" draggable="true" hittest="true"/>
+        <Panel id="DropTargetHighlight" hittest="false" />
+      </Button>
+    </Panel>
+
+    <Panel id="rune_remove_container" class="rune_container_remove rune_remove_closed" hittest="true">
+      <Panel id="rune_remove_slot" class="core_slot">
+        <Panel id="item_remove" class="item_slot" hittest="true" />
+        <Image id="remove_image" src="file://{images}/custom_game/move_right.png" scaling="stretch-to-cover-preserve-aspect" hittest="false" />
+        <!-- Icon made by Dave Gandy from www.flaticon.com -->
       </Panel>
     </Panel>
-    <Panel id="rune_container_w" class="rune_container">
-      <Panel id="core_slot_w" class="core_slot" >
-      	<Panel id="item_core_w" class="item_slot" />
-      </Panel>
-      <Panel id="rune1_slot_w" class="rune_slot" >
-      	<Panel id="item_rune1_w" class="item_slot" />
-      </Panel>
-      <Panel id="run2_slot_w" class="rune_slot" >
-      	<Panel id="item_rune2_w" class="item_slot" />
-      </Panel>
-      <Panel id="rune3_slot_w" class="rune_slot" >
-      	<Panel id="item_rune3_w" class="item_slot" />
-      </Panel>
-    </Panel>
-    <Panel id="rune_container_q" class="rune_container" hittest="true">
-      <Panel id="core_slot_q" class="core_slot" >
-      	<Panel id="item_core_q" class="item_slot" />
-      </Panel>
-      <Panel id="rune1_slot_q" class="rune_slot" >
-      	<Panel id="item_rune1_q" class="item_slot" />
-      </Panel>
-      <Panel id="run2_slot_q" class="rune_slot" >
-      	<Panel id="item_rune2_q" class="item_slot" />
-      </Panel>
-      <Panel id="rune3_slot_q" class="rune_slot" >
-      	<Panel id="item_rune3_q" class="item_slot" />
-      </Panel>
-    </Panel>
+
   </Panel>
 </root>

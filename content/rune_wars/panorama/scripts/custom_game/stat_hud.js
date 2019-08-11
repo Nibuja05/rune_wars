@@ -132,10 +132,10 @@ function CreateNewSmallAttributePanel(parent, name) {
 	smallLabel.style.width = "35px";
 	smallLabel.text = "10/10";
 	smallLabel.AddClass("MonoNumbersFont");
-	smallLabel.style.fontSize = "15px";
+	smallLabel.style.fontSize = "14px";
 	smallLabel.style.textShadow = "0px 0px 4px 4 #00000088";
 	smallLabel.style.color = "#ccc";
-	smallLabel.style.marginTop = "2px";
+	smallLabel.style.marginTop = "5px";
 	// smallLabel.style.verticalAlign = "left";
 	
 

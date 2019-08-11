@@ -1,0 +1,41 @@
+"perk_protection"
+{
+	// General
+	//-------------------------------------------------------------------------------------------------------------
+	"BaseClass"				"ability_datadriven"
+	"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+	"AbilityTextureName"			"perk_armor_alt"
+	
+	"Modifiers"
+	{
+		"modifier_rune_stat_changer"
+		{
+			"Passive"						"1"
+			"IsHidden"						"1"
+			"IsPurgable"					"0"
+			"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+		
+			"ThinkInterval"	"1"
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"perks_start.lua"
+					"Function"		"level_based_stacks"
+				}
+			}
+		}
+		"modifier_rune_bonus_physical_res"
+		{
+			"Passive"						"1"
+			"IsHidden"						"0"
+			"IsPurgable"					"0"
+			"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE"	"-0.1"
+			}
+		}
+	}
+}

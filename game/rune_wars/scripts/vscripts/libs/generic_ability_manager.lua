@@ -237,11 +237,6 @@ function GenericAbility:GetStringLocalization(token)
 
 end
 
--- init the helper lib
-if not GenericAbility.started then
-	GenericAbility:Init()
-end
-
 local charset = {}  do -- [0-9a-zA-Z]
 	for c = 48, 57  do table.insert(charset, string.char(c)) end
 	for c = 65, 90  do table.insert(charset, string.char(c)) end
@@ -262,4 +257,9 @@ function randomizeString(str)
 		end
 	end
 	return newString
+end
+
+-- init the helper lib
+if not GenericAbility.started then
+	GenericAbility:Init()
 end

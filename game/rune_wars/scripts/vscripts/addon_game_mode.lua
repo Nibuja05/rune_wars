@@ -12,6 +12,7 @@ require('libs/ability_aspect_manager')
 require('libs/element_manager')
 require('libs/util')
 require('libs/generic_ability')
+require('libs/rune_builder')
 
 function Precache( context )
 	--[[
@@ -30,7 +31,7 @@ function Activate()
 end
 
 function GameMode:InitGameMode()
-	print( "Template addon is loaded." )
+	print( "Rune Wars is loaded." )
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 2 )
 	ListenToGameEvent('npc_spawned', Dynamic_Wrap(GameMode, 'OnNPCSpawned'), self)
 	-- self:StartEventTest() --Spams console!
