@@ -5,7 +5,7 @@
 	"Ability2"					"generic_ability_w"							// Ability 2
 	"Ability3"					"generic_ability_e"							// Ability 3
 	"Ability6"					"shadow_shaman_dragon_spirit"
-	"Ability5"					"hero_stat"
+	// "Ability5"					"hero_stat"
 	"ModelScale"		"1"
 	"AttributeBaseStrength"		"0"
 	"AttributeStrengthGain"		"0"

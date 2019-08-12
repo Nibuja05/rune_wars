@@ -13,6 +13,7 @@ require('libs/element_manager')
 require('libs/util')
 require('libs/generic_ability')
 require('libs/rune_builder')
+require('libs/hero_stats')
 
 function Precache( context )
 	--[[
@@ -39,8 +40,6 @@ end
 
 function GameMode:OnNPCSpawned(event)
  	local npc = EntIndexToHScript(event.entindex)
-
- 	print(DOTA_EXTRA_ENUMS.SPELL_IMMUNITY_ALLIES_NO)
 
  	if npc:IsRealHero() then
  		local playerID = npc:GetPlayerID()

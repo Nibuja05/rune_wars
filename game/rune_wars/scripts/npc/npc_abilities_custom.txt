@@ -452,7 +452,7 @@
 		{
 			"RunScript"
 			{
-				"ScriptFile"	"hero_stats.lua"
+				"ScriptFile"	"libs/hero_stats.lua"
 				"Function"		"LevelUpAbility"
 			}
 		}
@@ -806,7 +806,7 @@
 		{
 			"RunScript"
 			{
-				"ScriptFile"	"hero_stats.lua"
+				"ScriptFile"	"libs/hero_stats.lua"
 				"Function"		"LevelUpAbility"
 			}
 		}
@@ -993,7 +993,7 @@
 		{
 			"RunScript"
 			{
-				"ScriptFile"	"hero_stats.lua"
+				"ScriptFile"	"libs/hero_stats.lua"
 				"Function"		"LevelUpAbility"
 			}
 		}

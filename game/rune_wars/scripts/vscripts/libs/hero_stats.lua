@@ -1,4 +1,77 @@
 
+LinkLuaModifier("modifier_fire_power", "libs/hero_stats.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_fire_resistance", "libs/hero_stats.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_water_power", "libs/hero_stats.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_water_resistance", "libs/hero_stats.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_earth_power", "libs/hero_stats.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_earth_resistance", "libs/hero_stats.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_storm_power", "libs/hero_stats.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_storm_resistance", "libs/hero_stats.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_order_power", "libs/hero_stats.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_order_resistance", "libs/hero_stats.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_chaos_power", "libs/hero_stats.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_chaos_resistance", "libs/hero_stats.lua", LUA_MODIFIER_MOTION_NONE)
+
+if not HeroStats then
+	HeroStats = class({})
+end
+
+function HeroStats:Init()
+	self.started = true
+	ListenToGameEvent('npc_spawned', Dynamic_Wrap(HeroStats, 'OnNPCSpawned'), self)
+end
+
+function HeroStats:OnNPCSpawned(event)
+	print("Add Elemental Modifier!")
+	local hero = EntIndexToHScript(event.entindex)
+	if hero:IsRealHero() then
+		if not hero:HasModifier("modifier_fire_power") then
+			hero:AddNewModifier(hero, nil, "modifier_fire_power", nil)
+			hero:AddNewModifier(hero, nil, "modifier_fire_resistance", nil)
+			hero:AddNewModifier(hero, nil, "modifier_water_power", nil)
+			hero:AddNewModifier(hero, nil, "modifier_water_resistance", nil)
+			hero:AddNewModifier(hero, nil, "modifier_earth_power", nil)
+			hero:AddNewModifier(hero, nil, "modifier_earth_resistance", nil)
+			hero:AddNewModifier(hero, nil, "modifier_storm_power", nil)
+			hero:AddNewModifier(hero, nil, "modifier_storm_resistance", nil)
+			hero:AddNewModifier(hero, nil, "modifier_order_power", nil)
+			hero:AddNewModifier(hero, nil, "modifier_order_resistance", nil)
+			hero:AddNewModifier(hero, nil, "modifier_chaos_power", nil)
+			hero:AddNewModifier(hero, nil, "modifier_chaos_resistance", nil)
+			self:UpdateNettable(hero)
+		end
+	end
+end
+
+function HeroStats:ModifyElementalStat(hero, statType, change)
+	local modifierName = "modifier_"..statType
+	if not hero:HasModifier(modifierName) then
+		return false
+	end
+	local modifier = hero:FindModifierByName(modifierName)
+	local curStacks = modifier:GetStackCount()
+	modifier:SetStackCount(curStacks + change)
+	self:UpdateNettable(hero)
+	return true
+end
+
+function HeroStats:UpdateNettable(hero)
+	local elementTable = {
+		FirePower = hero:FindModifierByName("modifier_fire_power"):GetStackCount(),
+		FireResistance = hero:FindModifierByName("modifier_fire_resistance"):GetStackCount(),
+		WaterPower = hero:FindModifierByName("modifier_water_power"):GetStackCount(),
+		WaterResistance = hero:FindModifierByName("modifier_water_resistance"):GetStackCount(),
+		EarthPower = hero:FindModifierByName("modifier_earth_power"):GetStackCount(),
+		EarthResistance = hero:FindModifierByName("modifier_earth_resistance"):GetStackCount(),
+		StormPower = hero:FindModifierByName("modifier_storm_power"):GetStackCount(),
+		StormResistance = hero:FindModifierByName("modifier_storm_resistance"):GetStackCount(),
+		OrderPower = hero:FindModifierByName("modifier_order_power"):GetStackCount(),
+		OrderResistance = hero:FindModifierByName("modifier_order_resistance"):GetStackCount(),
+		ChaosPower = hero:FindModifierByName("modifier_chaos_power"):GetStackCount(),
+		ChaosResistance = hero:FindModifierByName("modifier_chaos_resistance"):GetStackCount(),
+	}
+	CustomNetTables:SetTableValue("element_resist", tostring(hero:entindex()), elementTable)
+end
 
 function add_stat( keys )
 	-- Variables
@@ -159,3 +232,38 @@ function LevelUpAbility( event )
 
 	this_ability:SetLevel(this_abilityLevel)
 end
+
+if not HeroStats.started then
+	HeroStats:Init()
+end
+
+modifier_element_base = class({})
+
+function modifier_element_base:IsPassive()
+	return true
+end
+
+function modifier_element_base:IsHidden()
+	return false
+end
+
+function modifier_element_base:IsPurgable()
+	return false
+end
+
+function modifier_element_base:GetAttributes()
+	return MODIFIER_ATTRIBUTE_PERMANENT
+end
+
+modifier_fire_power = class(modifier_element_base)
+modifier_fire_resistance = class(modifier_element_base)
+modifier_water_power = class(modifier_element_base)
+modifier_water_resistance = class(modifier_element_base)
+modifier_earth_power = class(modifier_element_base)
+modifier_earth_resistance = class(modifier_element_base)
+modifier_storm_power = class(modifier_element_base)
+modifier_storm_resistance = class(modifier_element_base)
+modifier_order_power = class(modifier_element_base)
+modifier_order_resistance = class(modifier_element_base)
+modifier_chaos_power = class(modifier_element_base)
+modifier_chaos_resistance = class(modifier_element_base)

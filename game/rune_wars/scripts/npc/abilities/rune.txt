@@ -22,7 +22,7 @@
 			{
 				"RunScript"
 				{
-					"ScriptFile"	"perks_start.lua"
+					"ScriptFile"	"libs/perks_start.lua"
 					"Function"		"level_based_stacks"
 				}
 			}
@@ -43,7 +43,7 @@
 			{
 				"RunScript"
 				{
-					"ScriptFile"			"perks_start.lua"
+					"ScriptFile"			"libs/perks_start.lua"
 					"Function"				"lethal_rythm"
 				}
 			}

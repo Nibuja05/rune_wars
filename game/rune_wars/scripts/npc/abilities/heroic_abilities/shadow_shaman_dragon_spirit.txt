@@ -50,7 +50,7 @@
 	{
 		"RunScript"
 		{
-			"ScriptFile"	"hero_stats.lua"
+			"ScriptFile"	"libs/hero_stats.lua"
 			"Function"		"LevelUpAbility"
 		}
 	}
@@ -141,7 +141,7 @@
 			{
 				"RunScript"
 			  	{
-					"ScriptFile"	"generic_hero_events.lua"
+					"ScriptFile"	"libs/generic_hero_events.lua"
 					"Function"		"dealdamage"
 					"caster"		"CASTER"
 					"target" 	"TARGET"

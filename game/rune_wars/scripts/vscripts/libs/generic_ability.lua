@@ -242,6 +242,11 @@ function generic_ability:HealUnit(target, source, amount)
 	Elements:HealUnit(target, source, amount)
 end
 
+function generic_ability:ModifyElementalStat(statType, change)
+	local caster = self:GetCaster()
+	HeroStats:ModifyElementalStat(caster, statType, change)
+end
+
 --=================================================================================================
 --HIDDEN FUNCTIONS
 --=================================================================================================

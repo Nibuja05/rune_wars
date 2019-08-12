@@ -75,10 +75,8 @@ end
 function modifier_dispel_magic_buff:OnCreated(event)
 	if IsServer() then
 		local ability = self:GetAbility()
-		local caster = self:GetCaster()
-		self.bonus_resistance = ability:GetSpecialValueFor("bonus_resistance")
-		local buff_old_chaos_resistance = caster:GetModifierStackCount("modifier_chaos_resistance", self)
-		caster:SetModifierStackCount( "modifier_chaos_resistance", ability, buff_old_chaos_resistance + self.bonus_resistance )
+		self.bonusResistance = ability:GetSpecialValueFor("bonus_resistance")
+		ability:ModifyElementalStat("chaos_resistance", self.bonusResistance)
 	end
 end
 
@@ -87,9 +85,6 @@ end
 function modifier_dispel_magic_buff:OnDestroy()
 	if IsServer() then
 		local ability = self:GetAbility()
-		local caster = self:GetCaster()
-		local buff_old_chaos_resistance = caster:GetModifierStackCount("modifier_chaos_resistance", self)
-		caster:SetModifierStackCount( "modifier_chaos_resistance", ability, buff_old_chaos_resistance - self.bonus_resistance )
-
+		ability:ModifyElementalStat("chaos_resistance", -self.bonusResistance)
 	end
 end

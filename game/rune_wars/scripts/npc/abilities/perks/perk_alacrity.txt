@@ -21,7 +21,7 @@
 			{
 				"RunScript"
 				{
-					"ScriptFile"	"perks_start.lua"
+					"ScriptFile"	"libs/perks_start.lua"
 					"Function"		"level_based_stacks"
 				}
 			}
