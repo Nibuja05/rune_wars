@@ -1,6 +1,6 @@
-"item_ability_core_common_fireball" 
+"item_ability_core_common_column_of_destruction" 
 {
-	"ID"                    "2006"
+	"ID"                    "2014"
 	"BaseClass"             "item_datadriven"
 	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	"AbilityTextureName"    "item_gem"
@@ -28,8 +28,8 @@
 	"ItemRequiresCharges"	"0"
 
 	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_FIRE"
-	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_POINT | SPECIAL_ABILITY_KEY_LINEAR_PROJECTILE | SPECIAL_ABILITY_KEY_MULTI_TARGET | SPECIAL_ABILITY_KEY_DAMAGE"
-	"SpecialSpellName"		"fireball"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_POINT | SPECIAL_ABILITY_KEY_AOE | SPECIAL_ABILITY_KEY_DAMAGE | SPECIAL_ABILITY_KEY_DEBUFF"
+	"SpecialSpellName"		"column_of_destruction"
 
 	"AbilitySpecial"
 	{
@@ -41,22 +41,32 @@
 		"02"
 		{
 			"var_type"			"FIELD_INTEGER"
-			"range"				"750"
+			"range"				"650"
 		}
 		"03"
 		{
 			"var_type"			"FIELD_FLOAT"
-			"cooldown"			"7.0 6.5 6.0 5.5"
+			"cooldown"			"11"
 		}
 		"04"
 		{
 			"var_type"			"FIELD_INTEGER"
-			"manacost"			"40 50 60 70"
+			"manacost"			"60"
 		}
 		"05"
 		{
-			"var_type"			"FIELD_INTEGER"
-			"projectile_speed"	"1200"
+			"var_type"			"FIELD_FLOAT"
+			"delay"	"0.6"
+		}
+		"06"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration"	"1.25"
+		}
+		"07"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"radius"	"250"
 		}
 	}
 } 

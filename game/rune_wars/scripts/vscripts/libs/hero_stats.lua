@@ -39,6 +39,7 @@ function HeroStats:OnNPCSpawned(event)
 			hero:AddNewModifier(hero, nil, "modifier_chaos_power", nil)
 			hero:AddNewModifier(hero, nil, "modifier_chaos_resistance", nil)
 			self:UpdateNettable(hero)
+			hero:AddAbility("level_based_stats")
 		end
 	end
 end

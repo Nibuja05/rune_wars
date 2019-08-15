@@ -30,34 +30,38 @@ function level_based_stacks( keys )
 	local caster = keys.caster
 	local ability = keys.ability
 	if caster:HasModifier("modifier_rune_bonus_health") then
-		local hp_bonus = ((caster:GetLevel() - 1) * 19) + 39
-		caster:SetModifierStackCount("modifier_rune_bonus_health", ability, hp_bonus )
+		local health_gain = caster:GetModifierStackCount("modifier_rune_base_hp", ability)  * (caster:GetLevel() - 1) * 11/100
+		caster:SetModifierStackCount("modifier_rune_bonus_health", ability, health_gain )
 	end
-		if caster:HasModifier("modifier_rune_bonus_mana") then
-		local mana_bonus = ((caster:GetLevel() - 1) * 15) + 30
-		caster:SetModifierStackCount("modifier_rune_bonus_mana", ability, mana_bonus )
+	if caster:HasModifier("modifier_rune_bonus_mana") then
+		local mana_gain = caster:GetModifierStackCount("modifier_rune_base_mana", ability) * (caster:GetLevel() - 1) * 8/100
+		caster:SetModifierStackCount("modifier_rune_bonus_mana", ability, mana_gain )
 	end
 	if caster:HasModifier("modifier_rune_bonus_damage") then
-		local mana_bonus = ((caster:GetLevel() - 1)* 5) + 25
-		caster:SetModifierStackCount("modifier_rune_bonus_damage", ability, mana_bonus )
+		local bonus_damage = (caster:GetLevel() - 1)* 7.8 * 100
+		caster:SetModifierStackCount("modifier_rune_bonus_damage", ability, bonus_damage )
 	end
 	if caster:HasModifier("modifier_rune_bonus_as") then
-		local mana_bonus = ((caster:GetLevel() - 1)* 2) + 22
-		caster:SetModifierStackCount("modifier_rune_bonus_as", ability, mana_bonus )
+		local bonus_as = (caster:GetLevel() - 1)* 3
+		caster:SetModifierStackCount("modifier_rune_bonus_as", ability, bonus_as )
 	end
-	if caster:HasModifier("modifier_rune_bonus_physical_res") then
-		local mana_bonus = ((caster:GetLevel() - 1) * 4)  + 20
-		caster:SetModifierStackCount("modifier_rune_bonus_physical_res", ability, mana_bonus )
+	if caster:HasModifier("modifier_rune_bonus_hp_regen") then
+		local hp_regen = caster:GetMaxHealth() * 0.7
+		caster:SetModifierStackCount("modifier_rune_bonus_hp_regen", ability, hp_regen )
 	end
+	if caster:HasModifier("modifier_rune_bonus_mana_regen") then
+		local mana_regen = caster:GetMaxMana() * 0.4
+		caster:SetModifierStackCount("modifier_rune_bonus_mana_regen", ability, mana_regen )
+	end
+end
 
-	
-	if caster:HasModifier("modifier_rune_bonus_magic_damage") then
-		local mana_bonus = ((caster:GetLevel() - 1) * 3)  + 40
-		caster:SetModifierStackCount("modifier_rune_bonus_magic_damage", ability, mana_bonus )
+function set_base_stat( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	if caster:HasModifier("modifier_rune_base_hp") then
+		caster:SetModifierStackCount("modifier_rune_base_hp", ability, caster:GetMaxHealth() )
 	end
-	if caster:HasModifier("modifier_rune_bonus_magic_res") then
-		local mana_bonus = ((caster:GetLevel() - 1) * 4)  + 20
-		caster:SetModifierStackCount("modifier_rune_bonus_magic_res", ability, mana_bonus )
+	if caster:HasModifier("modifier_rune_base_mana") then
+		caster:SetModifierStackCount("modifier_rune_base_mana", ability, caster:GetMaxMana() )
 	end
-
 end

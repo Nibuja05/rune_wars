@@ -1,0 +1,81 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf23:version{636cefcd-6551-40ad-801c-6085f7e67e27} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_bShouldHitboxesFallbackToRenderBounds = false
+	m_nMaxParticles = 0
+	m_Children = 
+	[
+		{
+			m_ChildRef = resource:"particles/econ/items/elder_titan/elder_titan_ti7/elder_titan_echo_stomp_ti7_cracks_lighten.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/elder_titan/elder_titan_ti7/elder_titan_echo_stomp_ti7_cracks.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/elder_titan/elder_titan_ti7/elder_titan_echo_stomp_ti7_ground_mark.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/core_abilities/column_of_destruction/stomp_ti7_dust.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/core_abilities/column_of_destruction/elder_titan_echo_stomp_ti7_shock.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/elder_titan/elder_titan_ti7/elder_titan_echo_stomp_ti7_debris_large.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/core_abilities/column_of_destruction/stomp_ti7_debris_small.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/elder_titan/elder_titan_ti7/elder_titan_echo_stomp_ti7_shock_b.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/elder_titan/elder_titan_ti7/elder_titan_echo_stomp_ti7_warp.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/elder_titan/elder_titan_ti7/elder_titan_echo_stomp_ti7_ring_wave.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/core_abilities/column_of_destruction/elder_titan_echo_stomp_ti7_energy.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/core_abilities/column_of_destruction/elder_titan_echo_stomp_ti7_shock_b.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/elder_titan/elder_titan_ti7/elder_titan_echo_stomp_ti7_shock_c.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/elder_titan/elder_titan_ti7/elder_titan_echo_stomp_ti7_end.vpcf"
+		},
+	]
+	m_controlPointConfigurations = 
+	[
+		{
+			m_name = "preview"
+			m_drivers = 
+			[
+				{
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 1
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 1.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 2
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 255.0, 255.0, 255.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+			]
+		},
+	]
+	m_nBehaviorVersion = 10
+}

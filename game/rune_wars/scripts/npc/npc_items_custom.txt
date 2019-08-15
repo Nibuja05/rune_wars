@@ -10,7 +10,7 @@
 		"Effect"                "particles/generic_gameplay/dropped_item.vpcf"
 		"ItemQuality"           "common"
 		// "Defense"               "1"
-	
+
 		"ItemDisassembleRule"	"DOTA_ITEM_DISASSEMBLE_NEVER"
 		"ItemCost"				"0"
 		"ItemKillable"			"0" 
@@ -18,32 +18,32 @@
 		"ItemPurchasable"		"1"
 		"ItemDroppable"			"1"
 		"ItemShareability"		"ITEM_FULLY_SHAREABLE_STACKING"
-	
+
 		"SideShop"				"1" 
 		"SecretShop"			"0"
-	
+
 		"ItemStackable"			"0"
 		"ItemPermanent"			"0"
-	
+
 		"ItemInitialCharges"	"0"
 		"ItemDisplayCharges"	"0"
 		"ItemRequiresCharges"	"0"
-	
+
 		"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_STORM"
 		"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_UNIT | SPECIAL_ABILITY_KEY_SINGLE_TARGET | SPECIAL_ABILITY_KEY_DAMAGE"
-		"SpecialSpellName"		"spark"
-	
+		"SpecialSpellName"		"blink_strike"
+
 		"AbilitySpecial"
 		{
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"damage"			"25 50 75 100"
+				"damage"			"30 65 100 135"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"range"				"500"
+				"range"				"475"
 			}
 			"03"
 			{
@@ -56,7 +56,79 @@
 				"manacost"			"55"
 			}
 		}
-	} 
+	}
+	"item_ability_core_common_column_of_destruction" 
+	{
+		"ID"                    "2014"
+		"BaseClass"             "item_datadriven"
+		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"    "item_gem"
+		"Model"                 "models/props_gameplay/gem01.vmdl" 
+		"Effect"                "particles/generic_gameplay/dropped_item.vpcf"
+		"ItemQuality"           "common"
+		// "Defense"               "1"
+
+		"ItemDisassembleRule"	"DOTA_ITEM_DISASSEMBLE_NEVER"
+		"ItemCost"				"0"
+		"ItemKillable"			"0" 
+		"ItemSellable"			"0"
+		"ItemPurchasable"		"1"
+		"ItemDroppable"			"1"
+		"ItemShareability"		"ITEM_FULLY_SHAREABLE_STACKING"
+
+		"SideShop"				"1" 
+		"SecretShop"			"0"
+
+		"ItemStackable"			"0"
+		"ItemPermanent"			"0"
+
+		"ItemInitialCharges"	"0"
+		"ItemDisplayCharges"	"0"
+		"ItemRequiresCharges"	"0"
+
+		"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_FIRE"
+		"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_POINT | SPECIAL_ABILITY_KEY_AOE | SPECIAL_ABILITY_KEY_DAMAGE | SPECIAL_ABILITY_KEY_DEBUFF"
+		"SpecialSpellName"		"column_of_destruction"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"80 110 140 170"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"range"				"650"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"cooldown"			"11"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"manacost"			"60"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"delay"	"0.6"
+			}
+			"06"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"duration"	"1.25"
+			}
+			"07"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"radius"	"250"
+			}
+		}
+	}  
 	"item_ability_core_common_fireball" 
 	{
 		"ID"                    "2006"
