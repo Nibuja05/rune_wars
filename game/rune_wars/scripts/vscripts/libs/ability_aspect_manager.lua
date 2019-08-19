@@ -7,13 +7,7 @@ function AbilityAspects:BuildCoreAbility(caster)
 
 	local inv = self:GetInventory(caster, "backpack")
 	local cores = {}
-	-- for k,v in pairs(inv) do
-	-- 	if v:GetName():find("item_ability_core") then
-	-- 		if not core then
-	-- 			cores[k % 3] = v
-	-- 		end
-	-- 	end
-	-- end
+	local runes = {}
 	local runeTable = CustomNetTables:GetTableValue("rune_slots", tostring(caster:entindex()))
 	for key,val in pairs(runeTable) do
 		local coreIndex = -1
@@ -28,6 +22,13 @@ function AbilityAspects:BuildCoreAbility(caster)
 			local core = EntIndexToHScript(tonumber(val.core))
 			if core:GetName():find("item_ability_core") then
 				cores[coreIndex] = core
+			end
+			local runeCount = self:GetTableLength(val.runes)
+			if runeCount > 0 then
+				runes[coreIndex] = {}
+				for k,v in pairs(val.runes) do
+					runes[coreIndex][k] = EntIndexToHScript(tonumber(v))
+				end
 			end
 		end
 	end
@@ -58,6 +59,7 @@ function AbilityAspects:BuildCoreAbility(caster)
 		end
 
 		local ability = GenericAbility:GetGenericAbilityByIndex(caster, index)
+		if not ability then return end
 
 		local spellName = coreKVs.SpecialSpellName
 		assert(require("cores/"..spellName..""), "No valid spell found for "..spellName)
@@ -70,14 +72,48 @@ function AbilityAspects:BuildCoreAbility(caster)
 		AbilityAspects:AddAbilitySpecialKeys(ability, coreKVs.SpecialAbilityType)
 
 		GenericAbility:ClearCustomFunctions(ability)
+		GenericAbility:AddFunction(ability, "GetReferenceItem", spell["GetReferenceItem"])
 		for _,val in pairs(funcs) do
 			GenericAbility:AddFunction(ability, val, spell[val])
 		end
 
-		ability:ReloadAbility()
+		ability:SetCurrentRunes({})
+		local spellRunes = runes[index]
+		if spellRunes then
+			for k,v in pairs(spellRunes) do
+				self:AddRune(ability, k, v)
+			end
+		end
 
+		ability:ReloadAbility()
 	end
-	
+end
+
+function AbilityAspects:AddRune(ability, index, item)
+	local runeName = item:GetName()
+	local curRunes = ability:GetCurrentRunes()
+	if self:FindValueInTable(curRunes, runeName) then return end
+	curRunes[index] = runeName
+	ability:ClearAllSpecialRuneValues(runeName)
+
+	local runeKVs = item:GetAbilityKeyValues()
+	local requirements = runeKVs.KeyRequirements
+	if not ability:HasSpecialAbilityKey(DOTA_EXTRA_ENUMS[requirements]) then
+		RuneBuilder:SetRuneDisabled(ability, index)
+	end
+	local runeName = runeKVs.RuneName
+	assert(require("runes/"..runeName..""), "No valid rune found for "..runeName)
+	local rune = _G[runeName]
+
+	local funcs = rune:GetAdditionalFunctions()
+	for _,func in pairs(funcs) do
+		GenericAbility:AddFunction(ability, func, rune[func])
+	end
+
+	local specials = self:ExtractAbilitySpecials(runeKVs)
+	for _,special in pairs(specials) do
+		ability:AddSpecialRuneValue(special.name, special.text, special.val, runeName)
+	end
 end
 
 function AbilityAspects:AddAbilitySpecialKeys(ability, specials)
@@ -137,4 +173,21 @@ function AbilityAspects:GetInventory(unit, invType)
 		end
 	end
 	return invTable
+end
+
+function AbilityAspects:GetTableLength(table)
+	local index = 0
+	for _,k in pairs(table) do
+		index = index + 1
+	end
+	return index
+end
+
+function AbilityAspects:FindValueInTable(tab, value)
+	for _,val in pairs(tab) do
+		if val == value then
+			return true
+		end
+	end
+	return false
 end

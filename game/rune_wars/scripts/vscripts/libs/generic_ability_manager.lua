@@ -9,7 +9,7 @@ function GenericAbility:Init()
 end
 
 function GenericAbility:InitHero(hero)
-	print("Initializing for hero "..hero:GetUnitName())
+	print("[GA] Initializing for hero "..hero:GetUnitName())
 	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(hero:entindex()))
 	if not netTable then
 		netTable = {}
@@ -61,7 +61,7 @@ function GenericAbility:InitHero(hero)
 
 	netTable.nameLookup = nameTable
 	CustomNetTables:SetTableValue("generic_ability", tostring(hero:entindex()), netTable)
-	print("Initialized Hero!")
+	print("[GA] Initialized Hero!")
 
 	Timers:CreateTimer({
 		useGameTime = false,
@@ -103,6 +103,9 @@ function GenericAbility:ResetAbility(hero, ability, index)
 	abilityTable.dispelType = DOTA_EXTRA_ENUMS.DOTA_ABILITY_DISPEL_TYPE_NONE
 	abilityTable.spellImmunity = DOTA_EXTRA_ENUMS.SPELL_IMMUNITY_NONE
 	abilityTable.attributes = {}
+	abilityTable.runeAttributes = {}
+
+	ability:SetCurrentRunes({})
 
 	netTable.abilities[tostring(index)] = abilityTable
 	CustomNetTables:SetTableValue("generic_ability", tostring(hero:entindex()), netTable)
@@ -180,14 +183,17 @@ function GenericAbility:GetGenericAbilityByIndex(unit, index)
 	return ability
 end
 
-function GenericAbility:AddFunction(ability, funcName, func)
+function GenericAbility:AddFunction(ability, funcName, func, itemName)
 	-- print("Adding the function "..ability:GetAbilityName()..":"..funcName.."()")
 	if not ability.funcs then
 		ability.funcs = {}
 	end
+	if funcName == "GetReferenceItem" then
+		ability[funcName] = func
+		return
+	end
 	if not ability[funcName] or not ability.funcs[funcName] then
 		ability.funcs[funcName] = {}
-		table.insert(ability.funcs[funcName], func)
 
 		local function ExecuteFunctions(self, funcName, ...)
 			-- print("Exec "..funcName.."()...")
@@ -204,9 +210,12 @@ function GenericAbility:AddFunction(ability, funcName, func)
 			return finalRet
 		end
 		ability[funcName] = function(self, ...) return ExecuteFunctions(self, funcName, ...) end
-	else
-		table.insert(ability.funcs[funcName], func)
 	end
+	if not itemName then
+		itemName = ability:GetReferenceItem()
+	end
+	ability.funcs[funcName][itemName] = func
+	-- table.insert(ability.funcs[funcName], func)
 end
 
 function GenericAbility:AddFunctionOverwrite(ability, funcName, func)
@@ -217,6 +226,26 @@ function GenericAbility:AddFunctionOverwrite(ability, funcName, func)
 	ability[funcName] = nil
 	ability.funcs[funcName] = nil
 	self:AddFunction(ability, funcName, func)
+end
+
+function GenericAbility:RemoveFunction(ability, funcName, itemName)
+	if not ability.funcs then
+		return
+	end
+	if not ability.funcs[funcName] then
+		return
+	end
+	if not itemName then
+		itemName = ability:GetReferenceItem()
+	end
+	for key, val in pairs(ability.funcs[funcName]) do
+		print("[GA] "..key..", "..itemName)
+		if key == itemName then
+			ability.funcs[funcName][key] = nil
+			print("[GA] Return!")
+			return
+		end
+	end
 end
 
 function GenericAbility:ClearCustomFunctions(ability)

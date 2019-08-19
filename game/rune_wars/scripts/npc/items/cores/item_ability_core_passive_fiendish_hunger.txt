@@ -1,9 +1,9 @@
-"item_ability_core_common_dispel_magic" 
+"item_ability_core_passive_fiendish_hunger" 
 {
-	"ID"                    "2012"
+	"ID"                    "2011"
 	"BaseClass"             "item_datadriven"
 	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-	"AbilityTextureName"    "item_gem"
+	"AbilityTextureName"    "item_core"
 	"Model"                 "models/props_gameplay/gem01.vmdl" 
 	"Effect"                "particles/generic_gameplay/dropped_item.vpcf"
 	"ItemQuality"           "common"
@@ -27,31 +27,16 @@
 	"ItemDisplayCharges"	"0"
 	"ItemRequiresCharges"	"0"
 
-	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_NONE"
-	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_SELF | SPECIAL_ABILITY_KEY_SINGLE_TARGET | SPECIAL_ABILITY_KEY_BUFF"
-	"SpecialSpellName"		"dispel_magic"
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_CHAOS"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_PASSIVE | SPECIAL_ABILITY_KEY_BUFF"
+	"SpecialSpellName"		"fiendish_hunger"
 
 	"AbilitySpecial"
 	{
 		"01"
 		{
-			"var_type"			"FIELD_INTEGER"
-			"bonus_resistance"				"20 25 30 35"
-		}
-		"02"
-		{
-			"var_type"			"FIELD_INTEGER"
-			"duration"				"5"
-		}
-		"03"
-		{
-			"var_type"			"FIELD_INTEGER"
-			"cooldown"			"25"
-		}
-		"04"
-		{
-			"var_type"			"FIELD_INTEGER"
-			"manacost"			"40"
+			"var_type"					"FIELD_INTEGER"
+			"lifesteal"					"9 12 15 18"
 		}
 	}
 } 

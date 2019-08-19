@@ -260,7 +260,14 @@ function IsValidDropTarget(targetPanel, draggedPanel) {
 		var pid = Game.GetLocalPlayerID();
 		var unit = Players.GetLocalPlayerPortraitUnit()
 		if (unit == Players.GetPlayerHeroEntityIndex(pid)) {
-			return true;
+			var slotName = targetPanel.GetParent().id;
+			if (slotName.indexOf("core") >= 0 && newItemName.indexOf("core") >= 0) {
+				return true;
+			} else if (slotName.indexOf("rune") >= 0 && newItemName.indexOf("rune") >= 0) {
+				return true;
+			} else if (slotName.indexOf("remove") >= 0) {
+				return true;
+			}
 		}
 	}
 	return false;
@@ -280,7 +287,7 @@ function AddItemFromPanel(targetPanel, draggedPanel) {
 	if (IsRealInventoryPanel(targetPanel)) {
 		newSlot = -1;
 	} else {
-		$.Msg("Add Item From Panel to " + targetPanel.id);
+		// $.Msg("Add Item From Panel to " + targetPanel.id);
 		newSlot = GetSlotNumberFromRuneSlot(targetPanel.id);
 	}
 	if (draggedPanel.GetAttributeInt("IsCustom", -1) > 0) {
@@ -299,7 +306,7 @@ function AddItemFromPanel(targetPanel, draggedPanel) {
 }
 
 function AddItem(name, slot, id) {
-	$.Msg("Add item " + name + "(" + id + ") to slot " + slot);
+	// $.Msg("Add item " + name + "(" + id + ") to slot " + slot);
 	var oldItem = m_ItemIds[slot];
 	if (slot >= DOTA_ITEM_STASH_MAX) {
 		m_ItemIds[slot] = {Name: name, Id: id};
@@ -321,7 +328,7 @@ function AddItemFromTable(tab) {
 }
 
 function RemoveItem(slot) {
-	$.Msg("Remove Item from slot " + slot);
+	// $.Msg("Remove Item from slot " + slot);
 	if (slot >= DOTA_ITEM_STASH_MAX) {
 		var slotName = GetRuneSlotFromSlotNumber(slot);
 		var slotPanel = $("#" + slotName);
@@ -335,7 +342,7 @@ function RemoveItem(slot) {
 }
 
 function MoveItem() {
-	$.Msg("Move Item!");
+	// $.Msg("Move Item!");
 	var itemTable = m_ItemIds[m_lastSlot];
 	RemoveItem(m_lastSlot);
 	AddInventoryItem(itemTable["Name"], itemTable["Id"], -1);
@@ -426,21 +433,42 @@ function GetRuneSlotFromSlotNumber(slotNumber) {
 // ============================================================================================
 
 function RemoveInventoryItemFromSlot(slot) {
-	$.Msg("Sending Server Request to delete item from slot " + slot + "...");
+	// $.Msg("Sending Server Request to delete item from slot " + slot + "...");
 	var pID = Players.GetLocalPlayer();
 	GameEvents.SendCustomGameEventToServer("delete_inv_item", {"playerID" : pID, "itemSlot" : slot} );
 }
 
 function AddInventoryItem(name, id, slot) {
-	$.Msg("Sending Server Request to add " + name + " to the inventory...");
+	// $.Msg("Sending Server Request to add " + name + " to the inventory...");
 	var pID = Players.GetLocalPlayer();
 	GameEvents.SendCustomGameEventToServer("add_inv_item", {"playerID" : pID, "itemName" : name, "itemID" : id, "itemSlot" : slot} );
 }
 
 function RuneUpdate() {
-	$.Msg("Sending Server Information, that the cores/runes have changed...");
+	// $.Msg("Sending Server Information, that the cores/runes have changed...");
 	var pID = Players.GetLocalPlayer();
 	GameEvents.SendCustomGameEventToServer("update_runes", {"playerID" : pID, "runeTable" : m_ItemIds} );
+	UnmarkAllRuneSlots();
+}
+
+// ============================================================================================
+// Requested Functions
+// ============================================================================================
+
+function MarkRuneSlot(table) {
+	var runeSlot = $("#" + table.slotName);
+	runeSlot.AddClass("rune_slot_disabled");
+}
+
+function UnmarkAllRuneSlots() {
+	var baseChilds = $.GetContextPanel().Children()
+	for (var i = 0; i < baseChilds.length; i++) {
+		var containerChilds = baseChilds[i].Children();
+		for (var j = 0; j < containerChilds.length; j++) {
+			containerChilds[j].RemoveClass("rune_slot_disabled")
+			containerChilds[j].RemoveClass("potential_drop_target")
+		}
+	}
 }
 
 // ============================================================================================
@@ -451,6 +479,7 @@ function RuneUpdate() {
 (function() {
 	// ReplaceButtons();
 	GameEvents.Subscribe("init_rune_slots", InitRuneSlots);
+	GameEvents.Subscribe("mark_rune_slot", MarkRuneSlot);
 })();
 
 

@@ -22,10 +22,10 @@ function HeroStats:Init()
 end
 
 function HeroStats:OnNPCSpawned(event)
-	print("Add Elemental Modifier!")
 	local hero = EntIndexToHScript(event.entindex)
 	if hero:IsRealHero() then
 		if not hero:HasModifier("modifier_fire_power") then
+			print("Add Elemental Modifier!")
 			hero:AddNewModifier(hero, nil, "modifier_fire_power", nil)
 			hero:AddNewModifier(hero, nil, "modifier_fire_resistance", nil)
 			hero:AddNewModifier(hero, nil, "modifier_water_power", nil)
@@ -245,7 +245,7 @@ function modifier_element_base:IsPassive()
 end
 
 function modifier_element_base:IsHidden()
-	return false
+	return true
 end
 
 function modifier_element_base:IsPurgable()

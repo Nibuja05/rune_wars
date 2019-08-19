@@ -25,6 +25,22 @@ function generic_ability:ClearAllSpecialValues()
 	self:ClearAttributes()
 end
 
+function generic_ability:GetSpecialRuneValueFor(name, runeName)
+	return tonumber(self:GetRuneAttribute(name, runeName))
+end
+
+function generic_ability:AddSpecialRuneValue(name, text, val, runeName)
+	self:AddRuneAttribute(name, text, val, runeName)
+end
+
+function generic_ability:RemoveSpecialRuneValue(name, runeName)
+	self:RemoveRuneAttribute(name, runeName)
+end
+
+function generic_ability:ClearAllSpecialRuneValues(runeName)
+	self:ClearRuneAttributes(runeName)
+end
+
 function generic_ability:GetBehavior()
 	local val
 	if IsClient() then
@@ -182,6 +198,14 @@ end
 
 function generic_ability:SetAbilityTitle(title)
 	self:SetValues("title", title)
+end
+
+function generic_ability:GetCurrentRunes()
+	return self.runes
+end
+
+function generic_ability:SetCurrentRunes(curRunes)
+	self.runes = curRunes
 end
 
 function generic_ability:GetAbilitySpecialKeys()
@@ -393,13 +417,6 @@ function generic_ability:AddAttribute(name, text, val)
 		Key = text,
 		Val = val
 	}
-	local function GetTableLength(table)
-		local index = 0
-		for _,k in pairs(table) do
-			index = index + 1
-		end
-		return index
-	end
 	table.insert(abilityTable.attributes, GetTableLength(abilityTable.attributes), newTable)
 	netTable.abilities[tostring(abilityIndex)] = abilityTable
 	CustomNetTables:SetTableValue("generic_ability", tostring(caster:entindex()), netTable)
@@ -436,6 +453,84 @@ function generic_ability:ClearAttributes()
 	local abilityTable = netTable.abilities[tostring(abilityIndex)]
 	if not abilityTable then return 0 end
 	abilityTable.attributes = {}
+	netTable.abilities[tostring(abilityIndex)] = abilityTable
+	CustomNetTables:SetTableValue("generic_ability", tostring(caster:entindex()), netTable)
+end
+
+function generic_ability:GetRuneAttribute(name, runeName)
+	local caster = self:GetCaster()
+	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
+	if not netTable then return 0 end
+	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
+	if not abilityIndex then return 0 end
+	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	if not abilityTable then return 0 end
+	local runeTable = abilityTable.runeAttributes
+	if not runeTable[runeName] then return 0 end
+
+	return FindAttribute(runeTable[runeName], name)
+end
+
+function generic_ability:AddRuneAttribute(name, text, val, runeName)
+	local caster = self:GetCaster()
+	self:RemoveRuneAttribute(name, runeName)
+	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
+	if not netTable then return 0 end
+	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
+	if not abilityIndex then return 0 end
+	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	if not abilityTable then return 0 end
+	local runeTable = abilityTable.runeAttributes
+	if not runeTable[runeName] then runeTable[runeName] = {} end
+	local newTable = {
+		Name = name,
+		Key = text,
+		Val = val
+	}
+	table.insert(runeTable[runeName], GetTableLength(runeTable[runeName]), newTable)
+	abilityTable.runeAttributes = runeTable
+	netTable.abilities[tostring(abilityIndex)] = abilityTable
+
+	CustomNetTables:SetTableValue("generic_ability", tostring(caster:entindex()), netTable)
+end
+
+function generic_ability:RemoveRuneAttribute(name, runeName)
+	local caster = self:GetCaster()
+	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
+	if not netTable then return 0 end
+	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
+	if not abilityIndex then return 0 end
+	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	if not abilityTable then return 0 end
+	local runeTable = abilityTable.runeAttributes
+	if not runeTable[runeName] then return 0 end
+
+	local function removeAttribute(table, attrName)
+		for _,obj in pairs(table) do
+			if obj.Name:lower() == attrName:lower() then
+				obj = nil
+			end
+		end
+		return table
+	end
+	abilityTable.runeAttributes = removeAttribute(runeTable[runeName], name)
+	netTable.abilities[tostring(abilityIndex)] = abilityTable
+	CustomNetTables:SetTableValue("generic_ability", tostring(caster:entindex()), netTable)
+end
+
+function generic_ability:ClearRuneAttributes(runeName)
+	local caster = self:GetCaster()
+	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
+	if not netTable then return 0 end
+	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
+	if not abilityIndex then return 0 end
+	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	if not abilityTable then return 0 end
+	if not runeName then
+		abilityTable.runeAttributes = {}
+	else
+		abilityTable.runeAttributes[runeName] = {}
+	end
 	netTable.abilities[tostring(abilityIndex)] = abilityTable
 	CustomNetTables:SetTableValue("generic_ability", tostring(caster:entindex()), netTable)
 end
@@ -481,6 +576,78 @@ end
 function generic_ability:UpdateCastPoint()
 	local castPoint = self:GetCastPoint()
 	self:SetOverrideCastPoint(castPoint)
+end
+
+function generic_ability:OnProjectileHit(hTarget, vLocation)
+	if hTarget then
+		if self["OnProjectileHitUnit"] then return self:OnProjectileHitUnit(hTarget) end
+	else
+		if self["OnProjectileFinish"] then return self:OnProjectileFinish(vLocation) end
+	end
+	return false
+end
+
+-- Extra Data contains:
+-- start, direction, speed, distance, width
+function generic_ability:OnProjectileHit_ExtraData(hTarget, vLocation, extraData)
+	if extraData then
+		local start = Vector(extraData.startX, extraData.startY, extraData.startZ)
+		extraData.startX = nil
+		extraData.startY = nil
+		extraData.startZ = nil
+		extraData.start = start
+		local direction = Vector(extraData.directionX, extraData.directionY, extraData.directionZ)
+		extraData.directionX = nil
+		extraData.directionY = nil
+		extraData.directionZ = nil
+		extraData.direction = direction
+	end
+	if hTarget then
+		if self["OnProjectileHitUnitExtra"] then return self:OnProjectileHitUnitExtra(hTarget, extraData) end
+	else
+		if self["OnProjectileHitFinishExtra"] then return self:OnProjectileHitFinishExtra(vLocation, extraData) end
+	end
+	return false
+end
+
+function generic_ability:DoLinearProjectile(startLoc, direction, speed, distance, width, visionRadius, extraData)
+	local caster = self:GetCaster()
+
+	if not extraData then extraData = {} end
+	extraData.startX = startLoc.x
+	extraData.startY = startLoc.y
+	extraData.startZ = startLoc.z
+	extraData.directionX = direction.x
+	extraData.directionY = direction.y
+	extraData.directionZ = direction.z
+	extraData.speed = speed
+	extraData.distance = distance
+	extraData.width = width
+	extraData.visionRadius = visionRadius
+
+	local info = 
+	{
+		Ability = self,
+    	EffectName = self:GetProjectileParticle(),
+    	vSpawnOrigin = startLoc,
+    	fDistance = distance,
+    	fStartRadius = width,
+    	fEndRadius = width,
+    	Source = caster,
+    	bHasFrontalCone = true,
+    	bReplaceExisting = false,
+    	iUnitTargetTeam = self:GetAbilityTargetTeam(),
+    	iUnitTargetFlags = self:GetAbilityTargetFlags(),
+    	iUnitTargetType = self:GetAbilityTargetType(),
+    	fExpireTime = GameRules:GetGameTime() + 10.0,
+		bDeleteOnHit = true,
+		vVelocity = direction * speed,
+		bProvidesVision = (visionRadius ~= nil or visionRadius > 0),
+		iVisionRadius = visionRadius,
+		iVisionTeamNumber = caster:GetTeamNumber(),
+		ExtraData = extraData,
+	}
+	local projectile = ProjectileManager:CreateLinearProjectile(info)
 end
 
 -- function generic_ability:CheckReloaded()

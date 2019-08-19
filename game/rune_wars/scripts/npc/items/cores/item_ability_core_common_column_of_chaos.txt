@@ -1,9 +1,9 @@
-"item_ability_core_passive_fiendish_hunger" 
+"item_ability_core_common_fireball" 
 {
-	"ID"                    "2011"
+	"ID"                    "2006"
 	"BaseClass"             "item_datadriven"
 	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-	"AbilityTextureName"    "item_gem"
+	"AbilityTextureName"    "item_core"
 	"Model"                 "models/props_gameplay/gem01.vmdl" 
 	"Effect"                "particles/generic_gameplay/dropped_item.vpcf"
 	"ItemQuality"           "common"
@@ -27,16 +27,36 @@
 	"ItemDisplayCharges"	"0"
 	"ItemRequiresCharges"	"0"
 
-	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_CHAOS"
-	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_PASSIVE | SPECIAL_ABILITY_KEY_BUFF"
-	"SpecialSpellName"		"fiendish_hunger"
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_FIRE"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_POINT | SPECIAL_ABILITY_KEY_LINEAR_PROJECTILE | SPECIAL_ABILITY_KEY_MULTI_TARGET | SPECIAL_ABILITY_KEY_DAMAGE"
+	"SpecialSpellName"		"fireball"
 
 	"AbilitySpecial"
 	{
 		"01"
 		{
-			"var_type"					"FIELD_INTEGER"
-			"lifesteal"					"9 12 15 18"
+			"var_type"			"FIELD_INTEGER"
+			"damage"			"80 110 140 170"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"range"				"750"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"cooldown"			"7.0 6.5 6.0 5.5"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"manacost"			"40 50 60 70"
+		}
+		"05"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"projectile_speed"	"1200"
 		}
 	}
 } 

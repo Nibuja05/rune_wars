@@ -1,0 +1,19 @@
+<root>
+  <styles>
+    <include src="file://{resources}/styles/custom_game/small_stats.css" />
+    <include src="s2r://panorama/styles/dotastyles.vcss_c" />
+    <include src="s2r://panorama/styles/hud/tooltip_unit_damage_armor.vcss_c" />
+  </styles>
+  <Panel class="big_container LeftRightFlow AttributeRow" hittest="true">
+    <Panel id="BigIcon" class="AttributeIcon" />
+    <Panel id="AttributeDetails" class="AttributeDetails TopBottomFlow">
+    	<Panel id="AttributeValues" class="LeftRightFlow">
+    		<Label id="AttributeText" class="BaseAttributeValue"/>
+    		<Label id="AttributeBonus" class="BonusAttributeValue"/>
+    		<Label id="AttributeExtra" class="AttributeGain"/>
+    	</Panel>
+    	<Label id="AttributeDetails" class="StatBreakdownLabel"/>
+    </Panel>
+    <Label id="SmallLabel" class="small_label" />
+  </Panel>
+</root>

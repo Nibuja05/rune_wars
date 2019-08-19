@@ -23,7 +23,9 @@
 	}
 
 	"weapons_armor"
-	{ 
+	{
+		"item"			"item_ability_rune_uncommon_split"
+		"item"			"item_ability_rune_uncommon_split_back"
 	}
 			
 	"misc"

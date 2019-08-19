@@ -8,7 +8,7 @@ end
 function freeze:GetFunctions()
 	local funcs = {
 		"DoTrackingProjectile",
-		"OnProjectileHit",
+		"OnProjectileHitUnit",
 		"OnSpellStart",
 	}
 	return funcs
@@ -56,7 +56,7 @@ function freeze:DoTrackingProjectile(startLoc, endUnit, speed, optVal)
 	ProjectileManager:CreateTrackingProjectile(info)
 end
 
-function freeze:OnProjectileHit(hTarget, vLocation)
+function freeze:OnProjectileHitUnit(hTarget)
 	local caster = self:GetCaster()
 	local duration = self:GetSpecialValueFor("freeze_duration")
 	hTarget:AddNewModifier(caster, self, "modifier_freeze_debuff", {Duration = duration})

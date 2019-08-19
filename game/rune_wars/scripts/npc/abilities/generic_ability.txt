@@ -1,8 +1,0 @@
-
-"generic_ability"
-{
-	"BaseClass"     					"ability_lua"
-	"ScriptFile"    					"libs/generic_ability"
-	"FightRecapLevel"    				"1"
-	"AbilityTextureName"				"modifier_invulnerable"
-}

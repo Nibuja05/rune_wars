@@ -22,7 +22,8 @@ end
 
 function PrintTable(t, indent, done)
   -- print ( string.format ('PrintTable type %s', type(keys)) )
-  if type(t) ~= "table" then print("Empty table!"); return end
+  if t == {} then print("Empty table!") end
+  if type(t) ~= "table" then return end
 
   done = done or {}
   done[t] = true

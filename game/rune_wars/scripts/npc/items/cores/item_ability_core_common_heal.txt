@@ -3,7 +3,7 @@
 	"ID"                    "2002"
 	"BaseClass"             "item_datadriven"
 	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-	"AbilityTextureName"    "item_gem"
+	"AbilityTextureName"    "item_core"
 	"Model"                 "models/props_gameplay/gem01.vmdl" 
 	"Effect"                "particles/generic_gameplay/dropped_item.vpcf"
 	"ItemQuality"           "common"

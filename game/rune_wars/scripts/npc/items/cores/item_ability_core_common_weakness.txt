@@ -1,9 +1,9 @@
-"item_ability_core_common_healing_touch" 
+"item_ability_core_common_weakness" 
 {
-	"ID"                    "2010"
+	"ID"                    "2004"
 	"BaseClass"             "item_datadriven"
 	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-	"AbilityTextureName"    "item_gem"
+	"AbilityTextureName"    "item_core"
 	"Model"                 "models/props_gameplay/gem01.vmdl" 
 	"Effect"                "particles/generic_gameplay/dropped_item.vpcf"
 	"ItemQuality"           "common"
@@ -27,33 +27,26 @@
 	"ItemDisplayCharges"	"0"
 	"ItemRequiresCharges"	"0"
 
-	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_NONE"
-	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_UNIT | SPECIAL_ABILITY_KEY_TRACKING_PROJECTILE | SPECIAL_ABILITY_KEY_SINGLE_TARGET | SPECIAL_ABILITY_KEY_HEAL"
-	"SpecialSpellName"		"healing_touch"
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_CHAOS"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_PASSIVE | SPECIAL_ABILITY_KEY_AOE | SPECIAL_ABILITY_KEY_BUFF"
+	"SpecialSpellName"		"weakness"
 
 	"AbilitySpecial"
 	{
 		"01"
 		{
-			"var_type"			"FIELD_INTEGER"
-			"heal"			"40 70 100 130"
+			"var_type"					"FIELD_INTEGER"
+			"radius"					"300 450 600 750"
 		}
 		"02"
 		{
-			"var_type"			"FIELD_INTEGER"
-			"range"				"600"
+			"var_type"					"FIELD_FLOAT"
+			"damage_amplificaton"		"5.0 7.5 10 12.5"
 		}
 		"03"
 		{
-			"var_type"			"FIELD_FLOAT"
-			"cooldown"			"8"
-		}
-		"04"
-		{
-			"var_type"			"FIELD_INTEGER"
-			"manacost"			"55"
+			"var_type"					"FIELD_FLOAT"
+			"damage_reduction"	"8.0 12.0 16.0 20.0"
 		}
 	}
 } 
-
-

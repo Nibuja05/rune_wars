@@ -1,6 +1,9 @@
 
 $.Msg("Custom Stat Hud loading!!!")
 
+var attribute_panels = {};
+var small_attribute_labels = {};
+
 // Find HUD Elements
 var base = $.GetContextPanel().GetParent().GetParent().GetParent();
 var x = base.FindChildTraverse('HUDElements');
@@ -37,21 +40,30 @@ function UpdateStats(tableName, tableKey, table) {
 	}
 	for (var key in elementSort) {
 		var entry = elementSort[key];
-		// UpdateAttributs(key, entry["Power"], entry["Resistance"]);
-		// UpdateSmallAttributes(key, entry["Power"], entry["Resistance"]);
+		UpdateAttributs(key, entry["Power"], entry["Resistance"]);
+		UpdateSmallAttributes(key, entry["Power"], entry["Resistance"]);
 	}
 }
 
 function UpdateAttributs(name, power, resist) {
 	var statPanel = GetTooltipStatPanel();
-	var attributes = statPanel.FindChildTraverse('AttributesContainer');
-	var attributePanel = attributes.FindChildTraverse(name + "Container");
-	$.Msg(attributePanel);
+	if (statPanel) {
+		var details = attribute_panels[name];
+		var values = details.FindChildTraverse('AttributeValues');
+		var attrText = values.FindChildTraverse('AttributeText');
+		attrText.text = name + ": ";
+		var attrBonus = values.FindChildTraverse('AttributeBonus');
+		attrBonus.text = power + "/" + resist;
+		var attrExtra = values.FindChildTraverse('AttributeExtra');
+		attrExtra.text = "(Additional Information)";
+		var attrDetails = details.FindChildTraverse('AttributeDetails');
+		attrDetails.text = "= 10% Bonus Damage with " + name + " and 0% Defense against it.";
+	}
 }
 
 function UpdateSmallAttributes(name, power, resist) {
-	var attributePanel = $("#Small" + name + "Container");
-	$.Msg(attributePanel);
+	var attributeLabel = small_attribute_labels[name];
+	attributeLabel.text = power + "/" + resist;
 }
 
 // ============================================================================================
@@ -108,39 +120,25 @@ function CreateNewAttributePanel(parent, name) {
 	}
 	var newAttr = $.CreatePanel("Panel", $.GetContextPanel(), name + "Container");
 	newAttr.SetParent(parent);
-	newAttr.AddClass('LeftRightFlow');
-	newAttr.AddClass('AttributeRow');
-	newAttr.style.marginLeft = "6px";
-	newAttr.style.marginBottom = "6px";
-	newAttr.style.backgroundColor = "gradient( linear, 90% 0%, 0% 0%, from(#000), to(" + GetElementColor(name) + "))";
-	var newIcon = $.CreatePanel("Panel", newAttr, name + "Icon");
-	newIcon.AddClass('AttributeIcon');
-	var imageName = 'url("file://{images}/custom_game/' + name.toLowerCase() + '.png")';
-	newIcon.style.backgroundImage = imageName;
-	var newDetails = $.CreatePanel("Panel", newAttr, name + "DetailsContainer");
-	newDetails.AddClass('AttributeDetails');
-	newDetails.AddClass('TopBottomFlow');
-	var newAttributeValues = $.CreatePanel("Panel", $.GetContextPanel(), "AttributeValues");
-	newAttributeValues.SetParent(newDetails);
-	newAttributeValues.AddClass('LeftRightFlow');
+	newAttr.BLoadLayout( "file://{resources}/layout/custom_game/big_stats.xml", false, false );
+	newAttr.AddClass(name.toLowerCase() + "_background");
 
-	var newAttributeText = $.CreatePanel("Label", $.GetContextPanel(), "Base" + name + "Label");
-	newAttributeText.SetParent(newAttributeValues);
-	newAttributeText.AddClass('BaseAttributeValue');
-	newAttributeText.text = name + ":";
-	var newAttributeBonus = $.CreatePanel("Label", $.GetContextPanel(), "Bonus" + name + "Label");
-	newAttributeBonus.SetParent(newAttributeValues);
-	newAttributeBonus.AddClass('BonusAttributeValue');
-	newAttributeBonus.text = "10 / 0";
-	var newAttributeExtra = $.CreatePanel("Label", $.GetContextPanel(), "Extra" + name + "Label");
-	newAttributeExtra.SetParent(newAttributeValues);
-	newAttributeExtra.AddClass('AttributeGain');
-	newAttributeExtra.text = "( Additional Information )";
+	var icon = newAttr.FindChildTraverse('BigIcon');
+	icon.AddClass(name.toLowerCase() + "_icon");
 
-	var newAttributeDetails = $.CreatePanel("Label", $.GetContextPanel(), name + "Details");
-	newAttributeDetails.SetParent(newDetails);
-	newAttributeDetails.AddClass('StatBreakdownLabel');
-	newAttributeDetails.text = "= 10% Bonus Damage with " + name + " and 0% Defense against it.";
+	var details = newAttr.FindChildTraverse('AttributeDetails');
+	var values = details.FindChildTraverse('AttributeValues');
+
+	var attrText = values.FindChildTraverse('AttributeText');
+	attrText.text = name + ": ";
+	var attrBonus = values.FindChildTraverse('AttributeBonus');
+	attrBonus.text = "0/0";
+	var attrExtra = values.FindChildTraverse('AttributeExtra');
+	attrExtra.text = "(Additional Information)";
+	var attrDetails = details.FindChildTraverse('AttributeDetails');
+	attrDetails.text = "= 10% Bonus Damage with " + name + " and 0% Defense against it.";
+
+	attribute_panels[name] = newAttr;
 }
 
 function CreateSmallAttributes() {
@@ -185,49 +183,15 @@ function CreateSmallAttributes() {
 function CreateNewSmallAttributePanel(parent, name) {
 	var container = $.CreatePanel("Panel", $.GetContextPanel(), "Small" + name + "Container");
 	container.SetParent(parent);
-	container.style.width = parent.style.width;
-	container.style.height = "20px";
-	container.style.marginTop = "2px";
-	container.style.flowChildren = "left";
+	container.BLoadLayout( "file://{resources}/layout/custom_game/small_stats.xml", false, false );
 
-	$.Msg(container.style);
+	var smallIcon = container.FindChildTraverse('SmallIcon');
+	smallIcon.AddClass(name.toLowerCase() + "_icon_small");
 
-	var smallIcon = $.CreatePanel("Panel", $.GetContextPanel(), "Small" + name + "Icon");
-	smallIcon.SetParent(container);
-	var imageName = 'url("file://{images}/custom_game/' + name.toLowerCase() + '_small.png")';
-	smallIcon.style.width = "20px";
-	smallIcon.style.height = "20px";
-	smallIcon.style.backgroundImage = imageName;
+	var smallLabel = container.FindChildTraverse('SmallLabel');
+	smallLabel.text = "0/0";
 
-	var smallLabel = $.CreatePanel("Label", $.GetContextPanel(), "Small" + name + "Label");
-	smallLabel.SetParent(container);
-	smallLabel.style.height = container.style.height;
-	smallLabel.style.width = "fit-children";
-	smallLabel.text = "100/100";
-	smallLabel.AddClass("MonoNumbersFont");
-	smallLabel.style.fontSize = "13px";
-	smallLabel.style.textShadow = "0px 0px 4px 4 #00000088";
-	smallLabel.style.color = "#ccc";
-	smallLabel.style.marginTop = "6px";	
-}
-
-function GetElementColor(elementName) {
-	switch(elementName) {
-		case 'Fire':
-			return "#540404";
-		case 'Water':
-			return "#041354";
-		case 'Earth':
-			return "#543304";
-		case 'Storm':
-			return "#545404";
-		case 'Order':
-			return "#afaf64";
-		case 'Chaos':
-			return "#4b004b";
-		default:
-			return "#000000";
-	}
+	small_attribute_labels[name] = smallLabel;
 }
 
 (function () {

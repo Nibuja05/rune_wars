@@ -1,0 +1,9 @@
+<root>
+  <styles>
+    <include src="file://{resources}/styles/custom_game/small_stats.css" />
+  </styles>
+  <Panel class="small_container" hittest="true">
+    <Panel id="SmallIcon" class="small_icon" />
+    <Label id="SmallLabel" class="small_label" />
+  </Panel>
+</root>

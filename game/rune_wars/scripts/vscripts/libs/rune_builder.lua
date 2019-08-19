@@ -21,13 +21,27 @@ function RuneBuilder:OnNPCSpawned(event)
 		local playerID = npc:GetPlayerID()
 		local player = PlayerResource:GetPlayer(playerID)
 	    if player then
-	    	print("Init HUD for player!")
+	    	print("[RB] Init HUD for player!")
 	    	CustomGameEventManager:Send_ServerToPlayer(player, "init_tooltips", {})
 			CustomGameEventManager:Send_ServerToPlayer(player, "init_stat_tooltips", {})
 	        CustomGameEventManager:Send_ServerToPlayer(player, "init_rune_slots", {})
 	        CustomNetTables:SetTableValue("rune_slots", tostring(npc:entindex()), {})
 	    end
 	end
+end
+
+function RuneBuilder:SetRuneDisabled(ability, index)
+	-- print("[RB] Set a rune disabled!")
+	local className = ability:GetAbilityClassName()
+	local suffix = className:gsub("generic_ability", "")
+	local slotName = "rune"..index.."_slot"..suffix
+
+	print(index)
+
+	local caster = ability:GetCaster()
+	local playerID = caster:GetPlayerID()
+	local player = PlayerResource:GetPlayer(playerID)
+	CustomGameEventManager:Send_ServerToPlayer(player, "mark_rune_slot", {slotName = slotName, markType = "disabled"})
 end
 
 function RuneBuilder:DeleteInventoryItem(event)
@@ -89,7 +103,7 @@ function RuneBuilder:OnUpdateRunes(event)
 		elseif slotName:find("rune") then
 			local find = slotName:find("%d")
 			local index = slotName:sub(find, find)
-			table.insert(netTable[tableName].runes, index, val.Id)
+			netTable[tableName].runes[index] = val.Id
 		end
 	end
 	CustomNetTables:SetTableValue("rune_slots", tostring(caster:entindex()), netTable)

@@ -7,9 +7,9 @@ end
 
 function fireball:GetFunctions()
 	local funcs = {
-		"DoLinearProjectile",
-		"OnProjectileHit",
+		"GetProjectileParticle",
 		"OnSpellStart",
+		"OnProjectileHitUnit",
 	}
 	return funcs
 end
@@ -34,39 +34,13 @@ function fireball:GetAbilityTable()
 	return abilityTable
 end
 
-function fireball:DoLinearProjectile(startLoc, direction, speed, distance, width)
-	local caster = self:GetCaster()
-
-	local info = 
-	{
-		Ability = self,
-    	EffectName = "particles/core_abilities/fireball/fireball.vpcf",
-    	vSpawnOrigin = startLoc,
-    	fDistance = distance,
-    	fStartRadius = width,
-    	fEndRadius = width,
-    	Source = caster,
-    	bHasFrontalCone = true,
-    	bReplaceExisting = false,
-    	iUnitTargetTeam = self:GetAbilityTargetTeam(),
-    	iUnitTargetFlags = self:GetAbilityTargetFlags(),
-    	iUnitTargetType = self:GetAbilityTargetType(),
-    	fExpireTime = GameRules:GetGameTime() + 10.0,
-		bDeleteOnHit = true,
-		vVelocity = direction * speed,
-		bProvidesVision = true,
-		iVisionRadius = width,
-		iVisionTeamNumber = caster:GetTeamNumber()
-	}
-	local projectile = ProjectileManager:CreateLinearProjectile(info)
+function fireball:GetProjectileParticle()
+	return "particles/core_abilities/fireball/fireball.vpcf"
 end
 
-function fireball:OnProjectileHit(hTarget, vLocation)
+function fireball:OnProjectileHitUnit(hTarget)
 	local caster = self:GetCaster()
-
-	if hTarget then
-		self:DealDamage(self:GetSpecialValueFor("damage"), caster, hTarget, self:GetAbilitySpecialDamageType())
-	end
+	self:DealDamage(self:GetSpecialValueFor("damage"), caster, hTarget, self:GetAbilitySpecialDamageType())
 	return false
 end
 
@@ -79,5 +53,5 @@ function fireball:OnSpellStart()
 	local speed = self:GetSpecialValueFor("projectile_speed")
 	local distance = self:GetSpecialValueFor("range")
 
-	self:DoLinearProjectile(casterLoc, direction, speed, distance, 100)
+	self:DoLinearProjectile(casterLoc, direction, speed, distance, 100, 250)
 end

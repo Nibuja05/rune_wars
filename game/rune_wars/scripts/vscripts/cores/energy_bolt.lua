@@ -7,7 +7,7 @@ end
 function energy_bolt:GetFunctions()
 	local funcs = {
 		"DoTrackingProjectile",
-		"OnProjectileHit",
+		"OnProjectileHitUnit",
 		"OnSpellStart",
 	}
 	return funcs
@@ -55,13 +55,9 @@ function energy_bolt:DoTrackingProjectile(startLoc, endUnit, speed, optVal)
 	ProjectileManager:CreateTrackingProjectile(info)
 end
 
-function energy_bolt:OnProjectileHit(hTarget, vLocation)
+function energy_bolt:OnProjectileHitUnit(hTarget)
 	local caster = self:GetCaster()
-
-
-	if hTarget then
-		self:DealDamage(self:GetSpecialValueFor("damage"), caster, hTarget, self:GetAbilitySpecialDamageType())
-	end
+	self:DealDamage(self:GetSpecialValueFor("damage"), caster, hTarget, self:GetAbilitySpecialDamageType())
 end
 
 function energy_bolt:OnSpellStart()

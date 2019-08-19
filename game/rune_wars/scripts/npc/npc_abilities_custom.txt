@@ -1,163 +1,5 @@
 "DOTAAbilities"
 {
-	"rune"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"BaseClass"				"ability_datadriven"
-		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
-		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-		"AbilityTextureName"			"ursa_fury_swipes"
-		
-		"Modifiers"
-		{
-			"modifier_rune_stat_changer"
-			{
-				"Passive"						"1"
-				"IsHidden"						"1"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-			
-				"ThinkInterval"	"1"
-				"OnIntervalThink"
-				{
-					"RunScript"
-					{
-						"ScriptFile"	"perks_start.lua"
-						"Function"		"level_based_stacks"
-					}
-				}
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_HEALTH_BONUS"				"1"
-				}
-			}
-			"modifier_rune_lethal_rythm"
-			{
-				"Passive"						"1"
-				"IsHidden"						"0"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"TextureName"	"rune_lethal_rythm_ready"
-			
-				"OnAttack"
-				{
-					"RunScript"
-					{
-						"ScriptFile"			"perks_start.lua"
-						"Function"				"lethal_rythm"
-					}
-				}
-			}
-			"modifier_rune_lethal_rythm_stacker"
-			{
-				"IsHidden"					"1"
-				"IsPurgable"				"0"
-				"IsDebuff"					"1"
-			}
-			"modifier_rune_lethal_rythm_cooldown"
-			{
-				"IsHidden"					"0"
-				"IsPurgable"				"0"
-				"IsDebuff"					"1"
-				"Duration"					"40"
-				"TextureName"	"rune_lethal_rythm_cooldown"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"OnCreated"
-				{
-					"RemoveModifier"
-					{
-						"ModifierName"	"modifier_rune_lethal_rythm"
-						"Target"		"CASTER"
-					}
-				}
-				"OnDestroy"
-				{
-					"ApplyModifier"
-					{
-						"ModifierName"	"modifier_rune_lethal_rythm"
-						"Target"		"CASTER"
-					}
-				}
-			}
-			"modifier_rune_lethal_rythm_active"
-			{
-				"IsHidden"					"0"
-				"IsPurgable"				"0"
-				"IsDebuff"					"0"
-				"TextureName"	"rune_lethal_rythm_active"
-				
-				"EffectName"				"particles/econ/items/ogre_magi/ogre_ti8_immortal_weapon/ogre_ti8_immortal_bloodlust_buff_hands_glow.vpcf"
-				"EffectAttachType"			"attach_attack"
-				
-				"OnCreated"
-				{
-					"FireEffect"
-					{
-						"Target"				"CASTER"
-						"EffectName"			"particles/econ/items/ogre_magi/ogre_ti8_immortal_weapon/ogre_ti8_immortal_bloodlust_buff_ground_ring_c.vpcf"
-						"EffectAttachType"		"follow_origin"
-					}
-				}
-				"OnDestroy"
-				{
-					"ApplyModifier"
-					{
-						"ModifierName"	"modifier_rune_lethal_rythm_cooldown"
-						"Target"		"CASTER"
-					}
-				}
-				 "Properties"
-	            {
-	                "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "1"
-	            }
-			}
-	
-	
-			"modifier_rune_bonus_magic_damage"
-			{
-				"Passive"						"1"
-				"IsHidden"						"0"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"TextureName"	"rune_lethal_rythm_ready"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE"		"0.1"
-				}
-			}
-			"modifier_rune_bonus_magic_res"
-			{
-				"Passive"						"1"
-				"IsHidden"						"0"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"TextureName"	"rune_lethal_rythm_ready"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"	"0.1"
-				}
-			}	
-	
-			 "modifier_vampiric_aura_lifesteal"
-		    {
-				"Passive"						"1"
-				"IsHidden"						"0"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"TextureName"	"rune_lethal_rythm_ready"
-		    	"OnDealDamage"
-				{
-					"Lifesteal"
-					{
-						"Target" 				"ATTACKER"
-						"LifestealPercent"		"5"
-					}
-				}
-			}			
-		}
-	}
 	
 	"generic_ability"
 	{
@@ -355,6 +197,291 @@
 				"TextureName"	"Disintegrate_old" 
 				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
 			}	
+		}
+	}
+	"level_based_stats"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"				"ability_datadriven"
+		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityTextureName"			"ursa_fury_swipes"
+		"OnCreated"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"libs/hero_stats.lua"
+				"Function"		"LevelUpAbility"
+			}
+		}
+		
+		"Modifiers"
+		{
+			"modifier_rune_base_hp"
+			{
+				"Passive"						"1"
+				"IsHidden"						"0"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+			}
+			"modifier_rune_base_mana"
+			{
+				"Passive"						"1"
+				"IsHidden"						"0"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+			}
+			"modifier_rune_stat_changer"
+			{
+				"Passive"						"1"
+				"IsHidden"						"1"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"perks_start.lua"
+						"Function"		"set_base_stat"
+					}
+				}
+				
+				"ThinkInterval"	"1.5"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"perks_start.lua"
+						"Function"		"level_based_stacks"
+					}
+				}
+			}
+			"modifier_rune_bonus_damage"
+			{
+				"Passive"						"1"
+				"IsHidden"						"0"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE"  "0.01"
+				}
+			}
+			"modifier_rune_bonus_as"
+			{
+				"Passive"						"1"
+				"IsHidden"						"0"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"Properties"
+				{
+	                "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "1"
+				}
+			}
+			"modifier_rune_bonus_health"
+			{
+				"Passive"						"1"
+				"IsHidden"						"0"
+				"IsPurgable"					"0"
+			
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_BONUS"				"1"
+				}
+			}
+			"modifier_rune_bonus_mana"
+			{
+				"Passive"						"1"
+				"IsHidden"						"0"
+				"IsPurgable"					"0"
+			
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MANA_BONUS"				"1"
+				}
+			}
+			"modifier_rune_bonus_hp_regen"
+			{
+				"Passive"						"1"
+				"IsHidden"						"0"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"	"0.01"
+				}
+			}
+			"modifier_rune_bonus_mana_regen"
+			{
+				"Passive"						"1"
+				"IsHidden"						"0"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"		"0.01"
+				}
+			}				
+		}
+	}
+	"rune"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"				"ability_datadriven"
+		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityTextureName"			"ursa_fury_swipes"
+		
+		"Modifiers"
+		{
+			"modifier_rune_stat_changer"
+			{
+				"Passive"						"1"
+				"IsHidden"						"1"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+			
+				"ThinkInterval"	"1"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"libs/perks_start.lua"
+						"Function"		"level_based_stacks"
+					}
+				}
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_BONUS"				"1"
+				}
+			}
+			"modifier_rune_lethal_rythm"
+			{
+				"Passive"						"1"
+				"IsHidden"						"0"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"TextureName"	"rune_lethal_rythm_ready"
+			
+				"OnAttack"
+				{
+					"RunScript"
+					{
+						"ScriptFile"			"libs/perks_start.lua"
+						"Function"				"lethal_rythm"
+					}
+				}
+			}
+			"modifier_rune_lethal_rythm_stacker"
+			{
+				"IsHidden"					"1"
+				"IsPurgable"				"0"
+				"IsDebuff"					"1"
+			}
+			"modifier_rune_lethal_rythm_cooldown"
+			{
+				"IsHidden"					"0"
+				"IsPurgable"				"0"
+				"IsDebuff"					"1"
+				"Duration"					"40"
+				"TextureName"	"rune_lethal_rythm_cooldown"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"OnCreated"
+				{
+					"RemoveModifier"
+					{
+						"ModifierName"	"modifier_rune_lethal_rythm"
+						"Target"		"CASTER"
+					}
+				}
+				"OnDestroy"
+				{
+					"ApplyModifier"
+					{
+						"ModifierName"	"modifier_rune_lethal_rythm"
+						"Target"		"CASTER"
+					}
+				}
+			}
+			"modifier_rune_lethal_rythm_active"
+			{
+				"IsHidden"					"0"
+				"IsPurgable"				"0"
+				"IsDebuff"					"0"
+				"TextureName"	"rune_lethal_rythm_active"
+				
+				"EffectName"				"particles/econ/items/ogre_magi/ogre_ti8_immortal_weapon/ogre_ti8_immortal_bloodlust_buff_hands_glow.vpcf"
+				"EffectAttachType"			"attach_attack"
+				
+				"OnCreated"
+				{
+					"FireEffect"
+					{
+						"Target"				"CASTER"
+						"EffectName"			"particles/econ/items/ogre_magi/ogre_ti8_immortal_weapon/ogre_ti8_immortal_bloodlust_buff_ground_ring_c.vpcf"
+						"EffectAttachType"		"follow_origin"
+					}
+				}
+				"OnDestroy"
+				{
+					"ApplyModifier"
+					{
+						"ModifierName"	"modifier_rune_lethal_rythm_cooldown"
+						"Target"		"CASTER"
+					}
+				}
+				 "Properties"
+	            {
+	                "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "1"
+	            }
+			}
+	
+	
+			"modifier_rune_bonus_magic_damage"
+			{
+				"Passive"						"1"
+				"IsHidden"						"0"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"TextureName"	"rune_lethal_rythm_ready"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE"		"0.1"
+				}
+			}
+			"modifier_rune_bonus_magic_res"
+			{
+				"Passive"						"1"
+				"IsHidden"						"0"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"TextureName"	"rune_lethal_rythm_ready"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"	"0.1"
+				}
+			}	
+	
+			 "modifier_vampiric_aura_lifesteal"
+		    {
+				"Passive"						"1"
+				"IsHidden"						"0"
+				"IsPurgable"					"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+				"TextureName"	"rune_lethal_rythm_ready"
+		    	"OnDealDamage"
+				{
+					"Lifesteal"
+					{
+						"Target" 				"ATTACKER"
+						"LifestealPercent"		"5"
+					}
+				}
+			}			
 		}
 	}
 	
@@ -897,7 +1024,7 @@
 				{
 					"RunScript"
 				  	{
-						"ScriptFile"	"generic_hero_events.lua"
+						"ScriptFile"	"libs/generic_hero_events.lua"
 						"Function"		"dealdamage"
 						"caster"		"CASTER"
 						"target" 	"TARGET"
@@ -1087,7 +1214,7 @@
 				{
 					"RunScript"
 					{
-						"ScriptFile"	"perks_start.lua"
+						"ScriptFile"	"libs/perks_start.lua"
 						"Function"		"level_based_stacks"
 					}
 				}
@@ -1128,7 +1255,7 @@
 				{
 					"RunScript"
 					{
-						"ScriptFile"	"perks_start.lua"
+						"ScriptFile"	"libs/perks_start.lua"
 						"Function"		"level_based_stacks"
 					}
 				}
@@ -1169,7 +1296,7 @@
 				{
 					"RunScript"
 					{
-						"ScriptFile"	"perks_start.lua"
+						"ScriptFile"	"libs/perks_start.lua"
 						"Function"		"level_based_stacks"
 					}
 				}
@@ -1185,133 +1312,6 @@
 					"MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE"	"-0.1"
 				}
 			}
-		}
-	}
-	"level_based_stats"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"BaseClass"				"ability_datadriven"
-		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
-		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-		"AbilityTextureName"			"ursa_fury_swipes"
-		"OnCreated"
-		{
-			"RunScript"
-			{
-				"ScriptFile"	"libs/hero_stats.lua"
-				"Function"		"LevelUpAbility"
-			}
-		}
-		
-		"Modifiers"
-		{
-			"modifier_rune_base_hp"
-			{
-				"Passive"						"1"
-				"IsHidden"						"0"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-			}
-			"modifier_rune_base_mana"
-			{
-				"Passive"						"1"
-				"IsHidden"						"0"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-			}
-			"modifier_rune_stat_changer"
-			{
-				"Passive"						"1"
-				"IsHidden"						"1"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"OnCreated"
-				{
-					"RunScript"
-					{
-						"ScriptFile"	"libs/perks_start.lua"
-						"Function"		"set_base_stat"
-					}
-				}
-				
-				"ThinkInterval"	"1.5"
-				"OnIntervalThink"
-				{
-					"RunScript"
-					{
-						"ScriptFile"	"libs/perks_start.lua"
-						"Function"		"level_based_stacks"
-					}
-				}
-			}
-			"modifier_rune_bonus_damage"
-			{
-				"Passive"						"1"
-				"IsHidden"						"0"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE"  "0.01"
-				}
-			}
-			"modifier_rune_bonus_as"
-			{
-				"Passive"						"1"
-				"IsHidden"						"0"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"Properties"
-				{
-	                "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "1"
-				}
-			}
-			"modifier_rune_bonus_health"
-			{
-				"Passive"						"1"
-				"IsHidden"						"0"
-				"IsPurgable"					"0"
-			
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_HEALTH_BONUS"				"1"
-				}
-			}
-			"modifier_rune_bonus_mana"
-			{
-				"Passive"						"1"
-				"IsHidden"						"0"
-				"IsPurgable"					"0"
-			
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MANA_BONUS"				"1"
-				}
-			}
-			"modifier_rune_bonus_hp_regen"
-			{
-				"Passive"						"1"
-				"IsHidden"						"0"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"	"0.01"
-				}
-			}
-			"modifier_rune_bonus_mana_regen"
-			{
-				"Passive"						"1"
-				"IsHidden"						"0"
-				"IsPurgable"					"0"
-				"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"		"0.01"
-				}
-			}				
 		}
 	}
 }

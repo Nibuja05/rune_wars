@@ -1,0 +1,123 @@
+
+.small_container
+{
+	width: fit-children;
+	height: 20px;
+	margin-top: 2px;
+	flow-children: left;
+}
+
+.big_container
+{
+	margin-left: 6px;
+	margin-bottom: 6px;
+}
+
+.small_label
+{
+	height: 100%;
+	width: fit-children;
+	font-size: 13px;
+	text-shadow: 0px 0px 4px 4 #00000088;
+	color: #ccc;
+	margin-top: 6px;
+	letter-spacing: 0px;
+	font-family: monospaceNumbersFont;
+	font-weight: bold;
+}
+
+.small_icon
+{
+	width: 20px;
+	height: 20px;
+}
+
+.fire_icon_small
+{
+	background-image: url("file://{images}/custom_game/fire_small.png");
+}
+
+.water_icon_small
+{
+	background-image: url("file://{images}/custom_game/water_small.png");
+}
+
+.earth_icon_small
+{
+	background-image: url("file://{images}/custom_game/earth_small.png");
+}
+
+.storm_icon_small
+{
+	background-image: url("file://{images}/custom_game/storm_small.png");
+}
+
+.order_icon_small
+{
+	background-image: url("file://{images}/custom_game/order_small.png");
+}
+
+.chaos_icon_small
+{
+	background-image: url("file://{images}/custom_game/chaos_small.png");
+}
+
+.fire_icon
+{
+	background-image: url("file://{images}/custom_game/fire.png");
+}
+
+.water_icon
+{
+	background-image: url("file://{images}/custom_game/water.png");
+}
+
+.earth_icon
+{
+	background-image: url("file://{images}/custom_game/earth.png");
+}
+
+.storm_icon
+{
+	background-image: url("file://{images}/custom_game/storm.png");
+}
+
+.order_icon
+{
+	background-image: url("file://{images}/custom_game/order.png");
+}
+
+.chaos_icon
+{
+	background-image: url("file://{images}/custom_game/chaos.png");
+}
+
+.fire_background
+{
+	background-color: gradient( linear, 90% 0%, 0% 0%, from(#000), to(#540404));
+}
+
+.water_background
+{
+	background-color: gradient( linear, 90% 0%, 0% 0%, from(#000), to(#041354));
+}
+
+.earth_background
+{
+	background-color: gradient( linear, 90% 0%, 0% 0%, from(#000), to(#543304));
+}
+
+.storm_background
+{
+	background-color: gradient( linear, 90% 0%, 0% 0%, from(#000), to(#545404));
+}
+
+.order_background
+{
+	background-color: gradient( linear, 90% 0%, 0% 0%, from(#000), to(#afaf64));
+}
+
+.chaos_background
+{
+	background-color: gradient( linear, 90% 0%, 0% 0%, from(#000), to(#4b004b));
+}

@@ -1,9 +1,9 @@
-"item_ability_core_common_blink_strike" 
+"item_ability_core_common_dispel_magic" 
 {
-	"ID"                    "2013"
+	"ID"                    "2012"
 	"BaseClass"             "item_datadriven"
 	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-	"AbilityTextureName"    "item_gem"
+	"AbilityTextureName"    "item_core"
 	"Model"                 "models/props_gameplay/gem01.vmdl" 
 	"Effect"                "particles/generic_gameplay/dropped_item.vpcf"
 	"ItemQuality"           "common"
@@ -27,31 +27,31 @@
 	"ItemDisplayCharges"	"0"
 	"ItemRequiresCharges"	"0"
 
-	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_STORM"
-	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_UNIT | SPECIAL_ABILITY_KEY_SINGLE_TARGET | SPECIAL_ABILITY_KEY_DAMAGE"
-	"SpecialSpellName"		"spark"
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_NONE"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_SELF | SPECIAL_ABILITY_KEY_SINGLE_TARGET | SPECIAL_ABILITY_KEY_BUFF"
+	"SpecialSpellName"		"dispel_magic"
 
 	"AbilitySpecial"
 	{
 		"01"
 		{
 			"var_type"			"FIELD_INTEGER"
-			"damage"			"25 50 75 100"
+			"bonus_resistance"				"20 25 30 35"
 		}
 		"02"
 		{
 			"var_type"			"FIELD_INTEGER"
-			"range"				"500"
+			"duration"				"5"
 		}
 		"03"
 		{
-			"var_type"			"FIELD_FLOAT"
-			"cooldown"			"9"
+			"var_type"			"FIELD_INTEGER"
+			"cooldown"			"25"
 		}
 		"04"
 		{
 			"var_type"			"FIELD_INTEGER"
-			"manacost"			"55"
+			"manacost"			"40"
 		}
 	}
 } 

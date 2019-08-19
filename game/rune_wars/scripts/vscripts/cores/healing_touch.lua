@@ -7,7 +7,7 @@ end
 function healing_touch:GetFunctions()
 	local funcs = {
 		"DoTrackingProjectile",
-		"OnProjectileHit",
+		"OnProjectileHitUnit",
 		"OnSpellStart",
 	}
 	return funcs
@@ -55,7 +55,7 @@ function healing_touch:DoTrackingProjectile(startLoc, endUnit, speed, optVal)
 	ProjectileManager:CreateTrackingProjectile(info)
 end
 
-function healing_touch:OnProjectileHit(hTarget, vLocation)
+function healing_touch:OnProjectileHitUnit(hTarget)
 	local caster = self:GetCaster()
 	local count = self:GetSpecialValueFor("heal")
 	local particle = ParticleManager:CreateParticle("particles/healing_touch/healing_touch_effect.vpcf", PATTACH_ABSORIGIN_FOLLOW, hTarget)
