@@ -7,7 +7,7 @@ end
 require('libs/generic_ability_manager')
 require('libs/timers')
 require('libs/extra_enums')
-require('libs/ability_item_manager')
+-- require('libs/ability_item_manager')
 require('libs/ability_aspect_manager')
 require('libs/element_manager')
 require('libs/util')

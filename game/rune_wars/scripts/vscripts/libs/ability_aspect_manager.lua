@@ -78,6 +78,8 @@ function AbilityAspects:BuildCoreAbility(caster)
 		end
 
 		ability:SetCurrentRunes({})
+		ability:ClearAllSpecialRuneValues()
+		-- ability:PrintAllSpecialRuneValues()
 		local spellRunes = runes[index]
 		if spellRunes then
 			for k,v in pairs(spellRunes) do
@@ -93,17 +95,20 @@ function AbilityAspects:AddRune(ability, index, item)
 	local runeName = item:GetName()
 	local curRunes = ability:GetCurrentRunes()
 	if self:FindValueInTable(curRunes, runeName) then return end
-	curRunes[index] = runeName
-	ability:ClearAllSpecialRuneValues(runeName)
 
 	local runeKVs = item:GetAbilityKeyValues()
 	local requirements = runeKVs.KeyRequirements
 	if not ability:HasSpecialAbilityKey(DOTA_EXTRA_ENUMS[requirements]) then
 		RuneBuilder:SetRuneDisabled(ability, index)
+		return 
 	end
-	local runeName = runeKVs.RuneName
-	assert(require("runes/"..runeName..""), "No valid rune found for "..runeName)
-	local rune = _G[runeName]
+
+	curRunes[index] = runeName
+	-- ability:ClearAllSpecialRuneValues(runeName)
+	ability:SetCurrentRunes(curRunes)
+	local runeShortName = runeKVs.RuneName
+	assert(require("runes/"..runeShortName..""), "No valid rune found for "..runeShortName)
+	local rune = _G[runeShortName]
 
 	local funcs = rune:GetAdditionalFunctions()
 	for _,func in pairs(funcs) do
@@ -112,8 +117,11 @@ function AbilityAspects:AddRune(ability, index, item)
 
 	local specials = self:ExtractAbilitySpecials(runeKVs)
 	for _,special in pairs(specials) do
-		ability:AddSpecialRuneValue(special.name, special.text, special.val, runeName)
+		ability:AddSpecialRuneValue(special.name, special.text, special.val, runeShortName)
 	end
+
+	-- local description = self:FindItemTooltip(item:GetName(), "Description")
+	-- print(description)
 end
 
 function AbilityAspects:AddAbilitySpecialKeys(ability, specials)
@@ -145,6 +153,18 @@ function AbilityAspects:ExtractAbilitySpecials(KVTable)
 	end
 	return specials
 end
+
+-- function AbilityAspects:FindItemTooltip(itemName, tooltipType)
+-- 	local file = "resource/addon_english.txt"
+-- 	local kvs = LoadKeyValues(file)
+-- 	local tooltipNameBase = "DOTA_Tooltip_ability_"..itemName
+-- 	local tooltipName = tooltipNameBase.."_"..tooltipType
+-- 	if tooltipType == "Name" then
+-- 		tooltipName = tooltipNameBase
+-- 	end
+-- 	print(tooltipName)
+-- 	return kvs.Tokens[tooltipName]
+-- end
 
 --INVTYPE:
 --all: completle inventory (also no arg)

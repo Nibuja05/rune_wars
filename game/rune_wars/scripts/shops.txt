@@ -26,6 +26,7 @@
 	{
 		"item"			"item_ability_rune_uncommon_split"
 		"item"			"item_ability_rune_uncommon_split_back"
+		"item"			"item_ability_rune_rare_cascade"
 	}
 			
 	"misc"

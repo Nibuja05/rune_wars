@@ -6,7 +6,7 @@ end
 
 function energy_bolt:GetFunctions()
 	local funcs = {
-		"DoTrackingProjectile",
+		"GetProjectileParticle",
 		"OnProjectileHitUnit",
 		"OnSpellStart",
 	}
@@ -33,26 +33,8 @@ function energy_bolt:GetAbilityTable()
 	return abilityTable
 end
 
-function energy_bolt:DoTrackingProjectile(startLoc, endUnit, speed, optVal)
-	local caster = self:GetCaster()
-	 local info = {
-		Source = caster,
-		Target = endUnit,
-		Ability = self,	
-		EffectName = "particles/econ/items/templar_assassin/templar_assassin_butterfly/templar_assassin_meld_attack_butterfly.vpcf",
-		iMoveSpeed = speed,
-		vSourceLoc= startLoc,                -- Optional (HOW)
-		bDrawsOnMinimap = false,                          -- Optional
-		bDodgeable = true,                                -- Optional
-		bIsAttack = false,                                -- Optional
-		bVisibleToEnemies = true,                         -- Optional
-		bReplaceExisting = false,                         -- Optional
-		bProvidesVision = true,                           -- Optional
-		iVisionRadius = 200,                              -- Optional
-		iVisionTeamNumber = caster:GetTeamNumber()        -- Optional
-	}	
-	
-	ProjectileManager:CreateTrackingProjectile(info)
+function energy_bolt:GetProjectileParticle()
+	return "particles/econ/items/templar_assassin/templar_assassin_butterfly/templar_assassin_meld_attack_butterfly.vpcf"
 end
 
 function energy_bolt:OnProjectileHitUnit(hTarget)
@@ -66,7 +48,7 @@ function energy_bolt:OnSpellStart()
 	local target = self:GetCursorTarget()
 	local speed = 1600
 
-	self:DoTrackingProjectile(casterLoc, target, speed)
+	self:DoTrackingProjectile(casterLoc, caster, target, speed)
 end
 
 

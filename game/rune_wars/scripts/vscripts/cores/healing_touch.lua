@@ -6,7 +6,7 @@ end
 
 function healing_touch:GetFunctions()
 	local funcs = {
-		"DoTrackingProjectile",
+		"GetProjectileParticle",
 		"OnProjectileHitUnit",
 		"OnSpellStart",
 	}
@@ -33,26 +33,8 @@ function healing_touch:GetAbilityTable()
 	return abilityTable
 end
 
-function healing_touch:DoTrackingProjectile(startLoc, endUnit, speed, optVal)
-	local caster = self:GetCaster()
-	 local info = {
-		Source = caster,
-		Target = endUnit,
-		Ability = self,	
-		EffectName = "particles/healing_touch/healing_touch_proj.vpcf",
-		iMoveSpeed = speed,
-		vSourceLoc= startLoc,                -- Optional (HOW)
-		bDrawsOnMinimap = false,                          -- Optional
-		bDodgeable = false,                                -- Optional
-		bIsAttack = false,                                -- Optional
-		bVisibleToEnemies = true,                         -- Optional
-		bReplaceExisting = false,                         -- Optional
-		bProvidesVision = true,                           -- Optional
-		iVisionRadius = 200,                              -- Optional
-		iVisionTeamNumber = caster:GetTeamNumber()        -- Optional
-	}	
-	
-	ProjectileManager:CreateTrackingProjectile(info)
+function healing_touch:GetProjectileParticle()
+	return "particles/healing_touch/healing_touch_proj.vpcf"
 end
 
 function healing_touch:OnProjectileHitUnit(hTarget)
@@ -70,7 +52,7 @@ function healing_touch:OnSpellStart()
 	local target = self:GetCursorTarget()
 	local speed = 1100
 
-	self:DoTrackingProjectile(casterLoc, target, speed)
+	self:DoTrackingProjectile(casterLoc, caster, target, speed)
 end
 
 

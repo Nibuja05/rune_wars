@@ -85,5 +85,10 @@
       </Panel>
     </Panel>
 
+<!--     <Panel id="ScenePanelTestContainer">
+      <DOTAScenePanel id="HealthBurner" map="scenes/hud/healthbarburner" renderdeferred="false" rendershadows="false" camera="camera_1" hittest="false" particleonly="true"/>
+      <DOTAScenePanel id="HealthBurner" map="maps/backgrounds/rune_outline" renderdeferred="false" rendershadows="false" camera="camera1" hittest="false" particleonly="true"/>
+    </Panel> -->
+
   </Panel>
 </root>

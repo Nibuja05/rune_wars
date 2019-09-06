@@ -5,15 +5,17 @@ end
 
 function GenericAbility:Init()
 	self.started = true
-	print("[GA] Initializing...")
+	print("[GA] Initializing General Ability Manager...")
 end
 
 function GenericAbility:InitHero(hero)
-	print("[GA] Initializing for hero "..hero:GetUnitName())
 	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(hero:entindex()))
 	if not netTable then
 		netTable = {}
+	else
+		return
 	end
+	print("[GA] Initializing for hero "..hero:GetUnitName())
 	if not netTable.nameLookup then
 		netTable.nameLookup = {}
 	end

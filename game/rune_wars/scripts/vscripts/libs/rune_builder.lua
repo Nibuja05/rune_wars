@@ -7,7 +7,7 @@ end
 
 function RuneBuilder:Init()
 	self.started = true
-	print("[RB] Initializing...")
+	print("[RB] Initializing Rune Builder...")
 	ListenToGameEvent('npc_spawned', Dynamic_Wrap(RuneBuilder, 'OnNPCSpawned'), self)
 	CustomGameEventManager:RegisterListener("delete_inv_item", Dynamic_Wrap(RuneBuilder, "DeleteInventoryItem"))
 	CustomGameEventManager:RegisterListener("add_inv_item", Dynamic_Wrap(RuneBuilder, "AddInventoryItem"))

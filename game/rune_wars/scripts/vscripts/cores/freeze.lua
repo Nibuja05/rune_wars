@@ -7,7 +7,7 @@ end
 
 function freeze:GetFunctions()
 	local funcs = {
-		"DoTrackingProjectile",
+		"GetProjectileParticle",
 		"OnProjectileHitUnit",
 		"OnSpellStart",
 	}
@@ -34,26 +34,8 @@ function freeze:GetAbilityTable()
 	return abilityTable
 end
 
-function freeze:DoTrackingProjectile(startLoc, endUnit, speed, optVal)
-	local caster = self:GetCaster()
-	 local info = {
-		Source = caster,
-		Target = endUnit,
-		Ability = self,	
-		EffectName = "particles/core_abilities/freeze/freeze.vpcf",
-		iMoveSpeed = speed,
-		vSourceLoc= startLoc,                -- Optional (HOW)
-		bDrawsOnMinimap = false,                          -- Optional
-		bDodgeable = true,                                -- Optional
-		bIsAttack = false,                                -- Optional
-		bVisibleToEnemies = true,                         -- Optional
-		bReplaceExisting = false,                         -- Optional
-		bProvidesVision = true,                           -- Optional
-		iVisionRadius = 200,                              -- Optional
-		iVisionTeamNumber = caster:GetTeamNumber()        -- Optional
-	}	
-	
-	ProjectileManager:CreateTrackingProjectile(info)
+function freeze:GetProjectileParticle()
+	return "particles/core_abilities/freeze/freeze.vpcf"
 end
 
 function freeze:OnProjectileHitUnit(hTarget)
@@ -68,7 +50,7 @@ function freeze:OnSpellStart()
 	local target = self:GetCursorTarget()
 	local speed = 1600
 
-	self:DoTrackingProjectile(casterLoc, target, speed)
+	self:DoTrackingProjectile(casterLoc, caster, target, speed)
 end
 
 modifier_freeze_debuff = class({})
@@ -90,6 +72,10 @@ function modifier_freeze_debuff:CheckState()
 		[MODIFIER_STATE_STUNNED] = true,
 	}
 	return state
+end
+
+function modifier_freeze_debuff:GetAttributes()
+	return MODIFIER_ATTRIBUTE_MULTIPLE
 end
 
 function modifier_freeze_debuff:GetEffectName()

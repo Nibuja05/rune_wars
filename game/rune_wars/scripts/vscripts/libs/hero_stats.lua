@@ -18,14 +18,16 @@ end
 
 function HeroStats:Init()
 	self.started = true
+	print("[HS] Initializing Hero Stats...")
 	ListenToGameEvent('npc_spawned', Dynamic_Wrap(HeroStats, 'OnNPCSpawned'), self)
 end
 
 function HeroStats:OnNPCSpawned(event)
 	local hero = EntIndexToHScript(event.entindex)
+	if not hero then return end
 	if hero:IsRealHero() then
 		if not hero:HasModifier("modifier_fire_power") then
-			print("Add Elemental Modifier!")
+			print("[HS] Add Elemental Modifier!")
 			hero:AddNewModifier(hero, nil, "modifier_fire_power", nil)
 			hero:AddNewModifier(hero, nil, "modifier_fire_resistance", nil)
 			hero:AddNewModifier(hero, nil, "modifier_water_power", nil)
