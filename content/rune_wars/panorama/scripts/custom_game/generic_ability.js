@@ -555,7 +555,7 @@ function ReplaceRelativeString(abilityTable, str) {
   	if (newStr) {
       var attribute = FindAttribute(abilityTable, newStr);
   	  if (attribute) {
-        str = attribute.Val;
+        str = attribute.ActualVal;
       } else {
         str = "";
       }
