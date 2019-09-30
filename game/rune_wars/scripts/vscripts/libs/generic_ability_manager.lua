@@ -186,7 +186,7 @@ function GenericAbility:GetGenericAbilityByIndex(unit, index)
 end
 
 function GenericAbility:AddFunction(ability, funcName, func, itemName)
-	-- print("Adding the function "..ability:GetAbilityName()..":"..funcName.."()")
+	-- print("Adding the function "..ability:GetAbilityName()..":"..funcName.."() for ")
 	if not ability.funcs then
 		ability.funcs = {}
 	end

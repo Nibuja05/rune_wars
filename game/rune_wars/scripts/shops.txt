@@ -27,10 +27,12 @@
 		"item"			"item_ability_rune_uncommon_split"
 		"item"			"item_ability_rune_uncommon_split_back"
 		"item"			"item_ability_rune_rare_cascade"
+		"item"			"item_ability_rune_common_critical"
 	}
 			
 	"misc"
-	{           
+	{   
+		"item"			"item_bloodstone"        
 	}       
 	
 	// Level 1 - Green Recipes

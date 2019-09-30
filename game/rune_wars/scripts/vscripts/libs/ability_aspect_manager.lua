@@ -36,7 +36,7 @@ function AbilityAspects:BuildCoreAbility(caster)
 	for index = 0, 2 do
 		local ability = GenericAbility:GetGenericAbilityByIndex(caster, index)
 		GenericAbility:ResetAbility(caster, ability, index)
-		ability:ReloadAbility()
+		-- ability:ReloadAbility()
 	end
 	for index, core in pairs(cores) do
 		-- Filter uncomplete cores:
@@ -67,7 +67,15 @@ function AbilityAspects:BuildCoreAbility(caster)
 		local funcs = spell:GetFunctions()
 		local abilityTable = spell:GetAbilityTable()
 		abilityTable.Specialvalues = self:ExtractAbilitySpecials(coreKVs)
-		abilityTable.Specialdamagetype = DOTA_EXTRA_ENUMS[coreKVs.SpecialDamageType]
+
+		local coreID = core:entindex()
+		local netTable = CustomNetTables:GetTableValue("item_extras", tostring(coreID))
+		if netTable then
+			abilityTable.Specialdamagetype = netTable.specialDamageType
+		else
+			abilityTable.Specialdamagetype = DOTA_EXTRA_ENUMS[coreKVs.SpecialDamageType]
+		end
+
 		GenericAbility:LoadAbilityFromTable(ability, abilityTable)
 		AbilityAspects:AddAbilitySpecialKeys(ability, coreKVs.SpecialAbilityType)
 
@@ -97,22 +105,25 @@ function AbilityAspects:AddRune(ability, index, item)
 	if self:FindValueInTable(curRunes, runeName) then return end
 
 	local runeKVs = item:GetAbilityKeyValues()
-	local requirements = runeKVs.KeyRequirements
-	if not ability:HasSpecialAbilityKey(DOTA_EXTRA_ENUMS[requirements]) then
-		RuneBuilder:SetRuneDisabled(ability, index)
-		return 
+	if runeKVs.KeyRequirements then
+		local requirements = runeKVs.KeyRequirements
+		if not ability:HasSpecialAbilityKey(DOTA_EXTRA_ENUMS[requirements]) then
+			RuneBuilder:SetRuneDisabled(ability, index)
+			return 
+		end
 	end
 
 	curRunes[index] = runeName
-	-- ability:ClearAllSpecialRuneValues(runeName)
 	ability:SetCurrentRunes(curRunes)
 	local runeShortName = runeKVs.RuneName
 	assert(require("runes/"..runeShortName..""), "No valid rune found for "..runeShortName)
 	local rune = _G[runeShortName]
 
-	local funcs = rune:GetAdditionalFunctions()
-	for _,func in pairs(funcs) do
-		GenericAbility:AddFunction(ability, func, rune[func])
+	if rune["GetAdditionalFunctions"] then
+		local funcs = rune:GetAdditionalFunctions()
+		for _,func in pairs(funcs) do
+			GenericAbility:AddFunction(ability, func, rune[func], runeName)
+		end
 	end
 
 	local specials = self:ExtractAbilitySpecials(runeKVs)
@@ -120,8 +131,30 @@ function AbilityAspects:AddRune(ability, index, item)
 		ability:AddSpecialRuneValue(special.name, special.text, special.val, runeShortName)
 	end
 
-	-- local description = self:FindItemTooltip(item:GetName(), "Description")
-	-- print(description)
+	local function ModifyValuesConstant(self, addFunc)
+		if addFunc then
+			local addTable = addFunc()
+			for key, val in pairs(addTable) do
+				self:ModifyActualValue(key, val, "Add")
+			end
+		end
+	end
+	local function ModifyValuesPercentage(self, multiplyFunc)
+		if multiplyFunc then
+			local multiplyTable = multiplyFunc()
+			for key, val in pairs(multiplyTable) do
+				self:ModifyActualValue(key, val, "Multiply")
+			end
+		end
+	end
+	local addFunc = nil
+	local multiplyFunc = nil
+	if rune["ModifyValuesConstant"] then addFunc = rune["ModifyValuesConstant"] end
+	if rune["ModifyValuesPercentage"] then multiplyFunc = rune["ModifyValuesPercentage"] end
+	local modifyFuncConstant = function(self, ...) return ModifyValuesConstant(self, addFunc) end
+	GenericAbility:AddFunction(ability, "ModifyValuesConstant", modifyFuncConstant, runeName)
+	local modifyFuncPercentage = function(self, ...) return ModifyValuesPercentage(self, multiplyFunc) end
+	GenericAbility:AddFunction(ability, "ModifyValuesPercentage", modifyFuncPercentage, runeName)
 end
 
 function AbilityAspects:AddAbilitySpecialKeys(ability, specials)

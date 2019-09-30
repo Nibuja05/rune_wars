@@ -1,0 +1,42 @@
+"item_ability_core_common_fiendish_hunger" 
+{
+	"ID"                    "2011"
+	"BaseClass"             "item_datadriven"
+	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityTextureName"    "item_core"
+	"Model"                 "models/props_gameplay/gem01.vmdl" 
+	"Effect"                "particles/world/dropped_item_common.vpcf"
+	"ItemQuality"           "common"
+	// "Defense"               "1"
+
+	"ItemDisassembleRule"	"DOTA_ITEM_DISASSEMBLE_NEVER"
+	"ItemCost"				"0"
+	"ItemKillable"			"0" 
+	"ItemSellable"			"0"
+	"ItemPurchasable"		"1"
+	"ItemDroppable"			"1"
+	"ItemShareability"		"ITEM_FULLY_SHAREABLE_STACKING"
+
+	"SideShop"				"1" 
+	"SecretShop"			"0"
+
+	"ItemStackable"			"0"
+	"ItemPermanent"			"0"
+
+	"ItemInitialCharges"	"0"
+	"ItemDisplayCharges"	"0"
+	"ItemRequiresCharges"	"0"
+
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_CHAOS"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_PASSIVE | SPECIAL_ABILITY_KEY_BUFF"
+	"SpecialSpellName"		"fiendish_hunger"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"lifesteal"					"9 12 15 18"
+		}
+	}
+} 

@@ -1,0 +1,75 @@
+
+.test_parent
+{
+	width: 100%;
+	height: 100%;
+	flow-children: down;
+}
+
+#TestContainer
+{
+	width: 50%;
+	height: 50%;
+	vertical-align: center;
+	horizontal-align: center;
+	background-color: #DCF5FF;
+	opacity: 0;
+	font-family: "Nunito", "sans-serif";
+	font-weight: bold;
+	font-size: 18px;
+	border-radius: 10px;
+}
+
+.container
+{
+	vertical-align: center;
+	horizontal-align: center;
+	width: 30%;
+	height: 30%;
+	background-color: white;
+	border-radius: 10px;
+}
+
+.container .inner
+{
+	background-color: #00B6FF;
+	padding: 7px;
+	border-radius: 10px;
+	width: 100%;
+	height: 100%;
+	color: white;
+	flow-children: down;
+	clip: rect( 50%, 50%, 50%, 50% );
+}
+
+.inner:hover 
+{
+	animation-name: open_inner;
+	animation-duration: .5s;
+	animation-timing-function: linear;
+	clip: rect( 0%, 100%, 100%, 0% );
+}
+
+@keyframes 'open_inner'
+{
+	from
+	{
+		clip: rect( 50%, 50%, 50%, 50% );
+	}
+	to
+	{	
+		clip: rect( 0%, 100%, 100%, 0% );
+	}
+}
+
+.inner #headerText
+{
+	font-size: 52px;
+	margin: 0;
+}
+
+.inner #bodyText
+{
+
+}
+

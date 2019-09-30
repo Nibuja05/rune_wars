@@ -226,7 +226,7 @@ end
 
 function generic_ability:ReloadAbility()
 	local caster = self:GetCaster()
-	caster:AddNewModifier(caster, self, "modifier_reload_"..self:GetAbilityClassName(), {Duration = 0.1})
+	-- caster:AddNewModifier(caster, self, "modifier_reload_"..self:GetAbilityClassName(), {Duration = 0.1})
 
 	-- self:AddEventModifier()
 	-- self:UpdateModifier("manaCost")
@@ -250,6 +250,8 @@ function generic_ability:ReloadAbility()
 		end
 	end
 
+	self:CalculateActualValues()
+
 	self:UpdateCastPoint()
 end
 
@@ -258,6 +260,18 @@ end
 --=================================================================================================
 
 function generic_ability:DealDamage(damage, attacker, victim, specialDamageType)
+	local eventData = {
+		damage = damage,
+		victim = victim,
+		specialDamageType = specialDamageType,
+	}
+	if self["OnDealDamageCustom"] then
+		local tempDamage = self:OnDealDamageCustom(eventData)
+		if tempDamage then
+			damage = tempDamage
+		end
+	end
+	
 	local damageTable = {
 		damage = damage,
 		attacker = attacker,
@@ -266,12 +280,6 @@ function generic_ability:DealDamage(damage, attacker, victim, specialDamageType)
 		ability = self,
 	}
 	Elements:ApplyDamage(damageTable, specialDamageType)
-	local eventData = {
-		damage = damage,
-		victim = victim,
-		specialDamageType = specialDamageType,
-	}
-	if self["OnDealDamageCustom"] then self:OnDealDamageCustom(eventData) end
 end
 
 function generic_ability:HealUnit(target, source, amount)
@@ -375,15 +383,10 @@ function generic_ability:ReplaceRelativeString(str)
 	str = tostring(str)
 	local newString = str:match("%%(%a*)")
 	if newString then
-		newString = str:match("%%(%a*)")
 		local caster = self:GetCaster()
-		local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
-		if not netTable then return 0 end
-		local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
-		if not abilityIndex then return 0 end
-		local abilityTable = netTable.abilities[tostring(abilityIndex)]
+		local abilityTable = self:GetAbilityTable()
 		if not abilityTable then return 0 end
-		newString = FindAttribute(abilityTable.attributes, newString)
+		newString = FindAttribute(abilityTable.attributes, newString, true)
 	else
 		return str
 	end
@@ -405,24 +408,85 @@ function generic_ability:LimitFunctionCall(func, cycle, save, ...)
 	return self[save].val
 end
 
-function generic_ability:GetNumberValue(valType)
-	local caster = self:GetCaster()
-	-- if IsClient() then
-	-- 	local count = collectgarbage("count")
-	-- 	local modifierName = "modifier_"..valType:lower().."_"..self:GetAbilityClassName()
-	-- 	if caster:HasModifier(modifierName) then
-	-- 		local stackCount = caster:GetModifierStackCount(modifierName, caster)
-	-- 		return stackCount
-	-- 	end
-	-- end
+function generic_ability:CalculateActualValues()
+	if not IsServer() then return end
+	local abilityTable = self:GetAbilityTable()
+	if not abilityTable then return 0 end
 
-	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
-	if not netTable then return 0 end
-	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
-	if not abilityIndex then return 0 end
-	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	local actualTable = {}
+	for key, val in pairs(abilityTable) do
+		if type(val) ~= "table" then
+			actualTable[key] = val
+		end
+	end
+	abilityTable.actualValues = actualTable
+	self:SetAbilityTable(abilityTable)
+
+	if self["ModifyValuesConstant"] then self:ModifyValuesConstant() end
+	if self["ModifyValuesPercentage"] then self:ModifyValuesPercentage() end
+end
+
+function generic_ability:ModifyActualValue(name, value, valType)
+
+	print("Modifying Actual Value!", valType, name, value)
+
+	local function Combine(val1, val2)
+		if valType == "Add" then
+			return val1 + val2
+		elseif valType == "Multiply" then
+			return val1 * val2
+		end
+		return val1
+	end
+
+	local abilityTable = self:GetAbilityTable()
+	if not abilityTable then return 0 end
+	local actualTable = abilityTable.actualValues
+	if actualTable[name] then
+		local tableValues = {}
+		--if it is a relative String, modify
+		if tostring(actualTable[name]):find("%%") then
+			attrValue, attrIndex = FindAttribute(abilityTable.attributes, name, true)
+			print("relative:", attrValue, attrIndex)
+			if attrIndex then
+				for val in attrValue:gmatch("[%w%.]+") do table.insert(tableValues, val) end
+			end
+		else
+			for val in tostring(actualTable[name]):gmatch("[%w%.]+") do table.insert(tableValues, val) end
+		end
+
+		local newValueString = ""
+		for _,val in pairs(tableValues) do
+			if tonumber(val) then
+				newValueString = newValueString..tostring(Combine(tonumber(val), tonumber(value))).." "
+			end
+		end
+
+		if newValueString ~= "" then
+			newValueString = newValueString:sub(1, -2)
+			if not tostring(actualTable[name]):find("%%") then
+				actualTable[name] = newValueString
+			end
+			if attrIndex then
+				abilityTable.attributes[attrIndex]["ActualVal"] = newValueString
+			end
+		end
+	end
+	abilityTable.actualValues = actualTable
+	self:SetAbilityTable(abilityTable)
+end
+
+function generic_ability:GetNumberValue(valType)
+	local abilityTable = self:GetAbilityTable()
 	if not abilityTable then return 0 end
 	local curVal = abilityTable[valType]
+	if abilityTable.actualValues then
+		if abilityTable.actualValues[valType] then
+			curVal = abilityTable.actualValues[valType]
+		end
+	end
+	curVal = self:ReplaceRelativeString(curVal)
+	-- print(curVal)
 	if type(curVal) == "string" then
 		local values = {}
 		for value in curVal:gmatch("[%w%.]+") do table.insert(values, value) end
@@ -435,51 +499,24 @@ function generic_ability:GetNumberValue(valType)
 end
 
 function generic_ability:GetStringValue(valType)
-	local caster = self:GetCaster()
-	-- if IsClient() then
-	-- 	if not caster:HasModifier("modifier_reload_"..self:GetAbilityClassName()) then
-	-- 		if self.valType ~= nil then
-	-- 			return self.valType
-	-- 		end
-	-- 	end
-	-- end
-
-	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
-	if not netTable then return 0 end
-	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
-	if not abilityIndex then return 0 end
-	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	local abilityTable = self:GetAbilityTable()
 	if not abilityTable then return 0 end
-
-	-- if IsClient() then
-	-- 	self.valType = abilityTable[valType]
-	-- end
 	return abilityTable[valType]
 end
 
 function generic_ability:SetValues(valType, val)
-	local caster = self:GetCaster()
-	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
-	if not netTable then return 0 end
-	local abilityIndex = netTable.nameLookup[self:GetAbilityName()]
-	if not abilityIndex then return 0 end
-	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	local abilityTable = self:GetAbilityTable()
 	if not abilityTable then return 0 end
-	abilityTable[valType] = self:ReplaceRelativeString(val)
-	netTable.abilities[tostring(abilityIndex)] = abilityTable
-	CustomNetTables:SetTableValue("generic_ability", tostring(caster:entindex()), netTable)
+	-- abilityTable[valType] = self:ReplaceRelativeString(val)
+	abilityTable[valType] = val
+	self:SetAbilityTable(abilityTable)
 end
 
 function generic_ability:GetAttribute(name, level)
-	local caster = self:GetCaster()
-	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
-	if not netTable then return 0 end
-	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
-	if not abilityIndex then return 0 end
-	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	local abilityTable = self:GetAbilityTable()
 	if not abilityTable then return 0 end
 	local attributeTable = abilityTable.attributes
-	local curVal = FindAttribute(attributeTable, name)
+	local curVal = FindAttribute(attributeTable, name, true)
 	if type(curVal) == "string" then
 		local values = {}
 		for value in curVal:gmatch("[%w%.]+") do table.insert(values, value) end
@@ -491,31 +528,21 @@ function generic_ability:GetAttribute(name, level)
 end
 
 function generic_ability:AddAttribute(name, text, val)
-	local caster = self:GetCaster()
 	self:RemoveAttribute(name)
-	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
-	if not netTable then return 0 end
-	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
-	if not abilityIndex then return 0 end
-	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	local abilityTable = self:GetAbilityTable()
 	if not abilityTable then return 0 end
 	local newTable = {
 		Name = name,
 		Key = text,
-		Val = val
+		Val = val,
+		ActualVal = val,
 	}
 	table.insert(abilityTable.attributes, GetTableLength(abilityTable.attributes), newTable)
-	netTable.abilities[tostring(abilityIndex)] = abilityTable
-	CustomNetTables:SetTableValue("generic_ability", tostring(caster:entindex()), netTable)
+	self:SetAbilityTable(abilityTable)
 end
 
 function generic_ability:RemoveAttribute(name)
-	local caster = self:GetCaster()
-	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
-	if not netTable then return 0 end
-	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
-	if not abilityIndex then return 0 end
-	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	local abilityTable = self:GetAbilityTable()
 	if not abilityTable then return 0 end
 	local attributeTable = abilityTable.attributes
 	local function removeAttribute(table, attrName)
@@ -527,45 +554,28 @@ function generic_ability:RemoveAttribute(name)
 		return table
 	end
 	abilityTable.attributes = removeAttribute(attributeTable, name)
-	netTable.abilities[tostring(abilityIndex)] = abilityTable
-	CustomNetTables:SetTableValue("generic_ability", tostring(caster:entindex()), netTable)
+	self:SetAbilityTable(abilityTable)
 end
 
 function generic_ability:ClearAttributes()
-	local caster = self:GetCaster()
-	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
-	if not netTable then return 0 end
-	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
-	if not abilityIndex then return 0 end
-	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	local abilityTable = self:GetAbilityTable()
 	if not abilityTable then return 0 end
 	abilityTable.attributes = {}
-	netTable.abilities[tostring(abilityIndex)] = abilityTable
-	CustomNetTables:SetTableValue("generic_ability", tostring(caster:entindex()), netTable)
+	self:SetAbilityTable(abilityTable)
 end
 
 function generic_ability:GetRuneAttribute(name, runeName)
-	local caster = self:GetCaster()
-	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
-	if not netTable then return 0 end
-	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
-	if not abilityIndex then return 0 end
-	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	local abilityTable = self:GetAbilityTable()
 	if not abilityTable then return 0 end
 	local runeTable = abilityTable.runeAttributes
 	if not runeTable[runeName] then return 0 end
+	local attribute = FindAttribute(runeTable[runeName], name)
 
-	return FindAttribute(runeTable[runeName], name)
+	return attribute
 end
 
 function generic_ability:AddRuneAttribute(name, text, val, runeName)
-	local caster = self:GetCaster()
-	-- self:RemoveRuneAttribute(name, runeName)
-	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
-	if not netTable then return 0 end
-	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
-	if not abilityIndex then return 0 end
-	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	local abilityTable = self:GetAbilityTable()
 	if not abilityTable then return 0 end
 	local runeTable = abilityTable.runeAttributes
 	if not runeTable[runeName] then runeTable[runeName] = {} end
@@ -577,21 +587,14 @@ function generic_ability:AddRuneAttribute(name, text, val, runeName)
 	}
 	runeTable[runeName][tostring(GetTableLength(runeTable[runeName]))] = newTable
 
-	netTable.abilities[tostring(abilityIndex)] = abilityTable
-	CustomNetTables:SetTableValue("generic_ability", tostring(caster:entindex()), netTable)
+	self:SetAbilityTable(abilityTable)
 end
 
 function generic_ability:RemoveRuneAttribute(name, runeName)
-	local caster = self:GetCaster()
-	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
-	if not netTable then return 0 end
-	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
-	if not abilityIndex then return 0 end
-	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	local abilityTable = self:GetAbilityTable()
 	if not abilityTable then return 0 end
 	local runeTable = abilityTable.runeAttributes
 	if not runeTable[runeName] then return 0 end
-
 	local function removeAttribute(table, attrName)
 		for _,obj in pairs(table) do
 			if obj.Name:lower() == attrName:lower() then
@@ -601,17 +604,11 @@ function generic_ability:RemoveRuneAttribute(name, runeName)
 		return table
 	end
 	abilityTable.runeAttributes = removeAttribute(runeTable[runeName], name)
-	netTable.abilities[tostring(abilityIndex)] = abilityTable
-	CustomNetTables:SetTableValue("generic_ability", tostring(caster:entindex()), netTable)
+	self:SetAbilityTable(abilityTable)
 end
 
 function generic_ability:PrintAllSpecialRuneValues()
-	local caster = self:GetCaster()
-	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
-	if not netTable then return 0 end
-	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
-	if not abilityIndex then return 0 end
-	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	local abilityTable = self:GetAbilityTable()
 	if not abilityTable then return 0 end
 	local runeTable = abilityTable.runeAttributes
 
@@ -621,12 +618,7 @@ function generic_ability:PrintAllSpecialRuneValues()
 end
 
 function generic_ability:ClearRuneAttributes(runeName)
-	local caster = self:GetCaster()
-	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
-	if not netTable then return 0 end
-	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
-	if not abilityIndex then return 0 end
-	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	local abilityTable = self:GetAbilityTable()
 	if not abilityTable then return 0 end
 	if not runeName then
 		abilityTable.runeAttributes = {}
@@ -636,19 +628,32 @@ function generic_ability:ClearRuneAttributes(runeName)
 		end
 		abilityTable.runeAttributes[runeName] = {}
 	end
-	netTable.abilities[tostring(abilityIndex)] = abilityTable
-	CustomNetTables:SetTableValue("generic_ability", tostring(caster:entindex()), netTable)
+	self:SetAbilityTable(abilityTable)
 end
 
 function generic_ability:SetCurrentRunesInTable()
-	local caster = self:GetCaster()
-	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
-	if not netTable then return 0 end
-	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
-	if not abilityIndex then return 0 end
-	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	local abilityTable = self:GetAbilityTable()
 	if not abilityTable then return 0 end
 	abilityTable.runes = self.runes
+	self:SetAbilityTable(abilityTable)
+end
+
+function generic_ability:GetAbilityTable()
+	local caster = self:GetCaster()
+	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
+	if not netTable then return end
+	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
+	if not abilityIndex then return end
+	local abilityTable = netTable.abilities[tostring(abilityIndex)]
+	if not abilityTable then return end
+	return abilityTable
+end
+
+function generic_ability:SetAbilityTable(abilityTable)
+	local caster = self:GetCaster()
+	local netTable = CustomNetTables:GetTableValue("generic_ability", tostring(caster:entindex()))
+	if not netTable then return end
+	local abilityIndex = netTable.nameLookup[self:GetAbilityClassName()]
 	netTable.abilities[tostring(abilityIndex)] = abilityTable
 	CustomNetTables:SetTableValue("generic_ability", tostring(caster:entindex()), netTable)
 end
@@ -784,11 +789,12 @@ end
 
 function generic_ability:DeathEvent(event)
 	if not event.attacker == self:GetCaster() then return end
-	if event.inflictor:GetName() == self:GetAbilityClassName() then
-		if self["OnKilled"] then self:OnKilled(event) end
-	else
-		if self["OnDeath"] then self:OnDeath(event) end
+	if event.inflictor then
+		if event.inflictor:GetName() == self:GetAbilityClassName() then
+			if self["OnKilled"] then self:OnKilled(event) end
+		end
 	end
+	if self["OnDeath"] then self:OnDeath(event) end
 end
 
 --=================================================================================================
@@ -824,10 +830,14 @@ function IsEmpty(tab)
 	return false
 end
 
-function FindAttribute(table, attrName)
-	for _,obj in pairs(table) do
+function FindAttribute(table, attrName, actual)
+	for key,obj in pairs(table) do
 		if obj.Name:lower() == attrName:lower() then
-			return obj.Val
+			if actual then
+				return obj.ActualVal, key
+			else
+				return obj.Val, key
+			end
 		end
 	end
 end

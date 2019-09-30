@@ -25,6 +25,7 @@ function RuneBuilder:OnNPCSpawned(event)
 	    	CustomGameEventManager:Send_ServerToPlayer(player, "init_tooltips", {})
 			CustomGameEventManager:Send_ServerToPlayer(player, "init_stat_tooltips", {})
 	        CustomGameEventManager:Send_ServerToPlayer(player, "init_rune_slots", {})
+	        CustomGameEventManager:Send_ServerToPlayer(player, "init_item_tooltips", {})
 	        CustomNetTables:SetTableValue("rune_slots", tostring(npc:entindex()), {})
 	    end
 	end

@@ -5,7 +5,7 @@
 	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	"AbilityTextureName"    "item_gem"
 	"Model"                 "models/props_gameplay/gem01.vmdl" 
-	"Effect"                "particles/generic_gameplay/dropped_item.vpcf"
+	"Effect"                "particles/world/dropped_item_common.vpcf"
 	"ItemQuality"           "common"
 	// "Defense"               "1"
 
@@ -27,7 +27,7 @@
 	"ItemDisplayCharges"	"0"
 	"ItemRequiresCharges"	"0"
 
-	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_FIRE"
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_RANDOM"
 	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_POINT | SPECIAL_ABILITY_KEY_AOE | SPECIAL_ABILITY_KEY_DAMAGE | SPECIAL_ABILITY_KEY_DEBUFF"
 	"SpecialSpellName"		"column_of_destruction"
 

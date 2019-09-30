@@ -1,0 +1,21 @@
+<root>
+  <styles>
+    <include src="file://{resources}/styles/custom_game/test_hud.css"/>
+  </styles>
+  <!-- <scripts>
+    <include src="file://{resources}/scripts/custom_game/rune_slots.js" />
+  </scripts> -->
+  
+  <Panel class="test_parent" hittest="false">
+
+    <Panel id="TestContainer">
+      <Panel class="container">
+        <Panel class="inner">
+          <Label id="headerText" text="Hey" />
+          <Label id="bodyText" text="\nThis is a very important text, that describes something!" />
+        </Panel>
+      </Panel>
+    </Panel> 
+
+  </Panel>
+</root>

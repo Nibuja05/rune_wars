@@ -7,7 +7,7 @@ end
 require('libs/generic_ability_manager')
 require('libs/timers')
 require('libs/extra_enums')
--- require('libs/ability_item_manager')
+require('libs/ability_item_manager')
 require('libs/ability_aspect_manager')
 require('libs/element_manager')
 require('libs/util')
@@ -35,6 +35,9 @@ function GameMode:InitGameMode()
 	print( "Rune Wars is loaded." )
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 2 )
 	ListenToGameEvent('npc_spawned', Dynamic_Wrap(GameMode, 'OnNPCSpawned'), self)
+
+	GameRules:GetGameModeEntity():SetItemAddedToInventoryFilter(Dynamic_Wrap(ItemManager, "OnItemAddedToInventory"), ItemManager)
+
 	-- self:StartEventTest() --Spams console!
 end
 

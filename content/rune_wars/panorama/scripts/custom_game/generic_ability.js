@@ -24,6 +24,7 @@ var reset = false;
 var shown = false;
 var started = false;
 var open = false;
+var altDown = false;
 var resetSchedule;
 
 var rainbow = [];
@@ -59,22 +60,22 @@ function InitializeTooltips() {
 		$.Msg("Adding Tooltip for index " + index)
 		switch (index) {
 			case 0:
-				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 0)
+				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 0);
 				break;
 			case 1:
-				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 1)
+				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 1);
 				break;
 			case 2:
-				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 2)
+				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 2);
 				break;
 			case 3:
-				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 3)
+				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 3);
 				break;
 			case 4:
-				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 4)
+				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 4);
 				break;
 			case 5:
-				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 5)
+				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 5);
 				break;
 			case 6:
 				
@@ -99,8 +100,25 @@ function InitializeTooltips() {
 	}
 
 	// CheckCustomTooltipOpen();
+	
+	CheckAltOption();
 
 	$.Msg("Panorama Init Complete!");
+}
+
+function CheckAltOption() {
+	if (GameUI.IsAltDown() && altDown == false) {
+		altDown = true;
+		if (lastIndex !== undefined && shown == true) {
+			ChangeTooltip(lastIndex, false);
+		}
+	} else if(!GameUI.IsAltDown() && altDown == true) {
+		altDown = false;
+		if (lastIndex !== undefined && shown == true) {
+			ChangeTooltip(lastIndex, false);
+		}
+	}
+	$.Schedule(1/50, CheckAltOption);
 }
 
 function TestShop(arg) {
@@ -161,7 +179,7 @@ function ChangeTooltip(index, show) {
 	var title = "Name";
 	var description = "Description";
 	var lore = "Lore";
-	var extra = "Extra";
+	var extra = "Extra Description: :)";
 	var abilityTargetType = 0;
 	var abilityTargetTeam = 0;
 	var abilityTargetFlags = 0;
@@ -170,32 +188,32 @@ function ChangeTooltip(index, show) {
 	var abilitySpellImmunityType = 0;
 	var abilityBehavior = 0;
 
-	if (table[index.toString(10)] !== undefined) {
-
-		lastIndex = index;
-		shown = true;
-		var abilityPanel = abilityPanels[index];
-		if (show) {
-			$.DispatchEvent("DOTAShowAbilityTooltipForLevel", abilityPanel, "generic_ability_layout", 1);
-		}
-
-		abilityTable = table[index.toString(10)];
-		if (abilityTable["name"] !== undefined) {name = abilityTable["name"]};
-		if (abilityTable["title"] !== undefined) {title = abilityTable["title"]};
-		if (abilityTable["description"] !== undefined) {description = abilityTable["description"]};
-		if (abilityTable["lore"] !== undefined) {lore = abilityTable["lore"]};
-		if (abilityTable["extra"] !== undefined) {extra = abilityTable["extra"]};
-		if (abilityTable["targetType"] !== undefined) {abilityTargetType = abilityTable["targetType"]};
-		if (abilityTable["targetTeam"] !== undefined) {abilityTargetTeam = abilityTable["targetTeam"]};
-		if (abilityTable["targetFlags"] !== undefined) {abilityTargetFlags = abilityTable["targetFlags"]};
-		if (abilityTable["damageType"] !== undefined) {abilityDamageType = abilityTable["damageType"]};
-		if (abilityTable["dispelType"] !== undefined) {abilityDispelType = abilityTable["dispelType"]};
-		if (abilityTable["spellImmunity"] !== undefined) {abilitySpellImmunityType = abilityTable["spellImmunity"]};
-		if (abilityTable["behavior"] !== undefined) {abilityBehavior = abilityTable["behavior"]};
-	} else {
+	if (!(table[index.toString(10)] !== undefined)) {
 		ResetAbilityTooltip();
 		return;
 	}
+
+	lastIndex = index;
+	shown = true;
+	var abilityPanel = abilityPanels[index];
+	if (show) {
+		$.DispatchEvent("DOTAShowAbilityTooltipForLevel", abilityPanel, "generic_ability_layout", 1);
+	}
+
+	abilityTable = table[index.toString(10)];
+
+	if (abilityTable["name"] !== undefined) {name = abilityTable["name"]};
+	if (abilityTable["title"] !== undefined) {title = abilityTable["title"]};
+	if (abilityTable["description"] !== undefined) {description = abilityTable["description"]};
+	if (abilityTable["lore"] !== undefined) {lore = abilityTable["lore"]};
+	if (abilityTable["extra"] !== undefined) {extra = abilityTable["extra"]};
+	if (abilityTable["targetType"] !== undefined) {abilityTargetType = abilityTable["targetType"]};
+	if (abilityTable["targetTeam"] !== undefined) {abilityTargetTeam = abilityTable["targetTeam"]};
+	if (abilityTable["targetFlags"] !== undefined) {abilityTargetFlags = abilityTable["targetFlags"]};
+	if (abilityTable["damageType"] !== undefined) {abilityDamageType = abilityTable["damageType"]};
+	if (abilityTable["dispelType"] !== undefined) {abilityDispelType = abilityTable["dispelType"]};
+	if (abilityTable["spellImmunity"] !== undefined) {abilitySpellImmunityType = abilityTable["spellImmunity"]};
+	if (abilityTable["behavior"] !== undefined) {abilityBehavior = abilityTable["behavior"]};
 
 	// title = Rainbowize(title);
 	// var attributeText = GenerateAttributeText(abilityTable, Entities.GetAbilityByName(mainSelected, name))
@@ -216,13 +234,26 @@ function ChangeTooltip(index, show) {
 	// GetAbilityLabelFromName("Description").text = description;
 	GetAbilityLabelFromName("Lore").text = lore;
 	GetAbilityLabelFromName("Extra").text = extra;
+
+	// TODO: Make the extra Panel hidden when no extra Text is given.
+	// Currently, only hides it for about one second.
+	// -> refreshing timer maybe?
+	// if(extra == "") {
+	// 	var abilityTooltipPanel = GetAbilityTooltipPanel();
+	// 	abilityTooltipPanel.RemoveClass("ShowExtraDescription");
+	// }
 	GetAbilityLabelFromName("ExtraAttributes").text = attributes;
-	if (cooldown > 0) {
+	
+	var cooldownValue = abilityTable["cooldown"];
+	if (cooldownValue !== "0") {
+		GetAbilityLabelFromName("Cooldown").RemoveClass("Hidden");
 		GetAbilityLabelFromName("Cooldown").text = cooldown;
 	} else {
 		GetAbilityLabelFromName("Cooldown").AddClass("Hidden");
 	}
-	if (manaCost > 0) {
+	var manaCostValue = abilityTable["manaCost"];
+	if (manaCostValue !== "0") {
+		GetAbilityLabelFromName("ManaCost").RemoveClass("Hidden");
 		GetAbilityLabelFromName("ManaCost").text = manaCost;
 	} else {
 		GetAbilityLabelFromName("ManaCost").AddClass("Hidden");
@@ -287,6 +318,12 @@ function GenerateAbilityRuneLabels(descriptionPanel, abilityTable) {
 		abilityRuneLabel.SetParent(descriptionPanel);
 		abilityRuneLabel.style.backgroundColor = "gradient( linear, 0% 0%, 0% 100%, from( #1c262f ), to( #1b262f ) )";
 		abilityRuneLabel.text = $.Localize("DOTA_Tooltip_ability_" + runeName + "_Description");
+		abilityRuneLabel.html = true;
+
+		if (GameUI.IsAltDown()) {
+			var runeAttributes = GenerateRuneAttributeText(abilityTable, runeName);
+			abilityRuneLabel.text = abilityRuneLabel.text + "<br><br>" + runeAttributes;
+		}
 	});
 	// for (var i = 1; i <= Object.keys(runes).length; i++) {
 	// 	var runeName = runes[i.toString(10)];
@@ -418,7 +455,9 @@ function GenerateAttributeText(abilityTable, level) {
 	for (var i = 0; i <= Object.keys(attributes).length; i++) {
 		var attr = attributes[i.toString(10)];
 		if (attr !== undefined) {
-			var values = MarkValueForLevel(attr["Val"], level);
+			var valName = "Val";
+			if (GameUI.IsAltDown()) {valName = "ActualVal"}
+			var values = MarkValueForLevel(attr[valName], level);
 			lines.push(attr["Key"] + ": <font color='#4b535e'>" + values + "</font>");
 		}
 	}
@@ -434,21 +473,53 @@ function GenerateAttributeText(abilityTable, level) {
 
 function GenerateCooldownText(abilityTable, level) {
 	var cooldown = "0";
-	if (abilityTable["cooldown"] !== undefined) {cooldown = abilityTable["cooldown"];};
+	if (!(abilityTable.actualValues)) {return ""}
+	if (abilityTable["cooldown"] !== undefined) {cooldown = abilityTable.actualValues.cooldown;};
+	cooldown = ReplaceRelativeString(abilityTable, cooldown);
 	cooldown = MarkValueForLevel(cooldown, level);
 	return cooldown;
 }
 
 function GenerateManaCostText(abilityTable, level) {
 	var manaCost = "0";
-	if (abilityTable["manaCost"] !== undefined) {manaCost = abilityTable["manaCost"];};
+	if (!(abilityTable.actualValues)) {return ""}
+	if (abilityTable["manaCost"] !== undefined) {manaCost = abilityTable.actualValues.manaCost;};
+	manaCost = ReplaceRelativeString(abilityTable, manaCost);
 	manaCost = MarkValueForLevel(manaCost, level);
 	return manaCost;
+}
+
+function GenerateRuneAttributeText(abilityTable, runeName) {
+	var attributes = [];
+	var pattern = /.*ability_rune_\w+?_(\w+)/;
+	var shortRuneName = runeName.match(pattern)[1];
+	if (!abilityTable.runeAttributes[shortRuneName]) {return ""; };
+	if (abilityTable["attributes"] !== undefined) {attributes = abilityTable.runeAttributes[shortRuneName];};
+	var lines = [];
+	for (var i = 0; i <= Object.keys(attributes).length; i++) {
+		var attr = attributes[i.toString(10)];
+		if (attr !== undefined) {
+			var valName = "Val";
+			var values = MarkValueForLevel(attr[valName], 1);
+			lines.push(attr["Key"] + ": <font color='#4b535e'>" + values + "</font>");
+		}
+	}
+	var newText = "";
+	for (var i = 0; i < lines.length; i++) {
+		newText += lines[i];
+		if (!(i == lines.length - 1)) {
+			newText += "<br>";
+		}
+	}
+	return newText;
 }
 
 function MarkValueForLevel(values, level) {
 	var valArr = values.split(" ");
 	var newText = "";
+	for (var i = 0; i < valArr.length; i++) {
+		valArr[i] = ShortenNumber(valArr[i]);
+	}
 	if (valArr.length >= level) {
 		valArr[level - 1] = "<font color='#ffffff'><b>" + valArr[level - 1] + "</b></font>"
 		for (var i = 0; i < valArr.length; i++) {
@@ -459,6 +530,50 @@ function MarkValueForLevel(values, level) {
 		newText = "<font color='#ffffff'><b>" + values + "</b></font>";
 	}
 	return newText;
+}
+
+function ShortenNumber(number) {
+  number = number.toString(10);
+  var index = number.indexOf(".");
+  if (index > 0) {
+    number = parseFloat(number).toFixed(3);
+    var lastChar = "";
+    do {
+      lastChar = number.substring(number.length - 1, number.length);
+      if (lastChar == "0" || lastChar == ".") {
+        number = number.substring(0, number.length - 1);
+      }
+    } while (lastChar == "0")
+  }
+  return number;
+}
+
+function ReplaceRelativeString(abilityTable, str) {
+  if (str.indexOf("%") >= 0) {
+    var pattern = /\w+/i;
+  	var newStr = str.match(pattern);
+  	if (newStr) {
+      var attribute = FindAttribute(abilityTable, newStr);
+  	  if (attribute) {
+        str = attribute.Val;
+      } else {
+        str = "";
+      }
+    }
+  }
+  return str;
+}
+
+function FindAttribute(tab, attrName) {
+  var attr;
+  Object.keys(tab.attributes).forEach(function(key) {
+    var attribute = tab.attributes[key];
+    var name = attribute["Name"];
+    if (name == attrName) {
+      attr = attribute;
+    }
+  });
+  return attr;
 }
 
 function RecolorText() {
@@ -561,17 +676,18 @@ function ResetAbilityTooltip() {
 	GetAbilityLabelFromName("ManaCost").text = "#DOTA_AbilityTooltip_ManaCost";
 }
 
-function GetAbilityPanelFromName(name) {
+function GetAbilityTooltipPanel() {
 	x = tooltipManager.FindChildTraverse('DOTAAbilityTooltip');
 	x = x.FindChildrenWithClassTraverse('TooltipRow');
 	x = x[0].FindChildTraverse('Contents');
 	var abilityTooltip = x.FindChildTraverse('AbilityDetails');
 
-	switch (name) {
-		case "Core":
-			return x.FindChildTraverse('AbilityCoreDetails');
-	}
-	return null;
+	return abilityTooltip;
+	// switch (name) {
+	// 	case "Core":
+	// 		return x.FindChildTraverse('AbilityCoreDetails');
+	// }
+	// return null;
 }
 
 function GetAbilityLabelFromName(name) {

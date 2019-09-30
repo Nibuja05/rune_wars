@@ -183,5 +183,18 @@
 		"DOTA_Tooltip_ability_item_ability_core_common_column_of_destruction_radius"            "RADIUS:"
 		"DOTA_Tooltip_ability_item_ability_core_common_column_of_destruction_cooldown"             "COOLDOWN:"
 		"DOTA_Tooltip_ability_item_ability_core_common_column_of_destruction_manacost"             "MANACOST:"
+
+		"DOTA_Tooltip_ability_item_ability_rune_rare_cascade"                             "Rune: Cascade"
+		"DOTA_Tooltip_ability_item_ability_rune_rare_cascade_Description"                 "Upon Impact, the fires projectile cascades on nearby targets."
+		"DOTA_Tooltip_ability_item_ability_rune_rare_cascade_cascade_count"               "CASCADE COUNT:"
+		"DOTA_Tooltip_ability_item_ability_rune_rare_cascade_cascade_radius"              "CASCADE RADIUS:"
+
+		"DOTA_Tooltip_ability_item_ability_rune_uncommon_split"                           "Rune: Split"
+		"DOTA_Tooltip_ability_item_ability_rune_uncommon_split_Description"               "After raeching the maximum distance of the projectile, it splits itself into more projectiles."
+		"DOTA_Tooltip_ability_item_ability_rune_uncommon_split_split_count"               "SPLIT COUNT:"
+
+		"DOTA_Tooltip_ability_item_ability_rune_uncommon_split_back"                      "Rune: Split Back"
+		"DOTA_Tooltip_ability_item_ability_rune_uncommon_split_back_Description"          "After raeching the maximum distance of the projectile, it splits itself into more projectiles, that travel backwards."
+		"DOTA_Tooltip_ability_item_ability_rune_uncommon_split_back_split_count"          "SPLIT COUNT:"
 	}
 }
