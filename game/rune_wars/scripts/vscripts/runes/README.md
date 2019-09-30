@@ -29,9 +29,25 @@ function your_rune_name:GetAdditionalFunctions()
 	return funcs
 end
 ```
-The rest of the file can be filled with your functions as you like. Be aware that runes feature a ton of unique events that are called on every ability. A proper explenation about these events follows:
+
+### Modify Values
+
+Runes can also modify all values of the ability. This can either be additive or multiplicative. To modify a value one or oth of following two functions can be added to the rune:
+
+- `ModifyValuesConstant()` - returns a table with the names of the values to be modified and the additional values
+- `ModifyValuesPercentage()` - returns a table with the names of the values to be modified and the multiplicative values
+
+The tables are in the following format:
+```lua
+local values = {
+	cooldown = "-2",
+	damage = "50",
+}
+```
 
 ### Custom events
+
+The rest of the file can be filled with your functions as you like. Be aware that runes feature a ton of unique events that are called on every ability. A proper explenation about these events follows:
 
 - `OnProjectileHitUnit(hTarget)` - gets called whenever a projectile (tracking/linear) hits a unit.
 - `OnProjectileFinish(vLocation)` - gets called when a projectile gets destroyed (linear only).
