@@ -1,6 +1,10 @@
 
 generic_ability = class({})
 
+function generic_ability:IsInnate()
+	return true
+end
+
 --=================================================================================================
 --PUBLIC FUNCTIONS
 --=================================================================================================
@@ -13,8 +17,8 @@ function generic_ability:GetLevelSpecialValueFor(name, level)
 	return tonumber(self:GetAttribute(name, level))
 end
 
-function generic_ability:AddSpecialValue(name, text, val)
-	self:AddAttribute(name, text, val)
+function generic_ability:AddSpecialValue(name, text, val, grow, flags)
+	self:AddAttribute(name, text, val, grow, flags)
 end
 
 function generic_ability:RemoveSpecialValue(name)
@@ -226,20 +230,6 @@ end
 
 function generic_ability:ReloadAbility()
 	local caster = self:GetCaster()
-	-- caster:AddNewModifier(caster, self, "modifier_reload_"..self:GetAbilityClassName(), {Duration = 0.1})
-
-	-- self:AddEventModifier()
-	-- self:UpdateModifier("manaCost")
-	-- self:UpdateModifier("cooldown")
-	-- self:UpdateModifier("behavior")
-	-- self:UpdateModifier("castRange")
-	-- self:UpdateModifier("targetTeam")
-	-- self:UpdateModifier("targetType")
-	-- self:UpdateModifier("targetFlags")
-	-- self:UpdateModifier("spellImmunity")
-	-- self:UpdateModifier("aoeRadius")
-	-- self:UpdateModifier("duration")
-	-- self:UpdateModifier("castPoint")
 
 	if self["GetPassives"] then
 		local passives = self:GetPassives()
@@ -251,8 +241,8 @@ function generic_ability:ReloadAbility()
 	end
 
 	self:CalculateActualValues()
-
 	self:UpdateCastPoint()
+	self:UpdateAbilitySpecialKeys()
 end
 
 --=================================================================================================
@@ -260,15 +250,19 @@ end
 --=================================================================================================
 
 function generic_ability:DealDamage(damage, attacker, victim, specialDamageType)
+
+	--modify the damage
 	local eventData = {
-		damage = damage,
 		victim = victim,
 		specialDamageType = specialDamageType,
 	}
 	if self["OnDealDamageCustom"] then
-		local tempDamage = self:OnDealDamageCustom(eventData)
-		if tempDamage then
-			damage = tempDamage
+		for _,func in pairs(self.funcs["OnDealDamageCustom"]) do
+			eventData.damage = damage
+			local tempDamage = func(self, eventData)
+			if tempDamage then
+				damage = tempDamage
+			end
 		end
 	end
 	
@@ -366,6 +360,33 @@ function generic_ability:DoTrackingProjectile(startLoc, startUnit, endUnit, spee
 	local projectile = ProjectileManager:CreateTrackingProjectile(info)
 end
 
+function generic_ability:SummonUnit(name, location, modifiers)
+	local caster = self:GetCaster()
+	local unit = CreateUnitByName(name, location, true, caster, caster, caster:GetTeam())
+	-- unit:SetAbsOrigin(location)
+	unit:SetControllableByPlayer(caster:GetPlayerID(), true)
+	unit:SetOwner(caster)
+
+	if self["GetSummonModifiers"] then
+		modifiers = CombineTables(modifiers, self:GetSummonModifiers())
+	end
+
+	if modifiers then
+		for _,modifier in pairs(modifiers) do
+			local modifierTable = {}
+			if not modifier.duration then modifier.duration = 0 end
+			if not modifier.extra then modifier.extra = {} end
+			if modifier.duration > 0 then
+				modifierTable.Duration = modifier.duration
+			end
+			if GetTableLength(modifier.extra) > 0 then
+				modifierTable = CombineTables(modifierTable, modifier.extra)
+			end
+			unit:AddNewModifier(caster, self, modifier.name, modifierTable)
+		end
+	end
+end
+
 --=================================================================================================
 --HIDDEN FUNCTIONS
 --=================================================================================================
@@ -385,7 +406,7 @@ function generic_ability:ReplaceRelativeString(str)
 	if newString then
 		local caster = self:GetCaster()
 		local abilityTable = self:GetAbilityTable()
-		if not abilityTable then return 0 end
+		if not abilityTable then return "" end
 		newString = FindAttribute(abilityTable.attributes, newString, true)
 	else
 		return str
@@ -419,16 +440,22 @@ function generic_ability:CalculateActualValues()
 			actualTable[key] = val
 		end
 	end
+	local level = self:GetCaster():GetLevel() - 1
+	for _,attr in pairs(abilityTable.attributes) do
+		attr.ActualVal = attr.Val + attr.Grow * level
+	end
 	abilityTable.actualValues = actualTable
 	self:SetAbilityTable(abilityTable)
 
 	if self["ModifyValuesConstant"] then self:ModifyValuesConstant() end
 	if self["ModifyValuesPercentage"] then self:ModifyValuesPercentage() end
+	if self["ModifyValuesGlobal"] then self:ModifyValuesGlobal() end
 end
 
+-- Modifies the actual Values of Attributes
 function generic_ability:ModifyActualValue(name, value, valType)
 
-	print("Modifying Actual Value!", valType, name, value)
+	-- print("Modifying Actual Value!", valType, name, value)
 
 	local function Combine(val1, val2)
 		if valType == "Add" then
@@ -441,18 +468,39 @@ function generic_ability:ModifyActualValue(name, value, valType)
 
 	local abilityTable = self:GetAbilityTable()
 	if not abilityTable then return 0 end
-	local actualTable = abilityTable.actualValues
-	if actualTable[name] then
-		local tableValues = {}
-		--if it is a relative String, modify
-		if tostring(actualTable[name]):find("%%") then
-			attrValue, attrIndex = FindAttribute(abilityTable.attributes, name, true)
-			print("relative:", attrValue, attrIndex)
-			if attrIndex then
-				for val in attrValue:gmatch("[%w%.]+") do table.insert(tableValues, val) end
+
+	local nameTable = {}
+	--Test for specific keywords
+	if name == "DMG" then
+		for _,attr in pairs(abilityTable.attributes) do
+			if attr.Flags then
+				for _,flag in pairs(attr.Flags) do
+					if flag == "DMG" then
+						table.insert(nameTable, attr.Name)
+					end
+				end
 			end
-		else
-			for val in tostring(actualTable[name]):gmatch("[%w%.]+") do table.insert(tableValues, val) end
+		end
+	elseif name == "DUR" then
+		for _,attr in pairs(abilityTable.attributes) do
+			if attr.Flags then
+				for _,flag in pairs(attr.Flags) do
+					if flag == "DUR" then
+						table.insert(nameTable, attr.Name)
+					end
+				end
+			end
+		end
+	else
+		table.insert(nameTable, name)
+	end
+
+	for _,attrName in pairs(nameTable) do
+		local tableValues = {}
+		local attrValue, attrIndex = FindAttribute(abilityTable.attributes, attrName, true)
+		-- print("Relative: ", attrValue, attrIndex, attrName)
+		if attrIndex then
+			for val in tostring(attrValue):gmatch("[%w%.]+") do table.insert(tableValues, val) end
 		end
 
 		local newValueString = ""
@@ -464,15 +512,72 @@ function generic_ability:ModifyActualValue(name, value, valType)
 
 		if newValueString ~= "" then
 			newValueString = newValueString:sub(1, -2)
-			if not tostring(actualTable[name]):find("%%") then
-				actualTable[name] = newValueString
-			end
 			if attrIndex then
 				abilityTable.attributes[attrIndex]["ActualVal"] = newValueString
 			end
 		end
 	end
+
 	abilityTable.actualValues = actualTable
+	self:SetAbilityTable(abilityTable)
+end
+
+function generic_ability:ModifyActualValueGlobal(value)
+
+	print("Modifying Actual Values globally!", value)
+
+	local function Combine(val1, val2, inv)
+		if inv then return val1 / val2 end
+		return val1 * val2
+	end
+
+	local abilityTable = self:GetAbilityTable()
+	if not abilityTable then return 0 end
+
+	local nameTable = {}
+	--Test for specific keywords
+	for _,attr in pairs(abilityTable.attributes) do
+		if attr.Flags then
+			local nonFlag = false
+			local invFlag = false
+			for _,flag in pairs(attr.Flags) do
+				if flag == "NON" then
+					nonFlag = true
+				elseif flag == "INV" then
+					invFlag = true
+				end
+			end
+			if not nonFlag then
+				table.insert(nameTable, {name = attr.Name, inverse = invFlag})
+			end
+		else
+			table.insert(nameTable, {name = attr.Name, inverse = false})
+		end
+	end
+
+	for _,attr in pairs(nameTable) do
+		local tableValues = {}
+		local attrValue, attrIndex = FindAttribute(abilityTable.attributes, attr.name, true)
+		-- print("Relative: ", attrValue, attrIndex, attr.name)
+		if attrIndex then
+			for val in tostring(attrValue):gmatch("[%w%.]+") do table.insert(tableValues, val) end
+		end
+
+		local newValueString = ""
+		for _,val in pairs(tableValues) do
+			if tonumber(val) then
+				newValueString = newValueString..tostring(Combine(tonumber(val), tonumber(value), attr.inverse)).." "
+			end
+		end
+
+		if newValueString ~= "" then
+			newValueString = newValueString:sub(1, -2)
+			if attrIndex then
+				abilityTable.attributes[attrIndex]["ActualVal"] = newValueString
+			end
+		end
+	end
+
 	self:SetAbilityTable(abilityTable)
 end
 
@@ -480,11 +585,11 @@ function generic_ability:GetNumberValue(valType)
 	local abilityTable = self:GetAbilityTable()
 	if not abilityTable then return 0 end
 	local curVal = abilityTable[valType]
-	if abilityTable.actualValues then
-		if abilityTable.actualValues[valType] then
-			curVal = abilityTable.actualValues[valType]
-		end
-	end
+	-- if abilityTable.actualValues then
+	-- 	if abilityTable.actualValues[valType] then
+	-- 		curVal = abilityTable.actualValues[valType]
+	-- 	end
+	-- end
 	curVal = self:ReplaceRelativeString(curVal)
 	-- print(curVal)
 	if type(curVal) == "string" then
@@ -527,16 +632,24 @@ function generic_ability:GetAttribute(name, level)
 	return curVal
 end
 
-function generic_ability:AddAttribute(name, text, val)
+function generic_ability:AddAttribute(name, text, val, grow, flags)
 	self:RemoveAttribute(name)
 	local abilityTable = self:GetAbilityTable()
 	if not abilityTable then return 0 end
+
+	local level = self:GetCaster():GetLevel() - 1
+
 	local newTable = {
 		Name = name,
 		Key = text,
 		Val = val,
-		ActualVal = val,
+		ActualVal = val + grow * level,
+		Grow = grow,
 	}
+	if flags then
+		newTable.Flags = flags
+	end
+
 	table.insert(abilityTable.attributes, GetTableLength(abilityTable.attributes), newTable)
 	self:SetAbilityTable(abilityTable)
 end
@@ -570,7 +683,6 @@ function generic_ability:GetRuneAttribute(name, runeName)
 	local runeTable = abilityTable.runeAttributes
 	if not runeTable[runeName] then return 0 end
 	local attribute = FindAttribute(runeTable[runeName], name)
-
 	return attribute
 end
 
@@ -688,6 +800,10 @@ function generic_ability:OnUpgrade()
 	self:AddEventModifier()
 end
 
+function generic_ability:OnHeroLevelUp()
+	self:ReloadAbility()
+end
+
 function generic_ability:AddPassives(passives)
 	local caster = self:GetCaster()
 	for _,passive in pairs(passives) do
@@ -700,6 +816,18 @@ end
 function generic_ability:UpdateCastPoint()
 	local castPoint = self:GetCastPoint()
 	self:SetOverrideCastPoint(castPoint)
+end
+
+function generic_ability:UpdateAbilitySpecialKeys()
+	local keys = self:GetAbilitySpecialKeys()
+	if not self["GetAdditionalAbilityKeys"] then return end
+	local newKeys = self:GetAdditionalAbilityKeys()
+	for _,key in pairs(newKeys) do
+		if bit.band(keys, key) == 0 then
+			keys = keys + key
+		end
+	end
+	self:SetAbilitySpecialKeys(keys)
 end
 
 --=================================================================================================
@@ -801,35 +929,6 @@ end
 --TABLE FUNCTIONS
 --=================================================================================================
 
-function GetTableLength(table)
-	print("\nGet Table Length!\n")
-	PrintTable(table)
-	local index = 0
-	for _,k in pairs(table) do
-		index = index + 1
-	end
-	return index
-end
-
-function RemoveItemFromTable(tab, val)
-	local newTab = {}
-	local index = 0
-	for _,v in pairs(tab) do
-		if not v:GetName() ~= val:GetName() then
-			newTab[index] = v
-			index = index + 1
-		end
-	end
-	return newTab
-end
-
-function IsEmpty(tab)
-	if GetTableLength(tab) == 0 then
-		return true
-	end
-	return false
-end
-
 function FindAttribute(table, attrName, actual)
 	for key,obj in pairs(table) do
 		if obj.Name:lower() == attrName:lower() then
@@ -841,3 +940,4 @@ function FindAttribute(table, attrName, actual)
 		end
 	end
 end
+

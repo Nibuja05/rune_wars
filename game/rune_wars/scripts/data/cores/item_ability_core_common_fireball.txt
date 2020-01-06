@@ -1,0 +1,35 @@
+"item_ability_core_common_fireball" 
+{
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_FIRE"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_POINT | SPECIAL_ABILITY_KEY_LINEAR_PROJECTILE | SPECIAL_ABILITY_KEY_MULTI_TARGET | SPECIAL_ABILITY_KEY_DAMAGE"
+	"SpecialSpellName"		"fireball"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"damage_flag_dmg"				"80 +10"
+		}
+		"02"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"range"							"750"
+		}
+		"03"
+		{
+			"var_type"						"FIELD_FLOAT"
+			"cooldown_flag_inv"				"7.0 -0.1"
+		}
+		"04"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"manacost_flag_inv"				"40 +2"
+		}
+		"05"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"projectile_speed_flag_non"		"1200"
+		}
+	}
+} 

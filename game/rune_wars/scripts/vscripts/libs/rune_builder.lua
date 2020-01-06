@@ -31,18 +31,17 @@ function RuneBuilder:OnNPCSpawned(event)
 	end
 end
 
-function RuneBuilder:SetRuneDisabled(ability, index)
+function RuneBuilder:SetRuneDisabled(ability, index, markType)
 	-- print("[RB] Set a rune disabled!")
 	local className = ability:GetAbilityClassName()
 	local suffix = className:gsub("generic_ability", "")
 	local slotName = "rune"..index.."_slot"..suffix
 
-	print(index)
-
 	local caster = ability:GetCaster()
 	local playerID = caster:GetPlayerID()
 	local player = PlayerResource:GetPlayer(playerID)
-	CustomGameEventManager:Send_ServerToPlayer(player, "mark_rune_slot", {slotName = slotName, markType = "disabled"})
+	if not markType then markType = "disabled" end
+	CustomGameEventManager:Send_ServerToPlayer(player, "mark_rune_slot", {slotName = slotName, markType = markType})
 end
 
 function RuneBuilder:DeleteInventoryItem(event)

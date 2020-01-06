@@ -27,7 +27,7 @@ end
 function split:OnProjectileHitFinishExtra(vLocation, extraData)
 	local splitCount = 0
 	local runeName = "split"
-	local varName = "SplitCount".."_"..runeName
+	local varName = "SplitCount"..runeName
 	if extraData[varName] then
 		splitCount = extraData[varName]
 	end

@@ -1,0 +1,30 @@
+"item_ability_core_common_blink_strike" 
+{
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_STORM"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_UNIT | SPECIAL_ABILITY_KEY_SINGLE_TARGET | SPECIAL_ABILITY_KEY_DAMAGE"
+	"SpecialSpellName"		"spark"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"damage_flag_dmg"	"25 +5"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"range"				"500"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"cooldown_flag_inv"	"9"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"manacost_flag_inv"	"55"
+		}
+	}
+} 

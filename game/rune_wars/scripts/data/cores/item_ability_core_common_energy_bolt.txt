@@ -1,0 +1,30 @@
+"item_ability_core_common_energy_bolt" 
+{
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_ORDER"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_UNIT | SPECIAL_ABILITY_KEY_TRACKING_PROJECTILE | SPECIAL_ABILITY_KEY_SINGLE_TARGET | SPECIAL_ABILITY_KEY_DAMAGE"
+	"SpecialSpellName"		"energy_bolt"
+	
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"damage_flag_dmg"	"60 +15"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"range"				"550"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"cooldown_flag_inv"	"10"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"manacost_flag_inv"	"60"
+		}
+	}
+} 

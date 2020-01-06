@@ -136,7 +136,7 @@ function GenericAbility:LoadAbilityFromTable(ability, abilityTable)
 			elseif not val.val then
 				print("Wrong specialvalues format!")
 			else
-				ability:AddSpecialValue(val.name, val.text, val.val)
+				ability:AddSpecialValue(val.name, val.text, val.val, val.grow, val.flags)
 			end
 		end
 	end
@@ -202,12 +202,24 @@ function GenericAbility:AddFunction(ability, funcName, func, itemName)
 			local finalRet
 			for _,func in pairs(self.funcs[funcName]) do
 				local ret = func(self, select(1, ...))
+
+				-- check the return value
 				if ret ~= nil then
-					finalRet = ret
+					--combine results to table, if one of them is a table
+					if type(ret) == "table" then
+						if type(finalRet) ~= "table" then
+							if finalRet then 
+								finalRet = {finalRet}
+							else
+								finalRet = {}
+							end
+						end
+						CombineTables(finalRet, ret)
+					else
+						finalRet = ret
+					end
 				end
-			end
-			if finalRet ~= nil then
-				-- print("Return: "..tostring(finalRet))
+
 			end
 			return finalRet
 		end
@@ -274,13 +286,13 @@ local charset = {}  do -- [0-9a-zA-Z]
 	for c = 97, 122 do table.insert(charset, string.char(c)) end
 end
 
-function randomString(length)
+function RandomString(length)
 	if not length or length <= 0 then return '' end
-	return randomString(length - 1) .. charset[RandomInt(1, #charset)]
+	return RandomString(length - 1) .. charset[RandomInt(1, #charset)]
 end
 
-function randomizeString(str)
-	local newString = randomString(str:len())
+function RandomizeString(str)
+	local newString = RandomString(str:len())
 	for i=0,str:len() do
 		local char = str[i]
 		if char == " " then

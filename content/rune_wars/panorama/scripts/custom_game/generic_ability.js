@@ -110,12 +110,12 @@ function CheckAltOption() {
 	if (GameUI.IsAltDown() && altDown == false) {
 		altDown = true;
 		if (lastIndex !== undefined && shown == true) {
-			ChangeTooltip(lastIndex, false);
+			ChangeTooltip(lastIndex, true);
 		}
 	} else if(!GameUI.IsAltDown() && altDown == true) {
 		altDown = false;
 		if (lastIndex !== undefined && shown == true) {
-			ChangeTooltip(lastIndex, false);
+			ChangeTooltip(lastIndex, true);
 		}
 	}
 	$.Schedule(1/50, CheckAltOption);
@@ -179,7 +179,7 @@ function ChangeTooltip(index, show) {
 	var title = "Name";
 	var description = "Description";
 	var lore = "Lore";
-	var extra = "Extra Description: :)";
+	var extra = "";
 	var abilityTargetType = 0;
 	var abilityTargetTeam = 0;
 	var abilityTargetFlags = 0;
@@ -220,9 +220,9 @@ function ChangeTooltip(index, show) {
 	
 	var ability = Entities.GetAbilityByName(mainSelected, name);
 	var level = Abilities.GetLevel(ability);
-	var cooldown = GenerateCooldownText(abilityTable, level);
-	var manaCost = GenerateManaCostText(abilityTable, level);
-	var attributes = GenerateAttributeText(abilityTable, level);
+	var cooldown = GenerateCooldownText(abilityTable);
+	var manaCost = GenerateManaCostText(abilityTable);
+	var attributes = GenerateAttributeText(abilityTable);
 
 	var dispelType = GenerateAbilityTargetText("Dispel", abilityDispelType);
 	var castType = GenerateAbilityTargetText("Cast", abilityBehavior);
@@ -258,7 +258,8 @@ function ChangeTooltip(index, show) {
 	} else {
 		GetAbilityLabelFromName("ManaCost").AddClass("Hidden");
 	}
-	GetAbilityLabelFromName("Level").text = "Level " + level;
+	// GetAbilityLabelFromName("Level").text = "Level " + level;
+	GetAbilityLabelFromName("Level").text = "Level " + Entities.GetLevel(mainSelected);
 
 	var descriptionPanel = GetAbilityLabelFromName("Description");
 	descriptionPanel.RemoveAndDeleteChildren();
@@ -308,21 +309,65 @@ function GenerateAbilityRuneLabels(descriptionPanel, abilityTable) {
 	var runes = abilityTable["runes"];
 	if (!runes) { return; }
 	Object.keys(runes).forEach(function(key) {
-	    var runeName = runes[key];
-	    var abilityRuneHeaderLabel = $.CreatePanel("Label", $.GetContextPanel(), "");
-		abilityRuneHeaderLabel.SetParent(descriptionPanel);
+		var runeName = runes[key];
+		var text = $.Localize("DOTA_Tooltip_ability_" + runeName + "_Description");
+		var headerPattern = /<h1>(.*?)<\/h1>/;
+		var header = headerPattern.exec(text);
+		var mainText = text.substring(header[0].length)
+
+		var abilityRuneContainer = $.CreatePanel("Panel", $.GetContextPanel(), "RuneContainer");
+		abilityRuneContainer.SetParent(descriptionPanel);
+		abilityRuneContainer.style.flowChildren = "none";
+
+		var abilityRuneDescriptionContainer = $.CreatePanel("Panel", $.GetContextPanel(), "RuneDescriptionContainer");
+		abilityRuneDescriptionContainer.SetParent(abilityRuneContainer);
+		abilityRuneDescriptionContainer.style.flowChildren = "down";
+
+		var abilityRuneHeaderLabel = $.CreatePanel("Label", $.GetContextPanel(), "");
+		abilityRuneHeaderLabel.SetParent(abilityRuneDescriptionContainer);
 		abilityRuneHeaderLabel.AddClass("Header");
-		abilityRuneHeaderLabel.text = $.Localize("DOTA_Tooltip_ability_" + runeName);
+		abilityRuneHeaderLabel.style.textShadow = "2px 2px 0px 1.0 #00000090";
+		// abilityRuneHeaderLabel.text = $.Localize("DOTA_Tooltip_ability_" + runeName);
+		abilityRuneHeaderLabel.text = header[1];
+
+		// var cooldown = 10;
+		// if (cooldown > 0) {
+		// 	var abilityRuneCooldown = $.CreatePanel("Panel", $.GetContextPanel(), "RuneCosts")
+		// 	abilityRuneCooldown.SetParent(abilityRuneContainer);
+		// 	abilityRuneCooldown.style.flowChildren = "left";
+		// 	abilityRuneCooldown.style.width = "100%";
+		// 	abilityRuneCooldown.style.marginTop = "4px";
+		// 	abilityRuneCooldown.style.marginBottom = "5px";
+		// 	abilityRuneCooldown.style.marginRight = "8px";
+		// 	abilityRuneCooldown.style.zIndex = "1";
+
+		// 	var abilityRuneCooldownLabel = $.CreatePanel("Label", $.GetContextPanel(), "");
+		// 	abilityRuneCooldownLabel.SetParent(abilityRuneCooldown);
+		// 	abilityRuneCooldownLabel.AddClass("Cooldown");
+		// 	abilityRuneCooldownLabel.style.visibility = "visible";
+		// 	abilityRuneCooldownLabel.style.backgroundPosition = "0% 50%";
+		// 	abilityRuneCooldownLabel.style.backgroundRepeat = "no-repeat";
+		// 	abilityRuneCooldownLabel.style.paddingLeft = "25px";
+		// 	abilityRuneCooldownLabel.style.marginLeft = "10px";
+		// 	abilityRuneCooldownLabel.style.textShadow = "2px 2px 0px 1.0 #00000088";
+		// 	abilityRuneCooldownLabel.style.paddingTop = "2px";
+		// 	abilityRuneCooldownLabel.style.fontWeight = "semi-bold";
+		// 	abilityRuneCooldownLabel.style.color = "#e1e1e1";
+		// 	abilityRuneCooldownLabel.style.position = "258.0px 0.0px 0.0px";
+		// 	// abilityRuneCooldownLabel.style.horizontalAlign = "right";
+		// 	abilityRuneCooldownLabel.text = "10";
+		// }
 
 		var abilityRuneLabel = $.CreatePanel("Label", $.GetContextPanel(), "");
-		abilityRuneLabel.SetParent(descriptionPanel);
+		abilityRuneLabel.SetParent(abilityRuneDescriptionContainer);
 		abilityRuneLabel.style.backgroundColor = "gradient( linear, 0% 0%, 0% 100%, from( #1c262f ), to( #1b262f ) )";
-		abilityRuneLabel.text = $.Localize("DOTA_Tooltip_ability_" + runeName + "_Description");
+		abilityRuneLabel.style.textShadow = "2px 2px 0px 1.0 #00000090";
 		abilityRuneLabel.html = true;
+		abilityRuneLabel.text = "<font color='#626d7b'>" + mainText + "</font>";
 
 		if (GameUI.IsAltDown()) {
 			var runeAttributes = GenerateRuneAttributeText(abilityTable, runeName);
-			abilityRuneLabel.text = abilityRuneLabel.text + "<br><br>" + runeAttributes;
+			abilityRuneLabel.text = "<font color='#626d7b'>" + mainText + "</font>" + "<br><br>" + runeAttributes;
 		}
 	});
 	// for (var i = 1; i <= Object.keys(runes).length; i++) {
@@ -448,7 +493,7 @@ function GetAbilityTargetString(key, val, opt) {
 	return text;
 }
 
-function GenerateAttributeText(abilityTable, level) {
+function GenerateAttributeText(abilityTable) {
 	var attributes = [];
 	if (abilityTable["attributes"] !== undefined) {attributes = abilityTable["attributes"];};
 	var lines = [];
@@ -457,7 +502,8 @@ function GenerateAttributeText(abilityTable, level) {
 		if (attr !== undefined) {
 			var valName = "Val";
 			if (GameUI.IsAltDown()) {valName = "ActualVal"}
-			var values = MarkValueForLevel(attr[valName], level);
+			// var values = MarkValueForLevel(attr[valName], level);
+			var values = ShowValuesWithGrow(attr[valName], attr["Grow"])
 			lines.push(attr["Key"] + ": <font color='#4b535e'>" + values + "</font>");
 		}
 	}
@@ -471,21 +517,25 @@ function GenerateAttributeText(abilityTable, level) {
 	return newText;
 }
 
-function GenerateCooldownText(abilityTable, level) {
+function GenerateCooldownText(abilityTable) {
 	var cooldown = "0";
-	if (!(abilityTable.actualValues)) {return ""}
-	if (abilityTable["cooldown"] !== undefined) {cooldown = abilityTable.actualValues.cooldown;};
+	// if (!(abilityTable.actualValues)) {return ""}
+	// if (abilityTable["cooldown"] !== undefined) {cooldown = abilityTable.actualValues.cooldown;};
+	if (abilityTable["cooldown"] !== undefined) {cooldown = abilityTable.cooldown;};
 	cooldown = ReplaceRelativeString(abilityTable, cooldown);
-	cooldown = MarkValueForLevel(cooldown, level);
+	// cooldown = MarkValueForLevel(cooldown, level);
+	cooldown = ShowValuesWithGrow(cooldown)
 	return cooldown;
 }
 
-function GenerateManaCostText(abilityTable, level) {
+function GenerateManaCostText(abilityTable) {
 	var manaCost = "0";
-	if (!(abilityTable.actualValues)) {return ""}
-	if (abilityTable["manaCost"] !== undefined) {manaCost = abilityTable.actualValues.manaCost;};
+	// if (!(abilityTable.actualValues)) {return ""}
+	// if (abilityTable["manaCost"] !== undefined) {manaCost = abilityTable.actualValues.manaCost;};
+	if (abilityTable["manaCost"] !== undefined) {manaCost = abilityTable.manaCost;};
 	manaCost = ReplaceRelativeString(abilityTable, manaCost);
-	manaCost = MarkValueForLevel(manaCost, level);
+	// manaCost = MarkValueForLevel(manaCost, level);
+	manaCost = ShowValuesWithGrow(manaCost)
 	return manaCost;
 }
 
@@ -532,34 +582,51 @@ function MarkValueForLevel(values, level) {
 	return newText;
 }
 
+function ShowValuesWithGrow(value, grow) {
+	var val = ShortenNumber(value);
+	growText = "";
+	if (grow !== undefined) {
+		if (grow !== "0") {
+			growText = " (";
+			if (Number(grow) > 0) {
+				growText += "+" + grow
+			} else {
+				growText += grow
+			}
+			growText += ")"
+		}
+	}
+	return "<font color='#ffffff'><b>" + val + "</b></font>" + growText;
+}
+
 function ShortenNumber(number) {
   number = number.toString(10);
   var index = number.indexOf(".");
   if (index > 0) {
-    number = parseFloat(number).toFixed(3);
-    var lastChar = "";
-    do {
-      lastChar = number.substring(number.length - 1, number.length);
-      if (lastChar == "0" || lastChar == ".") {
-        number = number.substring(0, number.length - 1);
-      }
-    } while (lastChar == "0")
+	number = parseFloat(number).toFixed(3);
+	var lastChar = "";
+	do {
+	  lastChar = number.substring(number.length - 1, number.length);
+	  if (lastChar == "0" || lastChar == ".") {
+		number = number.substring(0, number.length - 1);
+	  }
+	} while (lastChar == "0")
   }
   return number;
 }
 
 function ReplaceRelativeString(abilityTable, str) {
   if (str.indexOf("%") >= 0) {
-    var pattern = /\w+/i;
-  	var newStr = str.match(pattern);
-  	if (newStr) {
-      var attribute = FindAttribute(abilityTable, newStr);
-  	  if (attribute) {
-        str = attribute.ActualVal;
-      } else {
-        str = "";
-      }
-    }
+	var pattern = /\w+/i;
+	var newStr = str.match(pattern);
+	if (newStr) {
+	  var attribute = FindAttribute(abilityTable, newStr);
+	  if (attribute) {
+		str = attribute.ActualVal;
+	  } else {
+		str = "";
+	  }
+	}
   }
   return str;
 }
@@ -567,11 +634,11 @@ function ReplaceRelativeString(abilityTable, str) {
 function FindAttribute(tab, attrName) {
   var attr;
   Object.keys(tab.attributes).forEach(function(key) {
-    var attribute = tab.attributes[key];
-    var name = attribute["Name"];
-    if (name == attrName) {
-      attr = attribute;
-    }
+	var attribute = tab.attributes[key];
+	var name = attribute["Name"];
+	if (name == attrName) {
+	  attr = attribute;
+	}
   });
   return attr;
 }

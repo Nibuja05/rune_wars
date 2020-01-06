@@ -54,6 +54,12 @@
 		"DOTA_AbilityTooltip_SpellImmunityType_Custom_Yes" 			"<font color='#6FE971'>Yes</font>"
 		"DOTA_AbilityTooltip_SpellImmunityType_Custom_No" 			"No"
 
+		//UNITS
+
+		"npc_dota_hero_shaman"                                                            "Shadow Shaman"
+
+		"npc_dota_neutral_kobold_basic"                                                   "Kobold"
+		"npc_dota_corpse_skeleton"                                                        "Skeleton"
 
 		// ITEMS
 		// Common: No color
@@ -61,40 +67,41 @@
 
 		"DOTA_Tooltip_ability_item_ability_core_common_spark"                             "Ability Core: Spark" //Common
 		"DOTA_Tooltip_ability_item_ability_core_common_spark_Description"                 "Shocks a single enemy to deal damage."
-		"DOTA_Tooltip_ability_item_ability_core_common_spark_damage"                      "DAMAGE:"
 		"DOTA_Tooltip_ability_item_ability_core_common_spark_range"                       "RANGE:"
-		"DOTA_Tooltip_ability_item_ability_core_common_spark_cooldown"                    "COOLDOWN:"
-		"DOTA_Tooltip_ability_item_ability_core_common_spark_manacost"                    "MANACOST:"
+		"DOTA_Tooltip_ability_item_ability_core_common_spark_damage_flag_dmg"             "DAMAGE:"
+		"DOTA_Tooltip_ability_item_ability_core_common_spark_cooldown_flag_inv"           "COOLDOWN:"
+		"DOTA_Tooltip_ability_item_ability_core_common_spark_manacost_flag_inv"           "MANACOST:"
 
 		"DOTA_Tooltip_ability_item_ability_core_common_fireball"                          "Ability Core: Fireball"  //Common
-		"DOTA_Tooltip_ability_item_ability_core_common_fireball_Description"              "Fires a fireball in a traight line, damaging the first enemy hit."
-		"DOTA_Tooltip_ability_item_ability_core_common_fireball_damage"                   "DAMAGE:"
+		"DOTA_Tooltip_ability_item_ability_core_common_fireball_Description"              "Shoots a fireball in a traight line, damaging the first enemy hit."
 		"DOTA_Tooltip_ability_item_ability_core_common_fireball_range"                    "RANGE:"
-		"DOTA_Tooltip_ability_item_ability_core_common_fireball_cooldown"                 "COOLDOWN:"
-		"DOTA_Tooltip_ability_item_ability_core_common_fireball_manacost"                 "MANACOST:"
+		"DOTA_Tooltip_ability_item_ability_core_common_fireball_damage_flag_dmg"          "DAMAGE:"
+		"DOTA_Tooltip_ability_item_ability_core_common_fireball_cooldown_flag_inv"        "COOLDOWN:"
+		"DOTA_Tooltip_ability_item_ability_core_common_fireball_manacost_flag_inv"        "MANACOST:"
+		"DOTA_Tooltip_ability_item_ability_core_common_fireball_projectile_speed_flag_non"		"PROJECTILE SPEED:"
 
 		"DOTA_Tooltip_ability_item_ability_core_common_freeze"                            "Ability Core: Freeze"  //Common
 		"DOTA_Tooltip_ability_item_ability_core_common_freeze_Description"                "Shoots a homing ice projecitle, that freezes the the enemy and deals minor damage."
-		"DOTA_Tooltip_ability_item_ability_core_common_freeze_damage"                     "DAMAGE:"
 		"DOTA_Tooltip_ability_item_ability_core_common_freeze_range"                      "RANGE:"
-		"DOTA_Tooltip_ability_item_ability_core_common_freeze_cooldown"                   "COOLDOWN:"
-		"DOTA_Tooltip_ability_item_ability_core_common_freeze_manacost"                   "MANACOST:"
-		"DOTA_Tooltip_ability_item_ability_core_common_freeze_freeze_duration"            "FREEZE DURATION:"
+		"DOTA_Tooltip_ability_item_ability_core_common_freeze_damage_flag_dmg"            "DAMAGE:"
+		"DOTA_Tooltip_ability_item_ability_core_common_freeze_cooldown_flag_inv"          "COOLDOWN:"
+		"DOTA_Tooltip_ability_item_ability_core_common_freeze_manacost_flag_inv"          "MANACOST:"
+		"DOTA_Tooltip_ability_item_ability_core_common_freeze_freeze_duration_flag_dur"   "FREEZE DURATION:"
 
 		"DOTA_Tooltip_ability_item_ability_core_common_heal"                             "Ability Core: Heal"  //Common
 		"DOTA_Tooltip_ability_item_ability_core_common_heal_Description"                  "Heals the user for a small amount."
 		"DOTA_Tooltip_ability_item_ability_core_common_heal_heal"                         "HEAL:"
-		"DOTA_Tooltip_ability_item_ability_core_common_heal_cooldown"                     "COOLDOWN:"
-		"DOTA_Tooltip_ability_item_ability_core_common_heal_manacost"                     "MANACOST:"
+		"DOTA_Tooltip_ability_item_ability_core_common_heal_cooldown_flag_inv"            "COOLDOWN:"
+		"DOTA_Tooltip_ability_item_ability_core_common_heal_manacost_flag_inv"            "MANACOST:"
 
 		"DOTA_Tooltip_ability_item_ability_core_common_shake"                             "Ability Core: Shake"  //Common
 		"DOTA_Tooltip_ability_item_ability_core_common_shake_Description"                 "Shakes the ground in an area to damage all enemies within over time."
-		"DOTA_Tooltip_ability_item_ability_core_common_shake_total_damage"                "TOTAL DAMAGE:"
 		"DOTA_Tooltip_ability_item_ability_core_common_shake_range"                       "RANGE:"
 		"DOTA_Tooltip_ability_item_ability_core_common_shake_radius"                      "RADIUS:"
-		"DOTA_Tooltip_ability_item_ability_core_common_shake_duration"                    "DURATION:"
-		"DOTA_Tooltip_ability_item_ability_core_common_shake_cooldown"                    "COOLDOWN:"
-		"DOTA_Tooltip_ability_item_ability_core_common_shake_manacost"                    "MANACOST:"
+		"DOTA_Tooltip_ability_item_ability_core_common_shake_total_damage_flag_dmg"       "TOTAL DAMAGE:"
+		"DOTA_Tooltip_ability_item_ability_core_common_shake_duration_flag_dur"           "DURATION:"
+		"DOTA_Tooltip_ability_item_ability_core_common_shake_cooldown_flag_inv"           "COOLDOWN:"
+		"DOTA_Tooltip_ability_item_ability_core_common_shake_manacost_flag_inv"           "MANACOST:"
 
 		"DOTA_Tooltip_ability_item_ability_core_common_weakness"                          "Ability Core: Weakness"  //Common
 		"DOTA_Tooltip_ability_item_ability_core_common_weakness_Description"              "Emits a dark aura that weakens enemies, reducing their damage dealt while amplifying their damage taken from any source."
@@ -135,66 +142,86 @@
 		"DOTA_Tooltip_modifier_cycle_chaos_Description"                                   "Your attacks are dealing bonus chaos damage."
 		"DOTA_Tooltip_ability_elementalist_cycle_of_power"                                "Cycle Of Power"
 		"DOTA_Tooltip_ability_elementalist_cycle_of_power_Description"                    "<font color='#AD2F28'>Active:</font> Leaps to targeted point and switches to the next element in the cycle while reducing the cooldowns of all abilities by %active_cooldown_reduction%%. \n <font color='#AD2F28'>Passive:</font> Based on the currently active element cycle, her basic attacks deal %damage_bonus% ( <font color='#6FE971'>+%damage_bonus_per_level% per Level</font> )<font color='#5B93D1'>(+%damage_bonus_per_power%  per Element Power)</font> bonus damage."
-		//"DOTA_Tooltip_ability_elementalist_cycle_of_power_damage_bonus"                   "DAMAGE BONUS:"
-		//"DOTA_Tooltip_ability_elementalist_cycle_of_power_damage_bonus_per_level"         "DAMAGE BONUS PER LEVEL:"
-		//"DOTA_Tooltip_ability_elementalist_cycle_of_power_cast_range"                     "CAST RANGE:"
-		//"DOTA_Tooltip_ability_elementalist_cycle_of_power_duration"                       "DURATİON:"
-		//"DOTA_Tooltip_ability_elementalist_cycle_of_power_active_cooldown_reduction"      "ACTİVE COOLDOWN REDUCTİON:"
-		//"DOTA_Tooltip_ability_elementalist_cycle_of_power_damage_bonus_per_power"         "DAMAGE BONUS PER POWER:"
 
 		"DOTA_Tooltip_ability_item_ability_core_common_weakness_damage_reduction"         "DAMAGE REDUCTION:"
 
 		"DOTA_Tooltip_ability_item_ability_core_common_energy_bolt"                       "Ability Core: Energy Bolt"
 		"DOTA_Tooltip_ability_item_ability_core_common_energy_bolt_Description"           "Fires an energy bolt to targeted enemy that deals damage."
-		"DOTA_Tooltip_ability_item_ability_core_common_energy_bolt_damage"                "DAMAGE:"
 		"DOTA_Tooltip_ability_item_ability_core_common_energy_bolt_range"                 "RANGE:"
-		"DOTA_Tooltip_ability_item_ability_core_common_energy_bolt_cooldown"              "COOLDOWN:"
-		"DOTA_Tooltip_ability_item_ability_core_common_energy_bolt_manacost"              "MANACOST:"
+		"DOTA_Tooltip_ability_item_ability_core_common_energy_bolt_damage_flag_dmg"       "DAMAGE:"
+		"DOTA_Tooltip_ability_item_ability_core_common_energy_bolt_cooldown_flag_inv"     "COOLDOWN:"
+		"DOTA_Tooltip_ability_item_ability_core_common_energy_bolt_manacost_flag_inv"     "MANACOST:"
 
 		"DOTA_Tooltip_ability_item_ability_core_common_healing_touch"                     "Ability Core: Healing Touch"
 		"DOTA_Tooltip_ability_item_ability_core_common_healing_touch_Description"         "Heals targeted ally."
 		"DOTA_Tooltip_ability_item_ability_core_common_healing_touch_heal"                "HEAL:"
 		"DOTA_Tooltip_ability_item_ability_core_common_healing_touch_range"               "RANGE:"
-		"DOTA_Tooltip_ability_item_ability_core_common_healing_touch_cooldown"            "COOLDOWN:"
-		"DOTA_Tooltip_ability_item_ability_core_common_healing_touch_manacost"            "MANACOST:"
+		"DOTA_Tooltip_ability_item_ability_core_common_healing_touch_cooldown_flag_inv"   "COOLDOWN:"
+		"DOTA_Tooltip_ability_item_ability_core_common_healing_touch_manacost_flag_inv"   "MANACOST:"
 
 		"DOTA_Tooltip_ability_item_ability_core_passive_fiendish_hunger"                  "Ability Core: Fiendish Hunger"
 		"DOTA_Tooltip_ability_item_ability_core_passive_fiendish_hunger_Description"      "Allows caster to restore health upon dealing damage based on percentage of damage dealt."
 		"DOTA_Tooltip_ability_item_ability_core_passive_fiendish_hunger_lifesteal_percentage"		"LIFESTEAL PERCENTAGE:"
 
+		"DOTA_Tooltip_ability_item_ability_core_common_fiendish_hunger"                   "Ability Core: Fiendish Hunger"
+		"DOTA_Tooltip_ability_item_ability_core_common_fiendish_hunger_Description"       "Allows caster to restore health upon dealing damage based on percentage of damage dealt."
+		"DOTA_Tooltip_ability_item_ability_core_common_fiendish_hunger_lifesteal"         "LIFESTEAL:"
+
 		"DOTA_Tooltip_ability_item_ability_core_common_dispel_magic"                      "Ability Core: Dispel Magic"
 		"DOTA_Tooltip_ability_item_ability_core_common_dispel_magic_Description"          "Removes most negative effects from your hero while increasing Chaos Damage Resistance."
 		"DOTA_Tooltip_ability_item_ability_core_common_dispel_magic_bonus_resistance"     "BONUS RESISTANCE:"
-		"DOTA_Tooltip_ability_item_ability_core_common_dispel_magic_duration"             "DURATION:"
-		"DOTA_Tooltip_ability_item_ability_core_common_dispel_magic_cooldown"             "COOLDOWN:"
-		"DOTA_Tooltip_ability_item_ability_core_common_dispel_magic_manacost"             "MANACOST:"
+		"DOTA_Tooltip_ability_item_ability_core_common_dispel_magic_duration_flag_dur"    "DURATION:"
+		"DOTA_Tooltip_ability_item_ability_core_common_dispel_magic_cooldown_flag_inv"    "COOLDOWN:"
+		"DOTA_Tooltip_ability_item_ability_core_common_dispel_magic_manacost_flag_inv"    "MANACOST:"
 
 		"DOTA_Tooltip_ability_item_ability_core_common_blink_strike"                      "Ability Core: Blink Strike"
 		"DOTA_Tooltip_ability_item_ability_core_common_blink_strike_Description"          "Teleports behind of targeted unit, deals damage if target is an enemy."
-		"DOTA_Tooltip_ability_item_ability_core_common_blink_strike_damage"               "DAMAGE:"
 		"DOTA_Tooltip_ability_item_ability_core_common_blink_strike_range"                "RANGE:"
-		"DOTA_Tooltip_ability_item_ability_core_common_blink_strike_cooldown"             "COOLDOWN:"
-		"DOTA_Tooltip_ability_item_ability_core_common_blink_strike_manacost"             "MANACOST:"
+		"DOTA_Tooltip_ability_item_ability_core_common_blink_strike_damage_flag_dmg"      "DAMAGE:"
+		"DOTA_Tooltip_ability_item_ability_core_common_blink_strike_cooldown_flag_inv"    "COOLDOWN:"
+		"DOTA_Tooltip_ability_item_ability_core_common_blink_strike_manacost_flag_inv"    "MANACOST:"
 
 		"DOTA_Tooltip_ability_item_ability_core_common_column_of_destruction"                      "Ability Core: Column of Destruction"
 		"DOTA_Tooltip_ability_item_ability_core_common_column_of_destruction_Description"          "After %delay%  second delay stuns all enemies inside the targeted area for %duration%  second while dealing damage."
-		"DOTA_Tooltip_ability_item_ability_core_common_column_of_destruction_damage"               "DAMAGE:"
 		"DOTA_Tooltip_ability_item_ability_core_common_column_of_destruction_range"                "RANGE:"
-		"DOTA_Tooltip_ability_item_ability_core_common_column_of_destruction_radius"            "RADIUS:"
-		"DOTA_Tooltip_ability_item_ability_core_common_column_of_destruction_cooldown"             "COOLDOWN:"
-		"DOTA_Tooltip_ability_item_ability_core_common_column_of_destruction_manacost"             "MANACOST:"
+		"DOTA_Tooltip_ability_item_ability_core_common_column_of_destruction_radius"            	"RADIUS:"
+		"DOTA_Tooltip_ability_item_ability_core_common_column_of_destruction_damage_flag_dmg"		"DAMAGE:"
+		"DOTA_Tooltip_ability_item_ability_core_common_column_of_destruction_cooldown_flag_inv"		"COOLDOWN:"
+		"DOTA_Tooltip_ability_item_ability_core_common_column_of_destruction_manacost_flag_inv"		"MANACOST:"
+		"DOTA_Tooltip_ability_item_ability_core_common_column_of_destruction_delay_flag_non"		"DELAY:"
 
 		"DOTA_Tooltip_ability_item_ability_rune_rare_cascade"                             "Rune: Cascade"
-		"DOTA_Tooltip_ability_item_ability_rune_rare_cascade_Description"                 "Upon Impact, the fires projectile cascades on nearby targets."
+		"DOTA_Tooltip_ability_item_ability_rune_rare_cascade_Description"                 "<h1>Cascade</h1>Upon Impact, the fires projectile cascades on nearby targets."
 		"DOTA_Tooltip_ability_item_ability_rune_rare_cascade_cascade_count"               "CASCADE COUNT:"
 		"DOTA_Tooltip_ability_item_ability_rune_rare_cascade_cascade_radius"              "CASCADE RADIUS:"
 
 		"DOTA_Tooltip_ability_item_ability_rune_uncommon_split"                           "Rune: Split"
-		"DOTA_Tooltip_ability_item_ability_rune_uncommon_split_Description"               "After raeching the maximum distance of the projectile, it splits itself into more projectiles."
+		"DOTA_Tooltip_ability_item_ability_rune_uncommon_split_Description"               "<h1>Split</h1>After reaching the maximum distance of the projectile, it splits itself into more projectiles."
 		"DOTA_Tooltip_ability_item_ability_rune_uncommon_split_split_count"               "SPLIT COUNT:"
 
 		"DOTA_Tooltip_ability_item_ability_rune_uncommon_split_back"                      "Rune: Split Back"
-		"DOTA_Tooltip_ability_item_ability_rune_uncommon_split_back_Description"          "After raeching the maximum distance of the projectile, it splits itself into more projectiles, that travel backwards."
+		"DOTA_Tooltip_ability_item_ability_rune_uncommon_split_back_Description"          "<h1>Split Back</h1>After reaching the maximum distance of the projectile, it splits itself into more projectiles, that travel backwards."
 		"DOTA_Tooltip_ability_item_ability_rune_uncommon_split_back_split_count"          "SPLIT COUNT:"
+
+		"DOTA_Tooltip_ability_item_ability_rune_common_critical"                          "Rune: Critical"
+		"DOTA_Tooltip_ability_item_ability_rune_common_critical_Description"              "<h1>Critical Hit</h1>The ability has a chance to deal critical damage."
+		"DOTA_Tooltip_ability_item_ability_rune_common_critical_crit_chance"              "CRIT CHANCE:"
+		"DOTA_Tooltip_ability_item_ability_rune_common_critical_crit_mult"                "CRIT MULT:"
+
+		"DOTA_Tooltip_ability_item_ability_rune_uncommon_corpse_control"                  "Rune: Corpse Control"
+		"DOTA_Tooltip_ability_item_ability_rune_uncommon_corpse_control_Description"      "<h1>Corpse Control</h1>Everytime the ability deals damage, it curses the enemy to spawn a skeleton when the cursed unit dies."
+		"DOTA_Tooltip_ability_item_ability_rune_uncommon_corpse_control_duration"         "DURATION:"
+		"DOTA_Tooltip_ability_item_ability_rune_uncommon_corpse_control_skeleton_health"		"SKELETON HEALTH:"
+		"DOTA_Tooltip_ability_item_ability_rune_uncommon_corpse_control_skeleton_attack"		"SKELETON ATTACK:"
+		"DOTA_Tooltip_ability_item_ability_rune_uncommon_corpse_control_skeleton_duration"		"SKELETON DURATION:"
+
+		"DOTA_Tooltip_ability_item_ability_rune_uncommon_time_drain"                      "Rune: Time Drain"
+		"DOTA_Tooltip_ability_item_ability_rune_uncommon_time_drain_Description"          "<h1>Time Drain</h1>If affected ability kills it's target, refunds a part of all cooldowns."
+		"DOTA_Tooltip_ability_item_ability_rune_uncommon_time_drain_cooldown_reduction"   "COOLDOWN REDUCTION PERCENT:"
+
+		"DOTA_Tooltip_ability_item_ability_rune_rare_scorching_army"                      "Rune Scorching Army"
+		"DOTA_Tooltip_ability_item_ability_rune_rare_scorching_army_Description"          "<h1>Scorching Army</h1>All units summoned from this ability deal damage over time to all enemies nearby."
+		"DOTA_Tooltip_ability_item_ability_rune_rare_scorching_army_radius"               "RADIUS:"
+		"DOTA_Tooltip_ability_item_ability_rune_rare_scorching_army_damage_per_second"    "DAMAGE PER SECOND:"
 	}
 }

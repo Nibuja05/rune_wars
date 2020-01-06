@@ -5,4 +5,5 @@
 	"ScriptFile"    					"abilities/generic_ability_q"
 	"FightRecapLevel"    				"1"
 	"AbilityTextureName"				"rubick_empty1"
+	"MaxLevel"							"1"
 }

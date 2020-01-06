@@ -1,0 +1,40 @@
+"item_ability_core_common_shake" 
+{
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_EARTH"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_POINT | SPECIAL_ABILITY_KEY_AOE | SPECIAL_ABILITY_KEY_DAMAGE | SPECIAL_ABILITY_KEY_DEBUFF"
+	"SpecialSpellName"		"shake"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"total_damage_flag_dmg"		"50 +10"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"range"				"350"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"radius"			"250 +20"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration_flag_dur"	"1.0"
+		}
+		"05"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"cooldown_flag_inv"	"9.0 -0.2"
+		}
+		"06"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"manacost_flag_inv"	"80"
+		}
+	}
+} 

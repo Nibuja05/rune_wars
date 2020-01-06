@@ -1,0 +1,25 @@
+"item_ability_core_common_heal" 
+{
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_NONE"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_SELF | SPECIAL_ABILITY_KEY_SINGLE_TARGET | SPECIAL_ABILITY_KEY_HEAL"
+	"SpecialSpellName"		"heal"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"heal"				"30 +6"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"cooldown_flag_inv"	"2.5"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"manacost_flag_inv"	"60 -2"
+		}
+	}
+} 

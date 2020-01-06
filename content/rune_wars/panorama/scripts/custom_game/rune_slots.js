@@ -470,7 +470,11 @@ function RuneUpdate() {
 
 function MarkRuneSlot(table) {
 	var runeSlot = $("#" + table.slotName);
-	runeSlot.AddClass("rune_slot_disabled");
+	if (table.markType == "disabled") {
+		runeSlot.AddClass("rune_slot_disabled");
+	} else {
+		runeSlot.RemoveClass("rune_slot_disabled");
+	}
 }
 
 function UnmarkAllRuneSlots() {

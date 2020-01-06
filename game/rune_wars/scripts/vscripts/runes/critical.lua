@@ -22,8 +22,13 @@ end
 function critical:ModifyValuesPercentage()
 	local values = {
 		manaCost = "0.5",
+		DMG = "1.2",
 	}
 	return values
+end
+
+function critical:ModifyValuesGlobal()
+	return "1.3"
 end
 
 function critical:OnDealDamageCustom(eventData)
