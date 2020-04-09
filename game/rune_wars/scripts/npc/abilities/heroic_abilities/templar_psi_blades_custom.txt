@@ -32,14 +32,14 @@
 			"crit_multiplier"		"200"
 		}
 	}
-	"OnCreated"
-	{
-		"RunScript"
-		{
-			"ScriptFile"	"libs/hero_stats.lua"
-			"Function"		"LevelUpAbility"
-		}
-	}
+	// "OnCreated"
+	// {
+	// 	"RunScript"
+	// 	{
+	// 		"ScriptFile"	"libs/hero_stats.lua"
+	// 		"Function"		"LevelUpAbility"
+	// 	}
+	// }
 
 	"Modifiers"
 	{

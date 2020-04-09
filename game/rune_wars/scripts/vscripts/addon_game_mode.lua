@@ -7,6 +7,7 @@ end
 require('libs/generic_ability_manager')
 require('libs/timers')
 require('libs/extra_enums')
+-- require('libs/filters')
 require('libs/ability_item_manager')
 require('libs/ability_aspect_manager')
 require('libs/element_manager')
@@ -15,6 +16,7 @@ require('libs/generic_ability')
 require('libs/rune_builder')
 -- require('libs/hero_stats')
 require('libs/creep_manager')
+require('libs/selection')
 
 function Precache( context )
 	--[[
@@ -43,24 +45,24 @@ function GameMode:InitGameMode()
 end
 
 function GameMode:OnNPCSpawned(event)
- 	local npc = EntIndexToHScript(event.entindex)
+	local npc = EntIndexToHScript(event.entindex)
 
- 	if npc:IsRealHero() then
- 		local playerID = npc:GetPlayerID()
+	if npc:IsRealHero() then
+		local playerID = npc:GetPlayerID()
 		local player = PlayerResource:GetPlayer(playerID)
-	  	CustomGameEventManager:Send_ServerToPlayer(player, "init_tooltips", {})
-	  	GenericAbility:InitHero(npc)
-	  	for i=0,12 do
-	  		local ability = npc:GetAbilityByIndex(i)
-	  		if ability then
-	  			if ability:GetLevel() < 1 then
-	  				if ability:IsInnate() then
-	  					ability:SetLevel(1)
-	  				end
-	  			end
-	  		end
-	  	end
-   	end
+		CustomGameEventManager:Send_ServerToPlayer(player, "init_tooltips", {})
+		GenericAbility:InitHero(npc)
+	end
+	for i=0,12 do
+		local ability = npc:GetAbilityByIndex(i)
+		if ability then
+			if ability:GetLevel() < 1 then
+				if ability:IsInnate() then
+					ability:SetLevel(1)
+				end
+			end
+		end
+	end
 end
 
 -- Evaluate the state of the game

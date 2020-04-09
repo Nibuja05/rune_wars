@@ -77,14 +77,14 @@
 		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
 		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
-		"OnCreated"
-		{
-			"RunScript"
-			{
-				"ScriptFile"	"hero_stats.lua"
-				"Function"		"LevelUpAbility"
-			}
-		}
+		// "OnCreated"
+		// {
+		// 	"RunScript"
+		// 	{
+		// 		"ScriptFile"	"hero_stats.lua"
+		// 		"Function"		"LevelUpAbility"
+		// 	}
+		// }
 	
 		"Modifiers"
 		{
@@ -211,14 +211,14 @@
 		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityTextureName"			"ursa_fury_swipes"
-		"OnCreated"
-		{
-			"RunScript"
-			{
-				"ScriptFile"	"libs/hero_stats.lua"
-				"Function"		"LevelUpAbility"
-			}
-		}
+		// "OnCreated"
+		// {
+		// 	"RunScript"
+		// 	{
+		// 		"ScriptFile"	"libs/hero_stats.lua"
+		// 		"Function"		"LevelUpAbility"
+		// 	}
+		// }
 		
 		"Modifiers"
 		{
@@ -328,18 +328,6 @@
 				}
 			}				
 		}
-	}
-	
-	"neutral_elemental_attack"
-	{
-		"BaseClass"     					"ability_lua"
-		"ScriptFile"    					"abilities/neutral_elemental_attack"
-		"FightRecapLevel"    				"1"
-		"AbilityTextureName"				"modifier_invulnerable"
-	
-		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
-		"AbilityType"						"DOTA_ABILITY_TYPE_BASIC"
-		"MaxLevel"							"1"
 	}
 	"rune"
 	{
@@ -530,6 +518,114 @@
 		}
 	
 	}
+	
+	"neutral_elemental_attack"
+	{
+		"BaseClass"     					"ability_lua"
+		"ScriptFile"    					"abilities/neutral_elemental_attack"
+		"FightRecapLevel"    				"1"
+		"AbilityTextureName"				"modifier_invulnerable"
+	
+		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityType"						"DOTA_ABILITY_TYPE_BASIC"
+		"MaxLevel"							"1"
+	}
+	
+	"neutral_elemental_attack_chaos"
+	{
+		"BaseClass"     					"ability_lua"
+		"ScriptFile"    					"abilities/neutral_elemental_attack"
+		"FightRecapLevel"    				"1"
+		"AbilityTextureName"				"elemental/chaos_attack"
+	
+		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityType"						"DOTA_ABILITY_TYPE_BASIC"
+		"MaxLevel"							"1"
+	}
+	
+	"neutral_elemental_attack_divine"
+	{
+		"BaseClass"     					"ability_lua"
+		"ScriptFile"    					"abilities/neutral_elemental_attack"
+		"FightRecapLevel"    				"1"
+		"AbilityTextureName"				"elemental/divine_attack"
+	
+		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityType"						"DOTA_ABILITY_TYPE_BASIC"
+		"MaxLevel"							"1"
+	}
+	
+	"neutral_elemental_attack_earth"
+	{
+		"BaseClass"     					"ability_lua"
+		"ScriptFile"    					"abilities/neutral_elemental_attack"
+		"FightRecapLevel"    				"1"
+		"AbilityTextureName"				"elemental/earth_attack"
+	
+		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityType"						"DOTA_ABILITY_TYPE_BASIC"
+		"MaxLevel"							"1"
+	}
+	
+	"neutral_elemental_attack_fire"
+	{
+		"BaseClass"     					"ability_lua"
+		"ScriptFile"    					"abilities/neutral_elemental_attack"
+		"FightRecapLevel"    				"1"
+		"AbilityTextureName"				"elemental/fire_attack"
+	
+		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityType"						"DOTA_ABILITY_TYPE_BASIC"
+		"MaxLevel"							"1"
+	}
+	
+	"neutral_elemental_attack_order"
+	{
+		"BaseClass"     					"ability_lua"
+		"ScriptFile"    					"abilities/neutral_elemental_attack"
+		"FightRecapLevel"    				"1"
+		"AbilityTextureName"				"elemental/order_attack"
+	
+		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityType"						"DOTA_ABILITY_TYPE_BASIC"
+		"MaxLevel"							"1"
+	}
+	
+	"neutral_elemental_attack_physical"
+	{
+		"BaseClass"     					"ability_lua"
+		"ScriptFile"    					"abilities/neutral_elemental_attack"
+		"FightRecapLevel"    				"1"
+		"AbilityTextureName"				"elemental/physical_attack"
+	
+		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityType"						"DOTA_ABILITY_TYPE_BASIC"
+		"MaxLevel"							"1"
+	}
+	
+	"neutral_elemental_attack_storm"
+	{
+		"BaseClass"     					"ability_lua"
+		"ScriptFile"    					"abilities/neutral_elemental_attack"
+		"FightRecapLevel"    				"1"
+		"AbilityTextureName"				"elemental/storm_attack"
+	
+		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityType"						"DOTA_ABILITY_TYPE_BASIC"
+		"MaxLevel"							"1"
+	}
+	
+	"neutral_elemental_attack_water"
+	{
+		"BaseClass"     					"ability_lua"
+		"ScriptFile"    					"abilities/neutral_elemental_attack"
+		"FightRecapLevel"    				"1"
+		"AbilityTextureName"				"elemental/water_attack"
+	
+		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityType"						"DOTA_ABILITY_TYPE_BASIC"
+		"MaxLevel"							"1"
+	}
 	"elementalist_cycle_of_power"
 	{
 		// General
@@ -590,14 +686,14 @@
 				"damage_bonus_per_power"				"1.2"
 			}
 		}
-		"OnCreated"
-		{
-			"RunScript"
-			{
-				"ScriptFile"	"libs/hero_stats.lua"
-				"Function"		"LevelUpAbility"
-			}
-		}
+		// "OnCreated"
+		// {
+		// 	"RunScript"
+		// 	{
+		// 		"ScriptFile"	"libs/hero_stats.lua"
+		// 		"Function"		"LevelUpAbility"
+		// 	}
+		// }
 	
 		"OnSpellStart"
 		{
@@ -944,14 +1040,14 @@
 				"duration"		"3"
 			}
 		}
-		"OnCreated"
-		{
-			"RunScript"
-			{
-				"ScriptFile"	"libs/hero_stats.lua"
-				"Function"		"LevelUpAbility"
-			}
-		}
+		// "OnCreated"
+		// {
+		// 	"RunScript"
+		// 	{
+		// 		"ScriptFile"	"libs/hero_stats.lua"
+		// 		"Function"		"LevelUpAbility"
+		// 	}
+		// }
 		"OnProjectileHitUnit"
 		{
 			"DeleteOnHit"	"1"
@@ -1131,14 +1227,14 @@
 				"crit_multiplier"		"200"
 			}
 		}
-		"OnCreated"
-		{
-			"RunScript"
-			{
-				"ScriptFile"	"libs/hero_stats.lua"
-				"Function"		"LevelUpAbility"
-			}
-		}
+		// "OnCreated"
+		// {
+		// 	"RunScript"
+		// 	{
+		// 		"ScriptFile"	"libs/hero_stats.lua"
+		// 		"Function"		"LevelUpAbility"
+		// 	}
+		// }
 	
 		"Modifiers"
 		{

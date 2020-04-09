@@ -10,6 +10,7 @@ function shake:GetFunctions()
 	local funcs = {
 		"PlayEffect",
 		"OnSpellStart",
+		"CastOnPosition",
 	}
 	return funcs
 end
@@ -44,14 +45,18 @@ function shake:PlayEffect(loc, optVal)
 end
 
 function shake:OnSpellStart()
-	local caster = self:GetCaster()
 	local loc = self:GetCursorPosition()
+	self:CastOnPosition(loc)
+end
+
+function shake:CastOnPosition(loc)
+	local caster = self:GetCaster()
 
 	local radius = self:GetSpecialValueFor("radius")
 	local targetTeam = self:GetAbilityTargetTeam()
 	local targetType = self:GetAbilityTargetType()
 	local targetFlags = self:GetAbilityTargetFlags()
-	local duration = self:GetSpecialValueFor("duration")
+	local duration = self:GetSpecialValueFor("spawn_interval")
 
 	self:PlayEffect(loc, radius)
 

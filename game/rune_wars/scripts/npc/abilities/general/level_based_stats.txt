@@ -7,14 +7,14 @@
 	"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
 	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 	"AbilityTextureName"			"ursa_fury_swipes"
-	"OnCreated"
-	{
-		"RunScript"
-		{
-			"ScriptFile"	"libs/hero_stats.lua"
-			"Function"		"LevelUpAbility"
-		}
-	}
+	// "OnCreated"
+	// {
+	// 	"RunScript"
+	// 	{
+	// 		"ScriptFile"	"libs/hero_stats.lua"
+	// 		"Function"		"LevelUpAbility"
+	// 	}
+	// }
 	
 	"Modifiers"
 	{

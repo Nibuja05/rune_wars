@@ -5,14 +5,14 @@
 	"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
 	"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
 	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
-	"OnCreated"
-	{
-		"RunScript"
-		{
-			"ScriptFile"	"hero_stats.lua"
-			"Function"		"LevelUpAbility"
-		}
-	}
+	// "OnCreated"
+	// {
+	// 	"RunScript"
+	// 	{
+	// 		"ScriptFile"	"hero_stats.lua"
+	// 		"Function"		"LevelUpAbility"
+	// 	}
+	// }
 
 	"Modifiers"
 	{

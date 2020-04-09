@@ -7,5 +7,6 @@
 		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/stat_hud.xml" />
 		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/rune_slots.xml" />
 		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/test_hud.xml" />
+		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/selection.xml" />
 	</Panel>
 </root>

@@ -4,8 +4,6 @@
 	//----------------------------------------------------------------
 	"BaseClass"					"npc_dota_creature"	// Class of entity of link to.
 	"Model"						"models/creeps/neutral_creeps/n_creep_kobold/kobold_c/n_creep_kobold_c.vmdl"	// Model.
-	// "SoundSet"					"Hero_VenomancerWard"					// Name of sound set.
-	// "GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_venomancer.vsndevts"
 	"Level"						"1"
 	"ModelScale" 				"1"
 
@@ -18,8 +16,8 @@
 
 	// Abilities
 	//----------------------------------------------------------------
-	"Ability1"					"neutral_elemental_attack"			// Ability 1.
-	"Ability2"					"neutral_elemental_defense"			// Ability 2.
+	"Ability1"					"neutral_elemental_defense"			// Ability 1.
+	"Ability2"					""			// Ability 2.
 	"Ability3"					""			// Ability 3.
 	"Ability4"					""			// Ability 4.
 	"Ability5"					""			// Ability 5.
@@ -37,7 +35,7 @@
 	"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
 	"AttackRate"				"1.5"		// Speed of attack.
 	"AttackAnimationPoint"		"0.3"		// Normalized time in animation cycle to attack.
-	"AttackAcquisitionRange"	"600"		// Range within a target can be acquired.
+	"AttackAcquisitionRange"	"250"		// Range within a target can be acquired.
 	"AttackRange"				"128"		// Range within a target can be attacked.
 	// "ProjectileModel"			"particles/units/heroes/hero_venomancer/venomancer_plague_ward_projectile.vpcf" // Particle system model for projectile.
 	// "ProjectileSpeed"			"1900"		// Speed of projectile.
@@ -98,5 +96,5 @@
 		"SPECIAL_DAMAGE_TYPE_CHAOS"			"0"
 	}
 
-	"AttackType"		"SPECIAL_DAMAGE_TYPE_NONE"
+	"AttackType"		"SPECIAL_DAMAGE_TYPE_FIRE"
 }

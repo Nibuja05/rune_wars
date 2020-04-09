@@ -5,7 +5,10 @@
         "generic_ability",
         "ability_stones",
         "rune_slots",
+        "saved_runes",
         "element_resist",
         "item_extras",
+        "neutrals",
+        "selection",
     ]
 }

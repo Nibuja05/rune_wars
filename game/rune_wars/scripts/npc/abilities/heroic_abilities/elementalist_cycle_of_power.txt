@@ -58,14 +58,14 @@
 			"damage_bonus_per_power"				"1.2"
 		}
 	}
-	"OnCreated"
-	{
-		"RunScript"
-		{
-			"ScriptFile"	"libs/hero_stats.lua"
-			"Function"		"LevelUpAbility"
-		}
-	}
+	// "OnCreated"
+	// {
+	// 	"RunScript"
+	// 	{
+	// 		"ScriptFile"	"libs/hero_stats.lua"
+	// 		"Function"		"LevelUpAbility"
+	// 	}
+	// }
 
 	"OnSpellStart"
 	{

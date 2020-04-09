@@ -1,0 +1,12 @@
+
+"neutral_elemental_attack_physical"
+{
+	"BaseClass"     					"ability_lua"
+	"ScriptFile"    					"abilities/neutral_elemental_attack"
+	"FightRecapLevel"    				"1"
+	"AbilityTextureName"				"elemental/physical_attack"
+
+	"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+	"AbilityType"						"DOTA_ABILITY_TYPE_BASIC"
+	"MaxLevel"							"1"
+}

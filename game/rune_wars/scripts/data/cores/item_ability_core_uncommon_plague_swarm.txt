@@ -1,0 +1,45 @@
+"item_ability_core_uncommon_plague_swarm" 
+{
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_CHAOS"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_POINT | SPECIAL_ABILITY_KEY_AOE | SPECIAL_ABILITY_KEY_DAMAGE | SPECIAL_ABILITY_KEY_DEBUFF"
+	"SpecialSpellName"		"plague_swarm"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"damage_per_swarm_flag_dmg"		"10 +2"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"range"				"350"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"radius"			"250"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration_flag_dur"	"6.0"
+		}
+		"05"
+		{
+			"var_type"					"FIELD_FLOAT"
+			"spawn_interval_flag_inv"	"0.4 -0.01"
+		}
+		"06"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"cooldown_flag_inv"	"19.0 -0.3"
+		}
+		"07"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"manacost_flag_inv"	"40"
+		}
+	}
+} 

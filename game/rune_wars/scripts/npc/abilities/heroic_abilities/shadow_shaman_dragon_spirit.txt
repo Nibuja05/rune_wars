@@ -46,14 +46,14 @@
 			"duration"		"3"
 		}
 	}
-	"OnCreated"
-	{
-		"RunScript"
-		{
-			"ScriptFile"	"libs/hero_stats.lua"
-			"Function"		"LevelUpAbility"
-		}
-	}
+	// "OnCreated"
+	// {
+	// 	"RunScript"
+	// 	{
+	// 		"ScriptFile"	"libs/hero_stats.lua"
+	// 		"Function"		"LevelUpAbility"
+	// 	}
+	// }
 	"OnProjectileHitUnit"
 	{
 		"DeleteOnHit"	"1"
