@@ -54,6 +54,28 @@
 		"DOTA_AbilityTooltip_SpellImmunityType_Custom_Yes" 			"<font color='#6FE971'>Yes</font>"
 		"DOTA_AbilityTooltip_SpellImmunityType_Custom_No" 			"No"
 
+
+		"DOTA_Tooltip_ability_neutral_elemental_attack_chaos"                             "Chaos Attack"
+		"DOTA_Tooltip_ability_neutral_elemental_attack_chaos_Description"                 "This unit attacks with chaos attacks"
+
+		"DOTA_Tooltip_ability_neutral_elemental_attack_divine"                            "Divine Attack"
+		"DOTA_Tooltip_ability_neutral_elemental_attack_divine_Description"                "This unit attacks with divine attacks"
+
+		"DOTA_Tooltip_ability_neutral_elemental_attack_earth"                             "Earth Attack"
+		"DOTA_Tooltip_ability_neutral_elemental_attack_earth_Description"                 "This unit attacks with earth attacks"
+
+		"DOTA_Tooltip_ability_neutral_elemental_attack_fire"                              "Fire Attack"
+		"DOTA_Tooltip_ability_neutral_elemental_attack_fire_Description"                  "This unit attacks with fire attacks"
+
+		"DOTA_Tooltip_ability_neutral_elemental_attack_order"                             "Order Attack"
+		"DOTA_Tooltip_ability_neutral_elemental_attack_order_Description"                 "This unit attacks with order attacks"
+
+		"DOTA_Tooltip_ability_neutral_elemental_attack_storm"                             "Storm Attack"
+		"DOTA_Tooltip_ability_neutral_elemental_attack_storm_Description"                 "This unit attacks with storm attacks"
+
+		"DOTA_Tooltip_ability_neutral_elemental_attack_water"                             "Water Attack"
+		"DOTA_Tooltip_ability_neutral_elemental_attack_water_Description"                 "This unit attacks with water attacks"
+
 		//UNITS
 
 		"npc_dota_hero_shaman"                                                            "Shadow Shaman"

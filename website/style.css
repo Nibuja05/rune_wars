@@ -1,0 +1,379 @@
+:root {
+	--gray0:  #f8f8f8;
+	--gray1:  #dbe1e8;
+	--gray2:  #b2becd;
+	--gray3:  #6c7983;
+	--gray4:  #454e56;
+	--gray5:  #2a2e35;
+	--gray6:  #12181b;
+	--blue:  #0084a5;
+	--purple:  #a82dd1;
+	--yellow:  #fff565;
+	
+	--codeGray1: #c1cbd7;
+	--codeGray2: #606c75;
+	--codeGray3: #373e44;
+}
+
+.light {
+	--bg: var(--gray0);
+	--bg-nav:  linear-gradiant(to right, var(--gray1), var(--gray3));
+	--bg-dropdown: var(--gray0);
+	--text:  var(--gray6);
+	--border-color: var(--blue);
+	--bg-second: var(--gray1);
+	--scroll-color: var(--gray4);
+	--active-icon: var(--gray3);
+	--bg-text: var(--gray2);
+	--bg-code: var(--codeGray1);
+	
+	--syntax-bg: var(--bg-second);
+	--syntax-1: #696969;
+	--syntax-2: #d91e18;
+	--syntax-3: #aa5d00;
+	--syntax-4: #aa5d00;
+	--syntax-5: #008000;
+	--syntax-6: #007faa;
+	--syntax-7: #7928a1;
+	--syntax-8: #545454;
+}
+
+.dark {
+	--bg: var(--gray5);
+	--bg-nav:  linear-gradiant(to right, var(--gray5), var(--gray6));
+	--bg-dropdown: var(--gray6);
+	--text:  var(--gray0);
+	--border-color: var(--purple);
+	--bg-second: var(--gray4);
+	--scroll-color: var(--gray1);
+	--active-icon: var(--gray3);
+	--bg-text: var(--gray3);
+	--bg-code: var(--codeGray3);
+	
+	--syntax-bg: var(--bg-second);
+	--syntax-1: #d4d0ab;
+	--syntax-2: #ffa07a;
+	--syntax-3: #f5ab35;
+	--syntax-4: #ffd700;
+	--syntax-5: #abe338;
+	--syntax-6: #00e0e0;
+	--syntax-7: #dcc6e0;
+	--syntax-8: #f8f8f2;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Carter One', cursive;
+	color: var(--text);
+	background: var(--bg);
+	transition: background 250ms ease-in-out, color 500ms ease-in-out;
+}
+
+body::-webkit-scrollbar {
+	width: 0.4rem;
+}
+
+body::-webkit-scrollbar-track {
+	background: var(--bg-second);
+}
+
+body::-webkit-scrollbar-thumb {
+	background: var(--scroll-color);
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	color: currentcolor;
+	text-decoration: none;
+}
+
+.navbar {
+	height:  70px;
+	width: 100%;
+	background: black;
+	color: white;
+}
+
+.navbar-nav {
+	display: flex;
+	align-items: center;
+/*	justify-content: space-evenly;*/
+	height: 100%;
+}
+
+header {
+	padding: 1em;
+	background: var(--bg-second);
+	margin-bottom: 1em;
+	padding-bottom: 3.5em;
+	text-align: center;
+	clip-path: polygon(50% 0%, 100% 0, 100% 25%, 50% 40%, 0 25%, 0 0);
+	transition: clip-path 500ms ease-out;
+}
+
+.header-loaded {
+	clip-path: polygon(50% 0%, 100% 0, 100% 85%, 50% 100%, 0 85%, 0 0);
+}
+
+.dropdown {
+	position: fixed;
+	width: auto;
+	min-width: 150px;
+	height: auto;
+	opacity: 0;
+	z-index: 2;
+	background: var(--bg-dropdown);
+	color: var(--text);
+
+	border-bottom-right-radius: 8px;
+	border-bottom-left-radius: 8px;
+
+	align-items: center;
+	justify-content: space-around;
+
+	padding: 0.5rem;
+
+	box-shadow: rgba(2, 8, 20, 0.1) 0px 0.175em 0.5em;
+/*	transform: translateX(-10%);*/
+
+	transition: opacity 0.55s linear;
+	
+	flex-direction: column;
+	display: none;
+	
+	align-self: flex-start;
+	margin-top: 70px;
+}
+
+.has-dropdown:hover .dropdown{
+	opacity: 1;
+	pointer-events: auto;
+	display: flex;
+}
+
+.dropdown a {
+	position: relative;
+	padding: 0.5rem;
+	width: 100%;
+	height: 3rem;
+}
+
+.dropdown a:hover {
+	background: var(--bg-second);
+}
+
+.theme-switcher::before {
+	content: ' ';
+	border: 2px solid var(--border-color);
+	border-radius: 50%;
+	width: 1rem;
+	height: 1rem;
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 10px;
+}
+
+#light::before {
+	background: var(--gray1);
+}
+
+#dark::before {
+	background: var(--gray5);
+}
+
+main {
+	padding-left: 15%;
+	padding-right: 15%;
+}
+
+.nav-item:hover {
+	background: var(--gray4);
+	cursor: pointer;
+}
+
+.nav-item {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.nav-item a {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 18px;
+}
+
+/*search bar animations*/
+
+#search-field {
+	max-width: 0;
+	margin-left: 0;
+	
+	border: none;
+	border-radius: 4px;
+	transition: max-width 350ms ease-out, margin 350ms ease-out;
+	
+	height: 1.5rem;
+	font-family: 'Carter One', cursive;
+}
+
+#search-bar svg {
+	margin-left: 0px;
+	transition: margin 350ms ease-out;
+}
+
+#search-bar:hover svg {
+	margin-left: 5px;
+}
+
+#search-bar:hover #search-field{
+	max-width: 150px;
+	margin-left: 10px;
+}
+
+/*top scroller at bottom right*/
+
+#top-scroller {
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  background-color: var(--bg-text);
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+#top-scroller:hover {
+  background-color: #555; /* Add a dark-grey background on hover */
+}
+
+/*Directory Display stuff*/
+
+#dir-container {
+	height: 500px;
+}
+
+.highlight-container {
+	background: var(--bg-second);
+	padding: 2rem;
+	overflow-y: scroll;
+	border-radius: 4px;
+}
+
+.highlight-container::-webkit-scrollbar {
+	width: 0.4rem;
+}
+
+.highlight-container::-webkit-scrollbar-track {
+	background: var(--bg-second);
+}
+
+.highlight-container::-webkit-scrollbar-thumb {
+	background: var(--scroll-color);
+}
+
+.structure-text {
+	vertical-align: middle;
+	display: block;
+	transition: color 250ms ease-out;
+}
+
+.structure-text-align {
+	display: flex;
+	align-items: center;
+}
+
+.icon {
+	fill: var(--text);
+	transition: fill 150ms ease-out;
+}
+
+.tri-icon {
+	transition: transform 250ms ease-out;
+}
+
+.tri-icon-active {
+	transform: rotate(90deg) translateY(2px);
+}
+
+.tri-icon-active .click-icon {
+	fill: var(--active-icon);
+}
+
+.tri-icon:hover .click-icon {
+	fill: var(--active-icon);
+	cursor: pointer;
+}
+
+.sub-dirs {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 600ms ease-in-out, clip-path 600ms ease-out;
+	clip-path: polygon(0 0, 100% 0, 100% 0%, 0 0%);
+}
+
+.sub-dirs-active {
+	max-height: 100vh;
+	clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.code {
+	font-family: 'Share Tech Mono', monospace;
+}
+
+.file-block {
+	background: var(--bg-code);
+	border-radius: 8px;
+	padding: 0.5rem;
+	margin-bottom: 1rem;
+}
+
+.code-block {
+	background: var(--bg-code);
+	border-radius: 2px;
+	padding: 0.3rem;
+}
+
+.code-syntax-block {
+	display: none;
+}
+
+.code-syntax-block-active {
+	display: block;
+}
+
+.code-syntax-block code::-webkit-scrollbar {
+	height: 0.4rem;
+}
+
+.code-syntax-block code::-webkit-scrollbar-track {
+	background: var(--bg-second);
+}
+
+.code-syntax-block code::-webkit-scrollbar-thumb {
+	background: var(--scroll-color);
+}
+
+.show-code:hover {
+	cursor: pointer;
+}

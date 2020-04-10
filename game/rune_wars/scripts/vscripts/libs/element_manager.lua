@@ -6,33 +6,15 @@ end
 function Elements:ApplyDamage(damageTable, specialType)
 	local reduction = 0
 	local amplification = 0
-	if specialType == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_STORM then
-		reduction = damageTable.victim:GetModifierStackCount("modifier_storm_resistance" , self)
-		amplification = damageTable.attacker:GetModifierStackCount("modifier_storm_power", self )	
-
-	elseif specialType == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_ORDER then
-		reduction = damageTable.victim:GetModifierStackCount("modifier_order_resistance" , self)
-		amplification = damageTable.attacker:GetModifierStackCount("modifier_order_power", self )
-
-	elseif specialType == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_CHAOS then
-		reduction = damageTable.victim:GetModifierStackCount("modifier_chaos_resistance" , self)
-		amplification = damageTable.attacker:GetModifierStackCount("modifier_chaos_power", self )
-
-	elseif specialType == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_EARTH then
-		reduction = damageTable.victim:GetModifierStackCount("modifier_earth_resistance" , self)
-		amplification = damageTable.attacker:GetModifierStackCount("modifier_earth_power", self )
-
-	elseif specialType == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_FIRE then
-		reduction = damageTable.victim:GetModifierStackCount("modifier_fire_resistance" , self)
-		amplification = damageTable.attacker:GetModifierStackCount("modifier_fire_power", self )
-
-	elseif specialType == DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_WATER then
-		reduction = damageTable.victim:GetModifierStackCount("modifier_water_resistance" , self)
-		amplification = damageTable.attacker:GetModifierStackCount("modifier_water_power", self )
-
-	end
+	reduction = damageTable.victim:GetModifierStackCount("modifier_"..GetElementName(specialType).."_resistance" , self)
+	amplification = damageTable.attacker:GetModifierStackCount("modifier_"..GetElementName(specialType).."_power", self)	
 
 	damageTable.damage = (amplification - reduction + 100 ) * damageTable.damage / 100
+	if not damageTable.damage_flags then
+		damageTable.damage_flags = DOTA_DAMAGE_FLAG_IGNORES_MAGIC_ARMOR
+	else
+		damageTable.damage_flags = damageTable.damage_flags + DOTA_DAMAGE_FLAG_IGNORES_MAGIC_ARMOR
+	end
 	ApplyDamage(damageTable)
 	if specialType ~= DOTA_EXTRA_ENUMS.SPECIAL_DAMAGE_TYPE_NONE then
 		self:ShowDamageNumbers(damageTable.victim, damageTable.damage, specialType)

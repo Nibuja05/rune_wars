@@ -1,0 +1,54 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf26:version{26288658-411e-4f14-b698-2e1e5d00dec6} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_nBehaviorVersion = 10
+	m_Children = 
+	[
+		{
+			m_ChildRef = resource:"particles/hyper_beam/hyper_beam_indicator.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/hyper_beam/hyper_beam_center.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/hyper_beam/hyper_beam_vacuum.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/hyper_beam/hyper_beam_main.vpcf"
+			m_flDelay = 5.0
+		},
+		{
+			m_ChildRef = resource:"particles/hyper_beam/hyper_beam_launch.vpcf"
+			m_flDelay = 5.0
+		},
+	]
+	m_controlPointConfigurations = 
+	[
+		{
+			m_name = "preview"
+			m_drivers = 
+			[
+				{
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+			]
+		},
+	]
+	m_PreEmissionOperators = 
+	[
+		{
+			_class = "C_OP_SetSingleControlPointPosition"
+			m_bSetOnce = true
+			m_vecCP1Pos = [ 0.0, 0.0, 0.0 ]
+		},
+		{
+			_class = "C_OP_RampCPLinearRandom"
+			m_vecRateMin = [ 20.0, 0.0, 0.0 ]
+			m_vecRateMax = [ 20.0, 0.0, 0.0 ]
+		},
+	]
+	m_ConstantColor = [ 178, 34, 34, 255 ]
+}

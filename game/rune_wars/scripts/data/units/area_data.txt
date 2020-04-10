@@ -1,0 +1,32 @@
+"AreaData"
+{
+	"kobolds"
+	{
+		"DisplayName" 	"Kobold Outpost"
+		"Stages"
+		{
+			"1"
+			{
+				"MinCount" 			"15"
+				"MaxCount"			"25"
+
+				"BossChance"		"10"
+				"BossName"			""
+
+				"Units"
+				{
+					"1"
+					{
+						"Name"		"npc_dota_neutral_kobold_basic"
+						"Chance"	"80"
+					}
+					"2"
+					{
+						"Name"		"npc_dota_neutral_kobold_advanced"
+						"Chance"	"20"
+					}
+				}
+			}
+		}
+	}
+}

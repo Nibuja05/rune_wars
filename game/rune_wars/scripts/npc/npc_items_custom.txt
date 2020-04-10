@@ -752,9 +752,82 @@
 	} 
 	
 	
-	"item_ability_rune_common_critical" 
+	"item_ability_core_uncommon_plague_swarm" 
 	{
 		"ID"                    "3014"
+		"BaseClass"             "item_datadriven"
+		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"    "item_core"
+		"Model"                 "models/props_gameplay/gem01.vmdl" 
+		"Effect"                "particles/world/dropped_item_uncommon.vpcf"
+		"ItemQuality"           "uncommon"
+	
+		"ItemDisassembleRule"	"DOTA_ITEM_DISASSEMBLE_NEVER"
+		"ItemCost"				"0"
+		"ItemKillable"			"1" 
+		"ItemSellable"			"1"
+		"ItemPurchasable"		"1"
+		"ItemDroppable"			"1"
+		"ItemShareability"		"ITEM_FULLY_SHAREABLE_STACKING"
+	
+		"SideShop"				"1" 
+		"SecretShop"			"0"
+	
+		"ItemStackable"			"0"
+		"ItemPermanent"			"0"
+	
+		"ItemInitialCharges"	"0"
+		"ItemDisplayCharges"	"0"
+		"ItemRequiresCharges"	"0"
+		
+		"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_CHAOS"
+		"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_POINT | SPECIAL_ABILITY_KEY_AOE | SPECIAL_ABILITY_KEY_DAMAGE | SPECIAL_ABILITY_KEY_DEBUFF"
+		"SpecialSpellName"		"plague_swarm"
+	
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"damage_per_swarm_flag_dmg"		"10 +2"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"range"				"350"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"250"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"duration_flag_dur"	"6.0"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"spawn_interval_flag_inv"	"0.4 -0.01"
+			}
+			"06"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"cooldown_flag_inv"	"19.0 -0.3"
+			}
+			"07"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"manacost_flag_inv"	"40"
+			}
+		}
+	} 
+	
+	
+	"item_ability_rune_common_critical" 
+	{
+		"ID"                    "3015"
 		"BaseClass"             "item_datadriven"
 		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"    "item_rune"
@@ -801,7 +874,7 @@
 	
 	"item_ability_rune_rare_cascade" 
 	{
-		"ID"                    "3015"
+		"ID"                    "3016"
 		"BaseClass"             "item_datadriven"
 		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"    "item_rune"
@@ -848,7 +921,7 @@
 	
 	"item_ability_rune_rare_scorching_army" 
 	{
-		"ID"                    "3016"
+		"ID"                    "3017"
 		"BaseClass"             "item_datadriven"
 		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"    "item_rune"
@@ -895,7 +968,7 @@
 	
 	"item_ability_rune_uncommon_corpse_control" 
 	{
-		"ID"                    "3017"
+		"ID"                    "3018"
 		"BaseClass"             "item_datadriven"
 		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"    "item_rune"
@@ -953,7 +1026,7 @@
 	
 	"item_ability_rune_uncommon_split" 
 	{
-		"ID"                    "3018"
+		"ID"                    "3019"
 		"BaseClass"             "item_datadriven"
 		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"    "item_rune"
@@ -995,7 +1068,7 @@
 	
 	"item_ability_rune_uncommon_split_back" 
 	{
-		"ID"                    "3019"
+		"ID"                    "3020"
 		"BaseClass"             "item_datadriven"
 		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"    "item_rune"
@@ -1041,7 +1114,7 @@
 	
 	"item_ability_rune_uncommon_time_drain" 
 	{
-		"ID"                    "3020"
+		"ID"                    "3021"
 		"BaseClass"             "item_datadriven"
 		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"    "item_rune"

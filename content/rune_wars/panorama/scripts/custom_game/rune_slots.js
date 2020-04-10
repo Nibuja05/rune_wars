@@ -7,6 +7,9 @@ var CONTINUE_PROCESSING_EVENT = false;
 
 var m_ItemIds = {};
 var m_lastSlot = -1;
+var m_curUnitID = -1;
+var m_runesOpen = false;
+var m_origOpen = false;
 var DOTA_ITEM_STASH_MIN = 9;
 var DOTA_ITEM_STASH_MAX = 15;
 
@@ -31,8 +34,6 @@ var inventory = x.FindChildTraverse('inventory_list_container');
 var x = lower.FindChildTraverse('shop_launcher_block');
 var x = x.FindChildTraverse('stash');
 var stash = x.FindChildTraverse('stash_row');
-
-var RUNES_OPEN = false;
 
 function ReplaceButtons() {
 	var scanButton = glyphScanContainer.FindChildTraverse('RadarButton');
@@ -101,20 +102,22 @@ function SetRuneContainerClosed(element) {
 	$.Schedule(0.5, function() { element.AddClass("close_rune_container_hidden");})
 }
 
-function ToggleRunesHUD() {
+function ToggleRunesHUD(forceState) {
+	if (forceState == "Open" && m_runesOpen == true) {return;}
+	if (forceState == "Close" && m_runesOpen == false) {return;}
 	var containerQ = $("#rune_container_q");
 	var containerW = $("#rune_container_w");
 	var containerE = $("#rune_container_e");
-	if (RUNES_OPEN) {
+	if (m_runesOpen == false) {
 		SetRuneContainerOpen(containerQ);
 		SetRuneContainerOpen(containerW);
 		SetRuneContainerOpen(containerE);
-		RUNES_OPEN = false;
+		m_runesOpen = true;
 	} else {
 		SetRuneContainerClosed(containerQ);
 		SetRuneContainerClosed(containerW);
 		SetRuneContainerClosed(containerE);
-		RUNES_OPEN = true;
+		m_runesOpen = false;
 	}
 	PositionContextPanel();
 }
@@ -261,6 +264,8 @@ function OnDragEnd(targetPanel, draggedPanel) {
 // Additional Drag/Drop Functions
 // ============================================================================================
 
+
+// Checks if the the target panel is a valid place to drop
 function IsValidDropTarget(targetPanel, draggedPanel) {
 	var newItemName = draggedPanel.itemname;
 	var oldItemName = targetPanel.itemname;
@@ -270,6 +275,7 @@ function IsValidDropTarget(targetPanel, draggedPanel) {
 	if (slot !== undefined || draggedPanel.GetAttributeInt("IsCustom", -1) > 0) {
 		var pid = Game.GetLocalPlayerID();
 		var unit = Players.GetLocalPlayerPortraitUnit()
+
 		if (unit == Players.GetPlayerHeroEntityIndex(pid)) {
 			var slotName = targetPanel.GetParent().id;
 			if (slotName.indexOf("core") >= 0 && newItemName.indexOf("core") >= 0) {
@@ -279,6 +285,8 @@ function IsValidDropTarget(targetPanel, draggedPanel) {
 			} else if (slotName.indexOf("remove") >= 0) {
 				return true;
 			}
+		} else {
+			$.Msg("Not a valid drop target!")
 		}
 	}
 	return false;
@@ -488,6 +496,48 @@ function UnmarkAllRuneSlots() {
 	}
 }
 
+// ============================================================================================
+// Save/Load Function
+// ============================================================================================
+
+function SaveCurrentRunes(unitID) {
+	var pID = Players.GetLocalPlayer();
+	// var units = Players.GetSelectedEntities(pID)
+	// var unitID = -1
+	// if (units.length > 0) {
+	// 	unitID = units[0]
+	// } 
+	GameEvents.SendCustomGameEventToServer("save_runes", {"playerID" : pID, "unitID" : unitID, "runeTable" : m_ItemIds} );
+}
+
+function LoadRunes(table) {
+	var pID = Players.GetLocalPlayer();
+	var units = Players.GetSelectedEntities(pID)
+	var newUnitID = -1
+	if (units.length > 0) {
+		newUnitID = units[0]
+	} 
+	if (Entities.IsHero(newUnitID) == false) {
+		ToggleRunesHUD("Close");
+		return;
+	} else {
+		if (m_origOpen == true) {
+			ToggleRunesHUD("Open");
+		}
+		m_origOpen = m_runesOpen;
+	}
+	SaveCurrentRunes(table.unitID);
+	Object.keys(m_ItemIds).forEach(function(key) {
+		RemoveItem(key);
+	});
+	UnmarkAllRuneSlots();
+	m_ItemIds = table.runeTable;
+	Object.keys(m_ItemIds).forEach(function(key) {
+		var runeInfo = m_ItemIds[key]
+		AddItem(runeInfo["Name"], key, runeInfo["Id"])
+	});
+	RuneUpdate();
+}
 
 // ============================================================================================
 // ============================================================================================
@@ -761,7 +811,7 @@ function DeleteSubtitle(itemTooltip) {
 
 function CheckItemTooltipEnd(hoverPanel) {
 	var itemTooltip = GetItemTooltip();
-	if (!itemTooltip) { $.Msg("No Tooltip!"); return; }
+	if (!itemTooltip) { return; }
 
 	if (reset) {
 		ResetItemTooltip();
@@ -796,6 +846,7 @@ function UpdateInventory() {
 	// ReplaceButtons();
 	GameEvents.Subscribe("init_rune_slots", InitRuneSlots);
 	GameEvents.Subscribe("mark_rune_slot", MarkRuneSlot);
+	GameEvents.Subscribe("load_runes", LoadRunes);
 
 	InitializeItemTooltips();
 	GameEvents.Subscribe( "dota_inventory_changed", UpdateInventory );

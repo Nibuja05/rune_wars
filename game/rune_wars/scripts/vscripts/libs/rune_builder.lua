@@ -5,13 +5,48 @@ if not RuneBuilder then
 	RuneBuilder = class({})
 end
 
+ListenToGameEvent("game_rules_state_change", function()
+	local state = GameRules:State_Get()
+	if state == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
+		RuneBuilder:Init()
+	-- elseif state == DOTA_GAMERULES_STATE_PRE_GAME then
+	-- 	CreepManager:InitFilters()
+	end
+end, nil)
+
 function RuneBuilder:Init()
-	self.started = true
+	-- self.started = true
 	print("[RB] Initializing Rune Builder...")
 	ListenToGameEvent('npc_spawned', Dynamic_Wrap(RuneBuilder, 'OnNPCSpawned'), self)
 	CustomGameEventManager:RegisterListener("delete_inv_item", Dynamic_Wrap(RuneBuilder, "DeleteInventoryItem"))
 	CustomGameEventManager:RegisterListener("add_inv_item", Dynamic_Wrap(RuneBuilder, "AddInventoryItem"))
 	CustomGameEventManager:RegisterListener("update_runes", Dynamic_Wrap(RuneBuilder, "OnUpdateRunes"))
+	CustomGameEventManager:RegisterListener("save_runes", Dynamic_Wrap(RuneBuilder, "OnSaveRunes"))
+
+	self.playerSelects = {}
+	self.unitRunes = {}
+	GameRules:GetGameModeEntity():SetThink("CheckCurrentSelection", self, "SelectionThink", 0.1)
+end
+
+function RuneBuilder:CheckCurrentSelection()
+	for t=2,3 do
+		for i=0,PlayerResource:GetPlayerCountForTeam(t) do
+			local playerID = PlayerResource:GetNthPlayerIDOnTeam(t, i)
+			local unitID = PlayerResource:GetMainSelectedEntity(playerID)
+
+			if self.playerSelects[playerID] then
+				if self.playerSelects[playerID] ~= unitID then
+					print("Changed Selection!")
+					local player = PlayerResource:GetPlayer(playerID)
+					local runeTable = self.unitRunes[unitID]
+					if not runeTable then runeTable = {} end
+					CustomGameEventManager:Send_ServerToPlayer(player, "load_runes", {unitID = self.playerSelects[playerID], runeTable = runeTable})
+				end
+			end
+			self.playerSelects[playerID] = unitID
+		end
+	end
+	return 0.1
 end
 
 function RuneBuilder:OnNPCSpawned(event)
@@ -110,6 +145,13 @@ function RuneBuilder:OnUpdateRunes(event)
 	AbilityAspects:BuildCoreAbility(caster)
 end
 
+function RuneBuilder:OnSaveRunes(event)
+	local unitID = event.unitID
+	print(EntIndexToHScript(unitID):GetName())
+	PrintTable(event.runeTable)
+	RuneBuilder.unitRunes[unitID] = event.runeTable
+end
+
 function RuneBuilder:GetRuneSlotFromSlotNumber(slot)
 	slot = tonumber(slot)
 	if slot == 15 then
@@ -148,7 +190,7 @@ function GetTableLength(table)
 	return index
 end
 
--- init the helper lib
-if not RuneBuilder.started then
-	RuneBuilder:Init()
-end
+-- -- init the helper lib
+-- if not RuneBuilder.started then
+-- 	RuneBuilder:Init()
+-- end
