@@ -1,5 +1,5 @@
 
-def getBaseHTML(insert, short=False):
+def getBaseHTML(insert, short=False, optHeader=""):
 	if not short:
 		return """
 <!DOCTYPE html>
@@ -69,6 +69,8 @@ def getBaseHTML(insert, short=False):
 			</ul>
 		</nav>
 
+		%s
+
 		<main>
 			<a href="#" id="top-scroller">%s</a>
 
@@ -77,7 +79,7 @@ def getBaseHTML(insert, short=False):
 
 	</body>
 </html>
-		""" % (getIcon("search", size=35, color="gray0"), getIcon("top_arrow", size=50), insert)
+		""" % (getIcon("search", size=35, color="gray0"), optHeader, getIcon("top_arrow", size=50), insert)
 	else:
 		return """<!DOCTYPE html> <html> <head> <meta charset="utf-8"> <meta name="viewport" content="width=device-width"> <title>Doc - Server</title> <link href="https://fonts.googleapis.com/css2?family=Carter+One&display=swap" rel="stylesheet"> <link rel="stylesheet" type="text/css" href="style.css"> <script src="app.js" type="text/javascript" charset="utf-8" async defer></script> </head> <body> <nav class="navbar"> <ul class="navbar-nav"> <li class="nav-item"><a href="index.html" title="">Home</a></li> <li class="nav-item has-dropdown"> <a href="server.html" title="">Server</a> <div class="dropdown"> <a href="server.html#Overview">Overview</a> <a href="server.html#Classes">Classes</a> <a href="server.html#Modifiers">Modifiers</a> </div> </li> <li class="nav-item has-dropdown"> <a href="client.html" title="">Client</a> <div class="dropdown"> <a href="client.html#Overview">Overview</a> <a href="client.html#Scripts">Scripts</a> <a href="client.html#Server">Server Connection</a> </div> </li> <li class="nav-item has-dropdown"> <a href="assets.html" title="">Assets</a> <div class="dropdown"> <a href="assets.html#Overview">Overview</a> <a href="assets.html#Scripts">Particles</a> <a href="assets.html#Server">Other</a> </div> </li> <li class="nav-item has-dropdown"> <a href="" title="">Settings</a> <div class="dropdown"> <a id="light" class="theme-switcher" href="#">light theme</a> <a id="dark" class="theme-switcher" href="#">dark theme</a> </div> </li> </ul> </nav> <main>%s</main> </body> </html>
 		""" % (insert)

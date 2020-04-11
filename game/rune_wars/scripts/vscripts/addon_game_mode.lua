@@ -1,4 +1,6 @@
--- Generated from template
+--- Addon game mode
+-- runs first, requires all needed libraries, used for precache
+-- @author Nibuja
 
 if GameMode == nil then
 	_G.GameMode = class({})
@@ -16,7 +18,8 @@ require('libs/rune_builder')
 -- require('libs/hero_stats')
 require('libs/creep_manager')
 
-function Precache( context )
+--- Precache
+local function Precache( context )
 	--[[
 		Precache things we know we'll use.  Possible file types include (but not limited to):
 			PrecacheResource( "model", "*.vmdl", context )
@@ -26,12 +29,13 @@ function Precache( context )
 	]]
 end
 
--- Create the game mode when we activate
 function Activate()
 	GameRules.AddonTemplate = GameMode()
 	GameRules.AddonTemplate:InitGameMode()
 end
 
+--- Init Game Mode
+-- Runs initally when game mode is created
 function GameMode:InitGameMode()
 	print( "Rune Wars is loaded." )
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 2 )
@@ -42,27 +46,32 @@ function GameMode:InitGameMode()
 	-- self:StartEventTest() --Spams console!
 end
 
+--- Unit spawned
+-- Gets executed when a unit spawns
+-- Used for initial panorama events and innate abilities
+-- @param table: OnNPCSpawned event
 function GameMode:OnNPCSpawned(event)
- 	local npc = EntIndexToHScript(event.entindex)
+	local npc = EntIndexToHScript(event.entindex)
 
- 	if npc:IsRealHero() then
- 		local playerID = npc:GetPlayerID()
+	if npc:IsRealHero() then
+		local playerID = npc:GetPlayerID()
 		local player = PlayerResource:GetPlayer(playerID)
-	  	CustomGameEventManager:Send_ServerToPlayer(player, "init_tooltips", {})
-	  	GenericAbility:InitHero(npc)
-	  	for i=0,12 do
-	  		local ability = npc:GetAbilityByIndex(i)
-	  		if ability then
-	  			if ability:GetLevel() < 1 then
-	  				if ability:IsInnate() then
-	  					ability:SetLevel(1)
-	  				end
-	  			end
-	  		end
-	  	end
-   	end
+		CustomGameEventManager:Send_ServerToPlayer(player, "init_tooltips", {})
+		GenericAbility:InitHero(npc)
+		for i=0,12 do
+			local ability = npc:GetAbilityByIndex(i)
+			if ability then
+				if ability:GetLevel() < 1 then
+					if ability:IsInnate() then
+						ability:SetLevel(1)
+					end
+				end
+			end
+		end
+	end
 end
 
+---
 -- Evaluate the state of the game
 function GameMode:OnThink()
 	if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
@@ -73,6 +82,8 @@ function GameMode:OnThink()
 	return 1
 end
 
+---
+-- should this ability be leveled automatically?
 function CDOTABaseAbility:IsInnate()
 	return false
 end

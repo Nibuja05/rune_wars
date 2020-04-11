@@ -3,12 +3,41 @@ from glob import glob
 from base_html import getBaseHTML, getIcon, addClass, tag
 from collections import defaultdict
 import html
+from bs4 import BeautifulSoup as bs
+import pprint
+
+pp = pprint.PrettyPrinter(indent=4)
 
 def main(argv):
-	print("Start!\n\n")
+	print("Start!\n")
+
+	name = "rune_wars"
+
+	generateMainPage(name)
 	generateServerLua()
 
-def genere
+	print("")
+
+def generateMainPage(name):
+	mainStr = ""
+
+	header = getIcon("logo", size=250) + tag("Complete documentation for " + name, "h1")
+	header += tag("Overview, Server and Client Code, Assets, ...", "p")
+	header = tag(header, "header", optID="header")
+
+	mainStr += """
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	"""
+
+	mainStr = getBaseHTML(mainStr, optHeader=header)
+	with open("./index.html", mode="w") as file:
+		file.write(prettifyHTML(mainStr))
+
 
 def generateServerLua():
 	serverStr = ""
@@ -51,16 +80,19 @@ def generateServerLua():
 		filePath = prettifyPath(filePath, "vscripts")
 		fileStr = tag(tag(filePath, "b"), "p", optID=getFileID(filePath))
 		for func in funcs:
-			tempStr = tag(str(func["line"]) + ":&nbsp&nbsp" + tag(func["name"], "span", optClasses=["show-code"]), "p")
-			tempStr += tag(tag(html.escape(func["body"].replace("\t", "    ")), "code", optClasses=["lua"]), "pre", optClasses=["code-syntax-block"])
-			fileStr += tag(tempStr,"div")
+			tempFuncStr = tag(tag(func["doc"]["name"], "span", optClasses=["show-code"]), "p")
+			tempStr = tag(createFuncDoc(func["doc"], func["name"]),"p")
+			# tempStr += tag(tag(html.escape(func["body"].replace("\t", "    ")), "code", optClasses=["lua"]), "pre", optClasses=["code-syntax-block"])
+			tempStr += createCodeBlock(func["body"], "lua", func["line"])
+			tempStr = tag(tempStr,"div", optClasses=["func-block"])
+			fileStr += tag(tempFuncStr + tempStr,"div")
 		funcStr += tag(fileStr, "div", optClasses=["file-block"])
 	serverStr += funcHeader + tag(funcStr, "div", optClasses=["highlight-container", "code"])
 
 	# write result to files
 	serverStr = getBaseHTML(serverStr, short=False)
 	with open("./server.html", mode="w") as file:
-		file.write(serverStr)
+		file.write(prettifyHTML(serverStr))
 
 def createStructureHtml(dirDict, offset=0, base=True, path=[]):
 	if base:
@@ -108,17 +140,26 @@ def getAllFileInfos(pathList):
 			fileContent = file.read()
 
 			funcDict = defaultdict(dict)
-			funcPattern = r'(---.*?)*^((local\s+)*function\s+([\w:]+).*?^end)'
+			# https://regex101.com/r/pFfmzU/1/
+			# funcPattern = r'(---.*?)*^((local\s+)*function\s+([\w:]+).*?^end)'
+			funcPattern = r'(---\s*([\w ]+)?(\n--[^\n]*)*)*\n*((local\s+)*function\s+([\w:]+).*?^end)'
 			funcMatches = re.finditer(funcPattern, fileContent, flags=re.S|re.M)
 			for match in funcMatches:
-				if not match.group(4):
+				if not match.group(6):
 					continue
-				name = match.group(4)
-				funcDict[name]["body"] = match.group(2)
+				name = match.group(6)
+				funcDict[name]["body"] = match.group(4)
+				funcDict[name]["isLocal"] = False
+				if match.group(5):
+					funcDict[name]["isLocal"] = True
+				funcDict[name]["doc"] = {"name":name, "body":""}
 				if match.group(1):
-					funcDict[name]["doc"] = match.group(1)
-				else:
-					funcDict[name]["doc"] = ""
+					if match.group(2):
+						funcDict[name]["doc"]["name"] = match.group(2)
+					if match.group(3):
+						funcDict[name]["doc"]["body"] = match.group(1).lstrip()
+
+			# pp.pprint(funcDict)
 
 			content = fileContent.split("\n")
 			isComment = False
@@ -138,6 +179,7 @@ def getAllFileInfos(pathList):
 								entry = funcDict[funcMatch.group(1)]
 								newDict["doc"] = entry["doc"]
 								newDict["body"] = entry["body"]
+								newDict["isLocal"] = entry["isLocal"]
 							else:
 								continue
 							struc["funcs"].append(newDict)
@@ -148,6 +190,67 @@ def getAllFileInfos(pathList):
 		strucDict["name"] = name
 		allDict[path] = strucDict
 	return allDict
+
+def createCodeBlock(code, codeType, startLine=0):
+	lineCount = startLine + code.count('\n') + 1
+	code = html.escape(code.replace("\t", "    "))
+	code = tag(code, "code", optClasses=[codeType])
+
+	lines = []
+	maxLen = len(str(lineCount))
+	for i in range(startLine, lineCount):
+		line = str(i) + ":" + "&nbsp;" * (maxLen-len(str(i)))
+		lines.append(line)
+	lineStr = "\n".join(lines)
+	lineStr = tag(tag(lineStr, "div", optClasses=["code-syntax-lines"]), "code")
+
+	return  tag(lineStr + code, "pre", optClasses=["code-syntax-block"])
+
+def createFuncDoc(docDict, funcName):
+	args = []
+	if docDict["body"] != "":
+		lines = docDict["body"].split("\n")
+		for line in lines:
+			if not re.search(r'^---', line):
+				if (match := re.search(r'^--\s*(.*)', line)):
+					if match.group(1):
+						args.append(match.group(1))
+	desciption = ""
+	decorator = defaultdict(list)
+	if len(args) > 0:
+		for arg in args:
+			if not (match := re.search(r'^@(\w+)\s(.*)', arg)):
+				desciption += arg + "<br>"
+			else:
+				if match.group(2):
+					decorator[match.group(1)].append(match.group(2))
+
+	return desciption + formatDecorator(dict(decorator), funcName)
+
+def formatDecorator(decorator, funcName):
+	if decorator == {}:
+		return ""
+	decoStr = ""
+	if "param" in decorator:
+		args = []
+		if (match := re.search(r'.*?\((.*)\)', funcName)):
+			if match.group(1):
+				args = match.group(1).replace(" ","").split(",")
+		index = 0
+	for name, items in decorator.items():
+		if name == "param":
+			decoStr += tag("Parameter:<br>", "b")
+			for item in items:
+				paramType = ""
+				if ":" in item:
+					paramSplit = item.split(":")
+					paramType = " [" + paramSplit[0] + "]"
+					item = paramSplit[1]
+				if len(args) < index + 1:
+					break
+				decoStr += "&nbsp;" * 4 + args[index] + paramType + ": " + item.lstrip() + "<br>"
+				index += 1
+	return decoStr
 
 def getFileID(fileName):
 	fileName = fileName.replace("_", "-")
@@ -171,6 +274,10 @@ def prettifyPath(path, name):
 	if (match := re.search(pattern, path)) is not None:
 		return name + "/" + match.group(1).replace("\\", "/")
 	return ""
+
+def prettifyHTML(source):
+	soup = bs(source, features="html.parser")
+	return soup.prettify()
 
 if __name__ == "__main__":
 	main(sys.argv[1:])

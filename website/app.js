@@ -63,13 +63,13 @@ function setTriIcons() {
 function openCloseCode(event) {
 	"use strict";
 	var codeBlock, block, i;
-	codeBlock = event.currentTarget.parentElement.parentElement.getElementsByTagName("pre");
+	codeBlock = event.currentTarget.parentElement.parentElement.getElementsByTagName("div");
 	for (i = 0; i < codeBlock.length; i += 1) {
 		block = codeBlock[i];
-		if (block.classList.contains("code-syntax-block-active")) {
-			block.classList.remove("code-syntax-block-active");
+		if (block.classList.contains("func-block-active")) {
+			block.classList.remove("func-block-active");
 		} else {
-			block.classList.add("code-syntax-block-active");
+			block.classList.add("func-block-active");
 		}
 	}
 }

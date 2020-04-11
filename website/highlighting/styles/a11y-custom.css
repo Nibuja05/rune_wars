@@ -60,10 +60,10 @@
 .hljs {
   display: block;
   overflow-x: auto;
-  background: var(--syntax-bg);
+  /* background: var(--syntax-bg); */
   color: var(--syntax-8);
   padding: 0.5em;
-  border-radius: 4px;
+  /* border-radius: 4px; */
 }
 
 .hljs-emphasis {

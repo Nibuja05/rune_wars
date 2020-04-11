@@ -355,11 +355,10 @@ main {
 }
 
 .code-syntax-block {
-	display: none;
-}
-
-.code-syntax-block-active {
-	display: block;
+	flex-direction: row;
+	background: var(--syntax-bg);
+	border-radius: 4px;
+	display: flex;
 }
 
 .code-syntax-block code::-webkit-scrollbar {
@@ -372,6 +371,25 @@ main {
 
 .code-syntax-block code::-webkit-scrollbar-thumb {
 	background: var(--scroll-color);
+}
+
+.code-syntax-lines {
+	width: auto;
+	min-width: 2em;
+	overflow: hidden;
+}
+
+.func-block {
+	display: none;
+}
+
+.func-block p {
+	font-size: 14px;
+	padding-left: 1.5em;
+}
+
+.func-block-active {
+	display: block;
 }
 
 .show-code:hover {
