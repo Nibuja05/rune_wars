@@ -23,7 +23,7 @@ function AbilityAspects:BuildCoreAbility(caster)
 			if core:GetName():find("item_ability_core") then
 				cores[coreIndex] = core
 			end
-			local runeCount = self:GetTableLength(val.runes)
+			local runeCount = GetTableLength(val.runes)
 			if runeCount > 0 then
 				runes[coreIndex] = {}
 				for k,v in pairs(val.runes) do
@@ -36,7 +36,7 @@ function AbilityAspects:BuildCoreAbility(caster)
 	for index = 0, 2 do
 		local ability = GenericAbility:GetGenericAbilityByIndex(caster, index)
 		GenericAbility:ResetAbility(caster, ability, index)
-		ability:ReloadAbility()
+		-- ability:ReloadAbility()
 	end
 	for index, core in pairs(cores) do
 		-- Filter uncomplete cores:
@@ -67,7 +67,15 @@ function AbilityAspects:BuildCoreAbility(caster)
 		local funcs = spell:GetFunctions()
 		local abilityTable = spell:GetAbilityTable()
 		abilityTable.Specialvalues = self:ExtractAbilitySpecials(coreKVs)
-		abilityTable.Specialdamagetype = DOTA_EXTRA_ENUMS[coreKVs.SpecialDamageType]
+
+		local coreID = core:entindex()
+		local netTable = CustomNetTables:GetTableValue("item_extras", tostring(coreID))
+		if netTable then
+			abilityTable.Specialdamagetype = netTable.specialDamageType
+		else
+			abilityTable.Specialdamagetype = DOTA_EXTRA_ENUMS[coreKVs.SpecialDamageType]
+		end
+
 		GenericAbility:LoadAbilityFromTable(ability, abilityTable)
 		AbilityAspects:AddAbilitySpecialKeys(ability, coreKVs.SpecialAbilityType)
 
@@ -78,42 +86,97 @@ function AbilityAspects:BuildCoreAbility(caster)
 		end
 
 		ability:SetCurrentRunes({})
+		ability:ClearAllSpecialRuneValues()
+		-- ability:PrintAllSpecialRuneValues()
 		local spellRunes = runes[index]
+		local rejected = {}
 		if spellRunes then
 			for k,v in pairs(spellRunes) do
-				self:AddRune(ability, k, v)
+				local reject = self:AddRune(ability, k, v)
+				if reject then
+					rejected[k] = v
+				end
 			end
 		end
-
 		ability:ReloadAbility()
+		if GetTableLength(rejected) > 0 then
+			for k,v in pairs(rejected) do
+				self:AddRune(ability, k, v)
+			end
+			ability:ReloadAbility()
+		end
 	end
 end
 
 function AbilityAspects:AddRune(ability, index, item)
 	local runeName = item:GetName()
 	local curRunes = ability:GetCurrentRunes()
-	if self:FindValueInTable(curRunes, runeName) then return end
-	curRunes[index] = runeName
-	ability:ClearAllSpecialRuneValues(runeName)
+	if FindValueInTable(curRunes, runeName) then return false end
 
 	local runeKVs = item:GetAbilityKeyValues()
-	local requirements = runeKVs.KeyRequirements
-	if not ability:HasSpecialAbilityKey(DOTA_EXTRA_ENUMS[requirements]) then
-		RuneBuilder:SetRuneDisabled(ability, index)
+	if runeKVs.KeyRequirements then
+		local requirements = runeKVs.KeyRequirements
+		if not ability:HasSpecialAbilityKey(DOTA_EXTRA_ENUMS[requirements]) then
+			RuneBuilder:SetRuneDisabled(ability, index)
+			return true
+		else
+			RuneBuilder:SetRuneDisabled(ability, index, "enabled")
+		end
 	end
-	local runeName = runeKVs.RuneName
-	assert(require("runes/"..runeName..""), "No valid rune found for "..runeName)
-	local rune = _G[runeName]
 
-	local funcs = rune:GetAdditionalFunctions()
-	for _,func in pairs(funcs) do
-		GenericAbility:AddFunction(ability, func, rune[func])
+	curRunes[index] = runeName
+	ability:SetCurrentRunes(curRunes)
+	local runeShortName = runeKVs.RuneName
+	assert(require("runes/"..runeShortName..""), "No valid rune found for "..runeShortName)
+	local rune = _G[runeShortName]
+
+	if rune["GetAdditionalFunctions"] then
+		local funcs = rune:GetAdditionalFunctions()
+		for _,func in pairs(funcs) do
+			GenericAbility:AddFunction(ability, func, rune[func], runeName)
+		end
 	end
 
 	local specials = self:ExtractAbilitySpecials(runeKVs)
 	for _,special in pairs(specials) do
-		ability:AddSpecialRuneValue(special.name, special.text, special.val, runeName)
+		ability:AddSpecialRuneValue(special.name, special.text, special.val, runeShortName)
 	end
+
+	local function ModifyValuesConstant(self, addFunc)
+		if addFunc then
+			local addTable = addFunc(self)
+			for key, val in pairs(addTable) do
+				self:ModifyActualValue(key, val, "Add")
+			end
+		end
+	end
+	local function ModifyValuesPercentage(self, multiplyFunc)
+		if multiplyFunc then
+			local multiplyTable = multiplyFunc(self)
+			for key, val in pairs(multiplyTable) do
+				self:ModifyActualValue(key, val, "Multiply")
+			end
+		end
+	end
+	local addFunc = nil
+	local multiplyFunc = nil
+	if rune["ModifyValuesConstant"] then addFunc = rune["ModifyValuesConstant"] end
+	if rune["ModifyValuesPercentage"] then multiplyFunc = rune["ModifyValuesPercentage"] end
+	local modifyFuncConstant = function(self, ...) return ModifyValuesConstant(self, addFunc) end
+	GenericAbility:AddFunction(ability, "ModifyValuesConstant", modifyFuncConstant, runeName)
+	local modifyFuncPercentage = function(self, ...) return ModifyValuesPercentage(self, multiplyFunc) end
+	GenericAbility:AddFunction(ability, "ModifyValuesPercentage", modifyFuncPercentage, runeName)
+
+	local function ModifyValuesGlobal(self, globalFunc)
+		if globalFunc then
+			local val = globalFunc(self)
+			self:ModifyActualValueGlobal(val)
+		end
+	end
+	local globalFunc = nil
+	if rune["ModifyValuesGlobal"] then globalFunc = rune["ModifyValuesGlobal"] end
+	local modifyFuncGlobal = function(self, ...) return ModifyValuesGlobal(self, globalFunc) end
+	GenericAbility:AddFunction(ability, "ModifyValuesGlobal", modifyFuncGlobal, runeName)
 end
 
 function AbilityAspects:AddAbilitySpecialKeys(ability, specials)
@@ -134,10 +197,15 @@ function AbilityAspects:ExtractAbilitySpecials(KVTable)
 			local tempTable = {}
 			for key,val in pairs(special) do
 				if key ~= "var_type" then
-					tempTable.name = key
-					tempTable.val = val
-					tempTable.text = key
-					tempTable.text = tempTable.text:gsub("_", " "):upper()
+					local value, grow = self:GetValueGrow(val)
+					tempTable.val = value
+					tempTable.grow = grow
+					local name, flags = self:GetAbilitySpecialFlags(key)
+					tempTable.name = name
+					tempTable.text = name:gsub("_", " "):upper()
+					if GetTableLength(flags) > 0 then
+						tempTable.flags = flags
+					end
 				end
 			end
 			table.insert(specials, tempTable)
@@ -145,6 +213,52 @@ function AbilityAspects:ExtractAbilitySpecials(KVTable)
 	end
 	return specials
 end
+
+function AbilityAspects:GetAbilitySpecialFlags(text)
+	if not text:find("flag") then return text, {} end
+	local flags = {}
+	local name = ""
+	repeat
+		local index = text:find("flag")
+		local tempText = text:sub(index):sub(6)
+		if name == "" then
+			name = text:sub(0, index - 2)
+		end
+		if not tempText:find("flag") then
+			table.insert(flags, tempText:upper())
+			text = ""
+		else
+			index = tempText:find("flag")
+			table.insert(flags, tempText:sub(0, index - 2):upper())
+			text = tempText:sub(index)
+		end
+		text = tempText
+	until not text:find("flag")
+
+	return name, flags
+end
+
+function AbilityAspects:GetValueGrow(text)
+  if not text:find(" ") then return text, "0" end
+  local index = text:find(" ")
+  local tempText = text:sub(index + 1)
+  if tempText:find("+") then
+    tempText = tempText:sub(2)
+  end
+  return text:sub(0, index - 1), tempText
+end
+
+-- function AbilityAspects:FindItemTooltip(itemName, tooltipType)
+-- 	local file = "resource/addon_english.txt"
+-- 	local kvs = LoadKeyValues(file)
+-- 	local tooltipNameBase = "DOTA_Tooltip_ability_"..itemName
+-- 	local tooltipName = tooltipNameBase.."_"..tooltipType
+-- 	if tooltipType == "Name" then
+-- 		tooltipName = tooltipNameBase
+-- 	end
+-- 	print(tooltipName)
+-- 	return kvs.Tokens[tooltipName]
+-- end
 
 --INVTYPE:
 --all: completle inventory (also no arg)
@@ -175,19 +289,3 @@ function AbilityAspects:GetInventory(unit, invType)
 	return invTable
 end
 
-function AbilityAspects:GetTableLength(table)
-	local index = 0
-	for _,k in pairs(table) do
-		index = index + 1
-	end
-	return index
-end
-
-function AbilityAspects:FindValueInTable(tab, value)
-	for _,val in pairs(tab) do
-		if val == value then
-			return true
-		end
-	end
-	return false
-end

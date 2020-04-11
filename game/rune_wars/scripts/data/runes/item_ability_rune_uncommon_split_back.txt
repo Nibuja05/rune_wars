@@ -1,0 +1,16 @@
+"item_ability_rune_uncommon_split_back" 
+{
+	"RuneName"				"split_back"
+	"KeyRequirements"		"SPECIAL_ABILITY_KEY_LINEAR_PROJECTILE"
+
+	"AbilityCooldown"		"10"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"split_count"		"1"
+		}
+	}
+} 

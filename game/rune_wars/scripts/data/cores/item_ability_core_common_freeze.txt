@@ -1,0 +1,35 @@
+"item_ability_core_common_freeze" 
+{
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_WATER"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_UNIT | SPECIAL_ABILITY_KEY_TRACKING_PROJECTILE | SPECIAL_ABILITY_KEY_SINGLE_TARGET | SPECIAL_ABILITY_KEY_DAMAGE | SPECIAL_ABILITY_KEY_DEBUFF"
+	"SpecialSpellName"		"freeze"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"damage_flag_dmg"			"20 +5"
+		}
+		"02"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"range"						"650"
+		}
+		"03"
+		{
+			"var_type"					"FIELD_FLOAT"
+			"cooldown_flag_inv"			"2.0"
+		}
+		"04"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"manacost_flag_inv"			"15"
+		}
+		"05"
+		{
+			"var_type"					"FIELD_FLOAT"
+			"freeze_duration_flag_dur"	"0.1 +0.05"
+		}
+	}
+} 

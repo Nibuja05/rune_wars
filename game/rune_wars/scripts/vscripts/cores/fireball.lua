@@ -1,4 +1,6 @@
 
+LinkLuaModifier("modifier_fireball_damage", "cores/fireball.lua", LUA_MODIFIER_MOTION_NONE)
+
 fireball = class({})
 
 function fireball:GetReferenceItem()
@@ -40,7 +42,8 @@ end
 
 function fireball:OnProjectileHitUnit(hTarget)
 	local caster = self:GetCaster()
-	self:DealDamage(self:GetSpecialValueFor("damage"), caster, hTarget, self:GetAbilitySpecialDamageType())
+	hTarget:AddNewModifier(caster, self, "modifier_fireball_damage", {Duration = 0.25})
+	-- self:DealDamage(self:GetSpecialValueFor("damage"), caster, hTarget, self:GetAbilitySpecialDamageType())
 	return false
 end
 
@@ -54,4 +57,25 @@ function fireball:OnSpellStart()
 	local distance = self:GetSpecialValueFor("range")
 
 	self:DoLinearProjectile(casterLoc, direction, speed, distance, 100, 250)
+end
+
+modifier_fireball_damage = class({})
+
+function modifier_fireball_damage:IsHidden()
+	return true
+end
+
+function modifier_fireball_damage:IsDebuff()
+	return true
+end
+
+function modifier_fireball_damage:IsPurgable()
+	return false
+end
+
+function modifier_fireball_damage:OnCreated(event)
+	if IsServer() then 
+		local ability = self:GetAbility()
+		ability:DealDamage(ability:GetSpecialValueFor("damage"), self:GetCaster(), self:GetParent(), ability:GetAbilitySpecialDamageType())
+	end
 end

@@ -24,6 +24,8 @@ var reset = false;
 var shown = false;
 var started = false;
 var open = false;
+var altDown = false;
+var resetSchedule;
 
 var rainbow = [];
 var rainbowStart = 0;
@@ -40,7 +42,8 @@ function InitializeTooltips() {
 	var mainSelected = Players.GetLocalPlayerPortraitUnit();
 	Players.GetLocalPlayerPortraitUnit();
 	for (var index = 0; index < 6; index++) {
-		abilityPanel = GetAbilityPanelFromIndex(index);
+		var abilityPanel = GetAbilityPanelFromIndex(index);
+		var abilityLevelUpPanel = GetAbilityLevelUpPanelFromIndex(index);
 		var ability = Entities.GetAbility(mainSelected, index);
 		var abilityName = Abilities.GetAbilityName(ability);
 		if (abilityName.indexOf("generic_ability") < 0) {
@@ -57,22 +60,22 @@ function InitializeTooltips() {
 		$.Msg("Adding Tooltip for index " + index)
 		switch (index) {
 			case 0:
-				SetPanelEvents(abilityPanel, 0)
+				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 0);
 				break;
 			case 1:
-				SetPanelEvents(abilityPanel, 1)
+				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 1);
 				break;
 			case 2:
-				SetPanelEvents(abilityPanel, 2)
+				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 2);
 				break;
 			case 3:
-				SetPanelEvents(abilityPanel, 3)
+				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 3);
 				break;
 			case 4:
-				SetPanelEvents(abilityPanel, 4)
+				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 4);
 				break;
 			case 5:
-				SetPanelEvents(abilityPanel, 5)
+				SetPanelEvents(abilityPanel, abilityLevelUpPanel, 5);
 				break;
 			case 6:
 				
@@ -90,13 +93,32 @@ function InitializeTooltips() {
 	// $.Msg("SHOW: " + shown)
 	if (shown) {
 		if (lastIndex !== undefined) {
-			var abilityPanel = abilityPanels[lastIndex];
-			$.DispatchEvent("DOTAHideAbilityTooltip", abilityPanel);
+			var hideAbilityPanel = abilityPanels[lastIndex];
+			$.DispatchEvent("DOTAHideAbilityTooltip", hideAbilityPanel);
 			ChangeTooltip(lastIndex, true);
 		}
 	}
 
+	// CheckCustomTooltipOpen();
+	
+	CheckAltOption();
+
 	$.Msg("Panorama Init Complete!");
+}
+
+function CheckAltOption() {
+	if (GameUI.IsAltDown() && altDown == false) {
+		altDown = true;
+		if (lastIndex !== undefined && shown == true) {
+			ChangeTooltip(lastIndex, true);
+		}
+	} else if(!GameUI.IsAltDown() && altDown == true) {
+		altDown = false;
+		if (lastIndex !== undefined && shown == true) {
+			ChangeTooltip(lastIndex, true);
+		}
+	}
+	$.Schedule(1/50, CheckAltOption);
 }
 
 function TestShop(arg) {
@@ -104,16 +126,34 @@ function TestShop(arg) {
 	$.Msg(arg);
 }
 
-function SetPanelEvents(abilityPanel, index) {
+function SetPanelEvents(abilityPanel, abilityLevelUpPanel, index) {
 	abilityPanel.SetPanelEvent("onmouseover", function(){ ChangeTooltip(index, true); });
 	abilityPanel.SetPanelEvent("onmouseout", function(){ $.Schedule(1 / 6, ChangeTooltipEnd);});
+
+	abilityLevelUpPanel.SetPanelEvent("onmouseover", function(){ ChangeTooltip(index, true); });
+	// abilityLevelUpPanel.SetPanelEvent("onmouseout", function(){ $.Schedule(1 / 6, ChangeTooltipEndLevelUp);});
+	abilityLevelUpPanel.SetPanelEvent("onmouseout", ChangeTooltipEndLevelUp);
+	// abilityPanel.SetPanelEvent("onmouseout", ChangeTooltipEnd);
 }
 
 function GetAbilityPanelFromIndex(index) {
 	x = abilities.FindChildTraverse("Ability" + index);
 	if (x !== null) {
 		x = x.FindChildTraverse('ButtonAndLevel');
-		return  x.FindChildTraverse('ButtonWithLevelUpTab');
+		x = x.FindChildTraverse('ButtonWithLevelUpTab');
+		return x.FindChildTraverse('ButtonWell');
+		// return  x.FindChildTraverse('ButtonWithLevelUpTab');
+	}
+	return null;
+}
+
+function GetAbilityLevelUpPanelFromIndex(index) {
+	x = abilities.FindChildTraverse("Ability" + index);
+	if (x !== null) {
+		x = x.FindChildTraverse('ButtonAndLevel');
+		x = x.FindChildTraverse('ButtonWithLevelUpTab');
+		return x.FindChildTraverse('LevelUpTab');
+		// return  x.FindChildTraverse('ButtonWithLevelUpTab');
 	}
 	return null;
 }
@@ -123,7 +163,7 @@ $.Msg("Panorama Loaded!");
 
 function OnAbilityToolTipChanged() {
 	if (lastIndex) {
-		ChangeTooltip(lastIndex, false);
+		// ChangeTooltip(lastIndex, false);
 	}
 }
 
@@ -133,11 +173,13 @@ function ChangeTooltip(index, show) {
 	var table = CustomNetTables.GetTableValue("generic_ability", "" + mainSelected)["abilities"];
 	var abilityTable = [];
 
+	// $.Msg("Change Tooltip!");
+
 	var name = "";
 	var title = "Name";
 	var description = "Description";
 	var lore = "Lore";
-	var extra = "Extra";
+	var extra = "";
 	var abilityTargetType = 0;
 	var abilityTargetTeam = 0;
 	var abilityTargetFlags = 0;
@@ -146,41 +188,41 @@ function ChangeTooltip(index, show) {
 	var abilitySpellImmunityType = 0;
 	var abilityBehavior = 0;
 
-	if (table[index.toString(10)] !== undefined) {
-
-		lastIndex = index;
-		shown = true;
-		var abilityPanel = abilityPanels[index];
-		if (show) {
-			$.DispatchEvent("DOTAShowAbilityTooltipForLevel", abilityPanel, "generic_ability_layout", 1);
-		}
-
-		abilityTable = table[index.toString(10)];
-		if (abilityTable["name"] !== undefined) {name = abilityTable["name"]};
-		if (abilityTable["title"] !== undefined) {title = abilityTable["title"]};
-		if (abilityTable["description"] !== undefined) {description = abilityTable["description"]};
-		if (abilityTable["lore"] !== undefined) {lore = abilityTable["lore"]};
-		if (abilityTable["extra"] !== undefined) {extra = abilityTable["extra"]};
-		if (abilityTable["targetType"] !== undefined) {abilityTargetType = abilityTable["targetType"]};
-		if (abilityTable["targetTeam"] !== undefined) {abilityTargetTeam = abilityTable["targetTeam"]};
-		if (abilityTable["targetFlags"] !== undefined) {abilityTargetFlags = abilityTable["targetFlags"]};
-		if (abilityTable["damageType"] !== undefined) {abilityDamageType = abilityTable["damageType"]};
-		if (abilityTable["dispelType"] !== undefined) {abilityDispelType = abilityTable["dispelType"]};
-		if (abilityTable["spellImmunity"] !== undefined) {abilitySpellImmunityType = abilityTable["spellImmunity"]};
-		if (abilityTable["behavior"] !== undefined) {abilityBehavior = abilityTable["behavior"]};
-	} else {
+	if (!(table[index.toString(10)] !== undefined)) {
 		ResetAbilityTooltip();
 		return;
 	}
+
+	lastIndex = index;
+	shown = true;
+	var abilityPanel = abilityPanels[index];
+	if (show) {
+		$.DispatchEvent("DOTAShowAbilityTooltipForLevel", abilityPanel, "generic_ability_layout", 1);
+	}
+
+	abilityTable = table[index.toString(10)];
+
+	if (abilityTable["name"] !== undefined) {name = abilityTable["name"]};
+	if (abilityTable["title"] !== undefined) {title = abilityTable["title"]};
+	if (abilityTable["description"] !== undefined) {description = abilityTable["description"]};
+	if (abilityTable["lore"] !== undefined) {lore = abilityTable["lore"]};
+	if (abilityTable["extra"] !== undefined) {extra = abilityTable["extra"]};
+	if (abilityTable["targetType"] !== undefined) {abilityTargetType = abilityTable["targetType"]};
+	if (abilityTable["targetTeam"] !== undefined) {abilityTargetTeam = abilityTable["targetTeam"]};
+	if (abilityTable["targetFlags"] !== undefined) {abilityTargetFlags = abilityTable["targetFlags"]};
+	if (abilityTable["damageType"] !== undefined) {abilityDamageType = abilityTable["damageType"]};
+	if (abilityTable["dispelType"] !== undefined) {abilityDispelType = abilityTable["dispelType"]};
+	if (abilityTable["spellImmunity"] !== undefined) {abilitySpellImmunityType = abilityTable["spellImmunity"]};
+	if (abilityTable["behavior"] !== undefined) {abilityBehavior = abilityTable["behavior"]};
 
 	// title = Rainbowize(title);
 	// var attributeText = GenerateAttributeText(abilityTable, Entities.GetAbilityByName(mainSelected, name))
 	
 	var ability = Entities.GetAbilityByName(mainSelected, name);
 	var level = Abilities.GetLevel(ability);
-	var cooldown = GenerateCooldownText(abilityTable, level);
-	var manaCost = GenerateManaCostText(abilityTable, level);
-	var attributes = GenerateAttributeText(abilityTable, level);
+	var cooldown = GenerateCooldownText(abilityTable);
+	var manaCost = GenerateManaCostText(abilityTable);
+	var attributes = GenerateAttributeText(abilityTable);
 
 	var dispelType = GenerateAbilityTargetText("Dispel", abilityDispelType);
 	var castType = GenerateAbilityTargetText("Cast", abilityBehavior);
@@ -189,13 +231,42 @@ function ChangeTooltip(index, show) {
 	var spellImmunity = GenerateAbilityTargetText("Spellimmunity", abilitySpellImmunityType);
 
 	GetAbilityLabelFromName("Title").text = title;
-	GetAbilityLabelFromName("Description").text = description;
+	// GetAbilityLabelFromName("Description").text = description;
 	GetAbilityLabelFromName("Lore").text = lore;
 	GetAbilityLabelFromName("Extra").text = extra;
+
+	// TODO: Make the extra Panel hidden when no extra Text is given.
+	// Currently, only hides it for about one second.
+	// -> refreshing timer maybe?
+	// if(extra == "") {
+	// 	var abilityTooltipPanel = GetAbilityTooltipPanel();
+	// 	abilityTooltipPanel.RemoveClass("ShowExtraDescription");
+	// }
 	GetAbilityLabelFromName("ExtraAttributes").text = attributes;
-	GetAbilityLabelFromName("Cooldown").text = cooldown;
-	GetAbilityLabelFromName("ManaCost").text = manaCost;
-	GetAbilityLabelFromName("Level").text = "Level " + level;
+	
+	var cooldownValue = abilityTable["cooldown"];
+	if (cooldownValue !== "0") {
+		GetAbilityLabelFromName("Cooldown").RemoveClass("Hidden");
+		GetAbilityLabelFromName("Cooldown").text = cooldown;
+	} else {
+		GetAbilityLabelFromName("Cooldown").AddClass("Hidden");
+	}
+	var manaCostValue = abilityTable["manaCost"];
+	if (manaCostValue !== "0") {
+		GetAbilityLabelFromName("ManaCost").RemoveClass("Hidden");
+		GetAbilityLabelFromName("ManaCost").text = manaCost;
+	} else {
+		GetAbilityLabelFromName("ManaCost").AddClass("Hidden");
+	}
+	// GetAbilityLabelFromName("Level").text = "Level " + level;
+	GetAbilityLabelFromName("Level").text = "Level " + Entities.GetLevel(mainSelected);
+
+	var descriptionPanel = GetAbilityLabelFromName("Description");
+	descriptionPanel.RemoveAndDeleteChildren();
+	var abilityDescriptionLabel = $.CreatePanel("Label", $.GetContextPanel(), "");
+	abilityDescriptionLabel.SetParent(descriptionPanel);
+	abilityDescriptionLabel.text = description;
+	GenerateAbilityRuneLabels(descriptionPanel, abilityTable);
 
 	if (castType == "") {
 		GetAbilityLabelFromName("CastType").AddClass("Hidden");
@@ -228,7 +299,89 @@ function ChangeTooltip(index, show) {
 	// On Level up an ability, make it refresh the tooltip!
 
 	reset = false;
-	$.Schedule(1 / 5, AllowReset);
+	if (resetSchedule) {
+		$.CancelScheduled(resetSchedule, {});
+	}
+	resetSchedule = $.Schedule(1 / 6, AllowReset);
+}
+
+function GenerateAbilityRuneLabels(descriptionPanel, abilityTable) {
+	var runes = abilityTable["runes"];
+	if (!runes) { return; }
+	Object.keys(runes).forEach(function(key) {
+		var runeName = runes[key];
+		var text = $.Localize("DOTA_Tooltip_ability_" + runeName + "_Description");
+		var headerPattern = /<h1>(.*?)<\/h1>/;
+		var header = headerPattern.exec(text);
+		var mainText = text.substring(header[0].length)
+
+		var abilityRuneContainer = $.CreatePanel("Panel", $.GetContextPanel(), "RuneContainer");
+		abilityRuneContainer.SetParent(descriptionPanel);
+		abilityRuneContainer.style.flowChildren = "none";
+
+		var abilityRuneDescriptionContainer = $.CreatePanel("Panel", $.GetContextPanel(), "RuneDescriptionContainer");
+		abilityRuneDescriptionContainer.SetParent(abilityRuneContainer);
+		abilityRuneDescriptionContainer.style.flowChildren = "down";
+
+		var abilityRuneHeaderLabel = $.CreatePanel("Label", $.GetContextPanel(), "");
+		abilityRuneHeaderLabel.SetParent(abilityRuneDescriptionContainer);
+		abilityRuneHeaderLabel.AddClass("Header");
+		abilityRuneHeaderLabel.style.textShadow = "2px 2px 0px 1.0 #00000090";
+		// abilityRuneHeaderLabel.text = $.Localize("DOTA_Tooltip_ability_" + runeName);
+		abilityRuneHeaderLabel.text = header[1];
+
+		// var cooldown = 10;
+		// if (cooldown > 0) {
+		// 	var abilityRuneCooldown = $.CreatePanel("Panel", $.GetContextPanel(), "RuneCosts")
+		// 	abilityRuneCooldown.SetParent(abilityRuneContainer);
+		// 	abilityRuneCooldown.style.flowChildren = "left";
+		// 	abilityRuneCooldown.style.width = "100%";
+		// 	abilityRuneCooldown.style.marginTop = "4px";
+		// 	abilityRuneCooldown.style.marginBottom = "5px";
+		// 	abilityRuneCooldown.style.marginRight = "8px";
+		// 	abilityRuneCooldown.style.zIndex = "1";
+
+		// 	var abilityRuneCooldownLabel = $.CreatePanel("Label", $.GetContextPanel(), "");
+		// 	abilityRuneCooldownLabel.SetParent(abilityRuneCooldown);
+		// 	abilityRuneCooldownLabel.AddClass("Cooldown");
+		// 	abilityRuneCooldownLabel.style.visibility = "visible";
+		// 	abilityRuneCooldownLabel.style.backgroundPosition = "0% 50%";
+		// 	abilityRuneCooldownLabel.style.backgroundRepeat = "no-repeat";
+		// 	abilityRuneCooldownLabel.style.paddingLeft = "25px";
+		// 	abilityRuneCooldownLabel.style.marginLeft = "10px";
+		// 	abilityRuneCooldownLabel.style.textShadow = "2px 2px 0px 1.0 #00000088";
+		// 	abilityRuneCooldownLabel.style.paddingTop = "2px";
+		// 	abilityRuneCooldownLabel.style.fontWeight = "semi-bold";
+		// 	abilityRuneCooldownLabel.style.color = "#e1e1e1";
+		// 	abilityRuneCooldownLabel.style.position = "258.0px 0.0px 0.0px";
+		// 	// abilityRuneCooldownLabel.style.horizontalAlign = "right";
+		// 	abilityRuneCooldownLabel.text = "10";
+		// }
+
+		var abilityRuneLabel = $.CreatePanel("Label", $.GetContextPanel(), "");
+		abilityRuneLabel.SetParent(abilityRuneDescriptionContainer);
+		abilityRuneLabel.style.backgroundColor = "gradient( linear, 0% 0%, 0% 100%, from( #1c262f ), to( #1b262f ) )";
+		abilityRuneLabel.style.textShadow = "2px 2px 0px 1.0 #00000090";
+		abilityRuneLabel.html = true;
+		abilityRuneLabel.text = "<font color='#626d7b'>" + mainText + "</font>";
+
+		if (GameUI.IsAltDown()) {
+			var runeAttributes = GenerateRuneAttributeText(abilityTable, runeName);
+			abilityRuneLabel.text = "<font color='#626d7b'>" + mainText + "</font>" + "<br><br>" + runeAttributes;
+		}
+	});
+	// for (var i = 1; i <= Object.keys(runes).length; i++) {
+	// 	var runeName = runes[i.toString(10)];
+	// 	var abilityRuneHeaderLabel = $.CreatePanel("Label", $.GetContextPanel(), "");
+	// 	abilityRuneHeaderLabel.SetParent(descriptionPanel);
+	// 	abilityRuneHeaderLabel.AddClass("Header");
+	// 	abilityRuneHeaderLabel.text = $.Localize("DOTA_Tooltip_ability_" + runeName);
+
+	// 	var abilityRuneLabel = $.CreatePanel("Label", $.GetContextPanel(), "");
+	// 	abilityRuneLabel.SetParent(descriptionPanel);
+	// 	abilityRuneLabel.style.backgroundColor = "gradient( linear, 0% 0%, 0% 100%, from( #1c262f ), to( #1b262f ) )";
+	// 	abilityRuneLabel.text = $.Localize("DOTA_Tooltip_ability_" + runeName + "_Description");
+	// }
 }
 
 function GenerateAbilityTargetText(type, val, opt) {
@@ -340,14 +493,17 @@ function GetAbilityTargetString(key, val, opt) {
 	return text;
 }
 
-function GenerateAttributeText(abilityTable, level) {
+function GenerateAttributeText(abilityTable) {
 	var attributes = [];
 	if (abilityTable["attributes"] !== undefined) {attributes = abilityTable["attributes"];};
 	var lines = [];
 	for (var i = 0; i <= Object.keys(attributes).length; i++) {
 		var attr = attributes[i.toString(10)];
 		if (attr !== undefined) {
-			var values = MarkValueForLevel(attr["Val"], level);
+			var valName = "Val";
+			if (GameUI.IsAltDown()) {valName = "ActualVal"}
+			// var values = MarkValueForLevel(attr[valName], level);
+			var values = ShowValuesWithGrow(attr[valName], attr["Grow"])
 			lines.push(attr["Key"] + ": <font color='#4b535e'>" + values + "</font>");
 		}
 	}
@@ -361,23 +517,59 @@ function GenerateAttributeText(abilityTable, level) {
 	return newText;
 }
 
-function GenerateCooldownText(abilityTable, level) {
+function GenerateCooldownText(abilityTable) {
 	var cooldown = "0";
-	if (abilityTable["cooldown"] !== undefined) {cooldown = abilityTable["cooldown"];};
-	cooldown = MarkValueForLevel(cooldown, level);
+	// if (!(abilityTable.actualValues)) {return ""}
+	// if (abilityTable["cooldown"] !== undefined) {cooldown = abilityTable.actualValues.cooldown;};
+	if (abilityTable["cooldown"] !== undefined) {cooldown = abilityTable.cooldown;};
+	cooldown = ReplaceRelativeString(abilityTable, cooldown);
+	// cooldown = MarkValueForLevel(cooldown, level);
+	cooldown = ShowValuesWithGrow(cooldown)
 	return cooldown;
 }
 
-function GenerateManaCostText(abilityTable, level) {
+function GenerateManaCostText(abilityTable) {
 	var manaCost = "0";
-	if (abilityTable["manaCost"] !== undefined) {manaCost = abilityTable["manaCost"];};
-	manaCost = MarkValueForLevel(manaCost, level);
+	// if (!(abilityTable.actualValues)) {return ""}
+	// if (abilityTable["manaCost"] !== undefined) {manaCost = abilityTable.actualValues.manaCost;};
+	if (abilityTable["manaCost"] !== undefined) {manaCost = abilityTable.manaCost;};
+	manaCost = ReplaceRelativeString(abilityTable, manaCost);
+	// manaCost = MarkValueForLevel(manaCost, level);
+	manaCost = ShowValuesWithGrow(manaCost)
 	return manaCost;
+}
+
+function GenerateRuneAttributeText(abilityTable, runeName) {
+	var attributes = [];
+	var pattern = /.*ability_rune_\w+?_(\w+)/;
+	var shortRuneName = runeName.match(pattern)[1];
+	if (!abilityTable.runeAttributes[shortRuneName]) {return ""; };
+	if (abilityTable["attributes"] !== undefined) {attributes = abilityTable.runeAttributes[shortRuneName];};
+	var lines = [];
+	for (var i = 0; i <= Object.keys(attributes).length; i++) {
+		var attr = attributes[i.toString(10)];
+		if (attr !== undefined) {
+			var valName = "Val";
+			var values = MarkValueForLevel(attr[valName], 1);
+			lines.push(attr["Key"] + ": <font color='#4b535e'>" + values + "</font>");
+		}
+	}
+	var newText = "";
+	for (var i = 0; i < lines.length; i++) {
+		newText += lines[i];
+		if (!(i == lines.length - 1)) {
+			newText += "<br>";
+		}
+	}
+	return newText;
 }
 
 function MarkValueForLevel(values, level) {
 	var valArr = values.split(" ");
 	var newText = "";
+	for (var i = 0; i < valArr.length; i++) {
+		valArr[i] = ShortenNumber(valArr[i]);
+	}
 	if (valArr.length >= level) {
 		valArr[level - 1] = "<font color='#ffffff'><b>" + valArr[level - 1] + "</b></font>"
 		for (var i = 0; i < valArr.length; i++) {
@@ -388,6 +580,67 @@ function MarkValueForLevel(values, level) {
 		newText = "<font color='#ffffff'><b>" + values + "</b></font>";
 	}
 	return newText;
+}
+
+function ShowValuesWithGrow(value, grow) {
+	var val = ShortenNumber(value);
+	growText = "";
+	if (grow !== undefined) {
+		if (grow !== "0") {
+			growText = " (";
+			if (Number(grow) > 0) {
+				growText += "+" + grow
+			} else {
+				growText += grow
+			}
+			growText += ")"
+		}
+	}
+	return "<font color='#ffffff'><b>" + val + "</b></font>" + growText;
+}
+
+function ShortenNumber(number) {
+  number = number.toString(10);
+  var index = number.indexOf(".");
+  if (index > 0) {
+	number = parseFloat(number).toFixed(3);
+	var lastChar = "";
+	do {
+	  lastChar = number.substring(number.length - 1, number.length);
+	  if (lastChar == "0" || lastChar == ".") {
+		number = number.substring(0, number.length - 1);
+	  }
+	} while (lastChar == "0")
+  }
+  return number;
+}
+
+function ReplaceRelativeString(abilityTable, str) {
+  if (str.indexOf("%") >= 0) {
+	var pattern = /\w+/i;
+	var newStr = str.match(pattern);
+	if (newStr) {
+	  var attribute = FindAttribute(abilityTable, newStr);
+	  if (attribute) {
+		str = attribute.ActualVal;
+	  } else {
+		str = "";
+	  }
+	}
+  }
+  return str;
+}
+
+function FindAttribute(tab, attrName) {
+  var attr;
+  Object.keys(tab.attributes).forEach(function(key) {
+	var attribute = tab.attributes[key];
+	var name = attribute["Name"];
+	if (name == attrName) {
+	  attr = attribute;
+	}
+  });
+  return attr;
 }
 
 function RecolorText() {
@@ -405,12 +658,12 @@ function RecolorText() {
 		}
 	}
 	if (RAINBOW_COLOR_DESC) {
-		if (GetAbilityLabelFromName("Description")) {
-			// GetAbilityLabelFromName("Title").text = "#DOTA_AbilityTooltip_Name";
-			var text = GetAbilityLabelFromName("Description").text;
-			text = Rainbowize(text);
-			GetAbilityLabelFromName("Description").text = text;
-		}
+		// if (GetAbilityLabelFromName("Description")) {
+		// 	// GetAbilityLabelFromName("Title").text = "#DOTA_AbilityTooltip_Name";
+		// 	var text = GetAbilityLabelFromName("Description").text;
+		// 	text = Rainbowize(text);
+		// 	GetAbilityLabelFromName("Description").text = text;
+		// }
 	}
 	if (RAINBOW_COLOR_LORE) {
 		if (GetAbilityLabelFromName("Lore")) {
@@ -439,6 +692,7 @@ function RecolorText() {
 }
 
 function AllowReset() {
+	resetSchedule = undefined;
 	reset = true;
 }
 
@@ -448,8 +702,31 @@ function ChangeTooltipEnd() {
 	}
 }
 
+function ChangeTooltipEndLevelUp() {
+	if (lastIndex !== undefined) {
+		var hideAbilityPanel = abilityPanels[lastIndex];
+		$.DispatchEvent("DOTAHideAbilityTooltip", hideAbilityPanel);
+	}
+	$.Schedule(1 / 6, ChangeTooltipEnd);
+}
+
+// function CheckCustomTooltipOpen() {
+// 	if (!shown) {
+// 		$.Msg("Check .. Reset");
+// 		ResetAbilityTooltip(true);
+// 		// $.Schedule(1, CheckCustomTooltipOpen);
+// 	} else {
+// 		$.Msg("Check .. No Reset");
+// 		// $.Schedule(1, CheckCustomTooltipOpen);
+// 	}
+// }
+
 function ResetAbilityTooltip() {
+	// $.Msg("Reset!");
 	shown = false;
+	if (!GetAbilityLabelFromName("Title")) {
+		return;
+	}
 	GetAbilityLabelFromName("Title").text = "#DOTA_AbilityTooltip_Name";
 	GetAbilityLabelFromName("Level").text = "#DOTA_AbilityTooltip_Level";
 	GetAbilityLabelFromName("CastType").text = "#DOTA_AbilityTooltip_CastType";
@@ -466,17 +743,18 @@ function ResetAbilityTooltip() {
 	GetAbilityLabelFromName("ManaCost").text = "#DOTA_AbilityTooltip_ManaCost";
 }
 
-function GetAbilityPanelFromName(name) {
+function GetAbilityTooltipPanel() {
 	x = tooltipManager.FindChildTraverse('DOTAAbilityTooltip');
 	x = x.FindChildrenWithClassTraverse('TooltipRow');
 	x = x[0].FindChildTraverse('Contents');
 	var abilityTooltip = x.FindChildTraverse('AbilityDetails');
 
-	switch (name) {
-		case "Core":
-			return x.FindChildTraverse('AbilityCoreDetails');
-	}
-	return null;
+	return abilityTooltip;
+	// switch (name) {
+	// 	case "Core":
+	// 		return x.FindChildTraverse('AbilityCoreDetails');
+	// }
+	// return null;
 }
 
 function GetAbilityLabelFromName(name) {
@@ -521,7 +799,8 @@ function GetAbilityLabelFromName(name) {
 			x = x.FindChildTraverse('AbilityCoreDetails');
 			x = x.FindChildTraverse('AbilityDescriptionOuterContainer');
 			x = x.FindChildTraverse('AbilityDescriptionContainer');
-			return x.Children()[0];
+			return x;
+			// return x.Children()[0];
 		case "Lore":
 			x = x.FindChildTraverse('AbilityCoreDetails');
 			return x.FindChildTraverse('AbilityLore');

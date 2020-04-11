@@ -1,78 +1,60 @@
 
-DYNAMIC_EVENTS = false
-
-if not AbilityCores then
-	AbilityCores = class({})
+if not ItemManager then
+	ItemManager = class({})
 end
 
-function AbilityCores:Init()
-	print("[AS] Initializing...")
-	if DYNAMIC_EVENTS then
-		print("[AS] Reloading events...")
-		ListenToGameEvent('dota_item_picked_up', Dynamic_Wrap(self, 'OnItemPickedUp'), self)
-	else
-		ListenToGameEvent('dota_item_picked_up', self.OnItemPickedUp, self)
-	end
+function ItemManager:Init()
+	print("[IM] Initializing Item Manager...")
+	-- ListenToGameEvent('item_purchased ', Dynamic_Wrap(self, 'OnInventoryChange'), self)
+	-- GameRules:GetGameModeEntity():SetItemAddedToInventoryFilter(Dynamic_Wrap(self, "OnItemAddedToInventory"), self)
 end
 
-function AbilityCores:OnItemPickedUp(event)
-	local name = event.itemname
-	local player = PlayerResource:GetPlayer(event.PlayerID)
-	local item = EntIndexToHScript(event.ItemEntityIndex)
-	local hero = EntIndexToHScript(event.HeroEntityIndex)
-
-	-- print("Picked up item:"..name)
-	if name:find("item_enchanted_ore") then
-		-- self:OnEnchantedOrePickedUp(name, player, item, hero)
-	end
-end
-
-function AbilityCores:CheckInventory(hero)
-	local item = EntIndexToHScript(event.entityIndex)
-	print(item)
-	DeepPrintTable(event)
-end
-
-function AbilityCores:OnEnchantedOrePickedUp(name, player, item, hero)
-	local item = EntIndexToHScript(event.entityIndex)
-	print(item)
-	self:AddAbilityStone(name, hero)
-end
-
-function AbilityCores:AddEnchantedOre(name, hero)
-	local netTable = CustomNetTables:GetTableValue("ability_cores", tostring(hero:entindex()))
-	--init the tables, if there aren't any for this hero
+function ItemManager:OnItemAddedToInventory(event)
+	print("[IM] Inventory Changed!")
+	
+	local itemID = event.item_entindex_const
+	local item = EntIndexToHScript(itemID)
+	local itemName = item:GetName()
+	if not itemName:find("ability_core") and not itemName:find("ability_rune") then return true end
+	
+	local netTable = CustomNetTables:GetTableValue("item_extras", tostring(itemID))
 	if not netTable then
-		netTable = {}
+		self:CreateNewValuesForItem(item)
 	end
-	if not netTable.ores then
-		netTable.ores = {}
-	end
-	table.insert(netTable.stones, GetTableLength(netTable.stones), name)
-	DeepPrintTable(netTable)
-	CustomNetTables:SetTableValue("ability_stones", tostring(hero:entindex()), netTable)
+
+	return true
 end
 
-function AbilityCores:AddAbilityCore(name, hero)
-	local netTable = CustomNetTables:GetTableValue("ability_cores", tostring(hero:entindex()))
-	--init the tables, if there aren't any for this hero
-	if not netTable then
-		netTable = {}
+function ItemManager:CreateNewValuesForItem(item)
+	print("[IM] Creating new values for "..item:GetName())
+	local itemID = item:entindex()
+	local itemName = item:GetName()
+
+	local itemTable = {}
+
+	if itemName:find("ability_core") then
+		local itemKVs = item:GetAbilityKeyValues()
+		local damageType = itemKVs.SpecialDamageType
+		if damageType == "SPECIAL_DAMAGE_TYPE_RANDOM" then
+			itemTable.specialDamageType = 2^RandomInt(0, 5)
+		else
+			itemTable.specialDamageType = DOTA_EXTRA_ENUMS[damageType]
+		end
 	end
-	if not netTable.cores then
-		netTable.cores = {}
-	end
-	table.insert(netTable.stones, GetTableLength(netTable.stones), name)
-	DeepPrintTable(netTable)
-	CustomNetTables:SetTableValue("ability_stones", tostring(hero:entindex()), netTable)
+
+	itemTable.rarity = self:ExtractRarity(itemName)
+	
+	CustomNetTables:SetTableValue("item_extras", tostring(itemID), itemTable)
 end
 
-function AbilityCores:OnItemDragStart(event)
-	DeepPrintTable(event)
-end
-
-function AbilityCores:OnItemDragEnd(event)
-	DeepPrintTable(event)
+function ItemManager:ExtractRarity(name)
+	local itemType = "ability_rune"
+	if name:find("ability_core") then itemType = "ability_core" end
+	local index = name:find(itemType) + (itemType):len() + 1
+	local temp = name:sub(index)
+	local endIndex = temp:find("_") - 1
+	local rarity = temp:sub(0, endIndex)
+	return rarity
 end
 
 --==============================
@@ -92,6 +74,6 @@ end
 -- Init the class
 --==============================
 
-if not AbilityCores.init then
-	AbilityCores:Init()
+if not ItemManager.init then
+	ItemManager:Init()
 end

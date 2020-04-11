@@ -1,0 +1,32 @@
+"item_ability_core_common_healing_touch" 
+{
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_NONE"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_UNIT | SPECIAL_ABILITY_KEY_TRACKING_PROJECTILE | SPECIAL_ABILITY_KEY_SINGLE_TARGET | SPECIAL_ABILITY_KEY_HEAL"
+	"SpecialSpellName"		"healing_touch"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"heal"				"40 +10"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"range"				"600"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"cooldown_flag_inv"	"8"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"manacost_flag_inv"	"55"
+		}
+	}
+} 
+
+

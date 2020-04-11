@@ -5,7 +5,7 @@ function Kill( keys )
 		
 	for i, nearby_ally in ipairs(nearby_allied_units) do 
 		if nearby_ally:HasModifier("modifier_shaman_spirit_guide_stats") then
-			print("[AS] Snake seems dead")
+			print("Snake seems dead")
 			local target_owner = nearby_ally:GetPlayerOwner() 
 
 			if caster_owner == target_owner then

@@ -254,3 +254,17 @@
   /*background-color: gradient( radial, 50% -20%, 0% 0%, 80% 80%, from( #FFFFFF ), to( #FFFFFF00 ) );*/
   background-color: #ff0000;
 }
+
+
+#ScenePanelTestContainer
+{
+	height: 200px;
+	width: 600px;
+	/*background-color: black;*/
+}
+
+#HealthBurner
+{
+	height: 100%;
+	width: 100%;
+}

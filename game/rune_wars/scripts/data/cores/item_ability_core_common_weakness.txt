@@ -1,0 +1,25 @@
+"item_ability_core_common_weakness" 
+{
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_CHAOS"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_PASSIVE | SPECIAL_ABILITY_KEY_AOE | SPECIAL_ABILITY_KEY_BUFF"
+	"SpecialSpellName"		"weakness"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"radius"					"300 +25"
+		}
+		"02"
+		{
+			"var_type"					"FIELD_FLOAT"
+			"damage_amplificaton"		"5.0 +0.5"
+		}
+		"03"
+		{
+			"var_type"					"FIELD_FLOAT"
+			"damage_reduction"			"8.0 +0.5"
+		}
+	}
+} 

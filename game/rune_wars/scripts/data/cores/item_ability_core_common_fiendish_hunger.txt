@@ -1,0 +1,15 @@
+"item_ability_core_common_fiendish_hunger" 
+{
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_CHAOS"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_PASSIVE | SPECIAL_ABILITY_KEY_BUFF"
+	"SpecialSpellName"		"fiendish_hunger"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"					"FIELD_FLOAT"
+			"lifesteal"					"9.0 +0.5"
+		}
+	}
+} 

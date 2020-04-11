@@ -77,3 +77,54 @@ COLOR_PURPLE = '\x1A'
 COLOR_ORANGE = '\x1B'
 COLOR_LRED = '\x1C'
 COLOR_GOLD = '\x1D'
+
+--=================================================================================================
+--TABLE FUNCTIONS
+--=================================================================================================
+
+function CombineTables(table1, table2)
+  for key,val in pairs(table2) do
+    if type(key) ~= "number" then
+      table1[key] = val
+    else
+      table.insert(table1, val)
+    end
+  end
+  return table1
+end
+
+function GetTableLength(table)
+  local index = 0
+  for _,k in pairs(table) do
+    index = index + 1
+  end
+  return index
+end
+
+function RemoveItemFromTable(tab, val)
+  local newTab = {}
+  local index = 0
+  for _,v in pairs(tab) do
+    if not v:GetName() ~= val:GetName() then
+      newTab[index] = v
+      index = index + 1
+    end
+  end
+  return newTab
+end
+
+function IsEmpty(tab)
+  if GetTableLength(tab) == 0 then
+    return true
+  end
+  return false
+end
+
+function FindValueInTable(tab, value)
+  for _,val in pairs(tab) do
+    if val == value then
+      return true
+    end
+  end
+  return false
+end

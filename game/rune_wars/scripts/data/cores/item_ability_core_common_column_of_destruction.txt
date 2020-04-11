@@ -1,0 +1,45 @@
+"item_ability_core_common_column_of_destruction" 
+{
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_RANDOM"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_POINT | SPECIAL_ABILITY_KEY_AOE | SPECIAL_ABILITY_KEY_DAMAGE | SPECIAL_ABILITY_KEY_DEBUFF"
+	"SpecialSpellName"		"column_of_destruction"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"damage_flag_dmg"	"80 +6"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"range"				"650"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"cooldown_flag_inv"	"11"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"manacost_flag_inv"	"60"
+		}
+		"05"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"delay_flag_non"	"0.6"
+		}
+		"06"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration_flag_dur"	"1.25"
+		}
+		"07"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"radius"			"250"
+		}
+	}
+} 

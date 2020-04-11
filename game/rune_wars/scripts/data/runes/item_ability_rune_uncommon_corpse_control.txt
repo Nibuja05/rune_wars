@@ -1,0 +1,30 @@
+"item_ability_rune_uncommon_corpse_control" 
+{
+	"RuneName"				"corpse_control"
+	"KeyRequirements"		"SPECIAL_ABILITY_KEY_DAMAGE"
+	"KeyAddition"			"SPECIAL_ABILITY_KEY_SUMMON"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"duration"			"2"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"skeleton_health"	"175"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"skeleton_attack"	"18"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"skeleton_duration"	"20"
+		}
+	}
+} 

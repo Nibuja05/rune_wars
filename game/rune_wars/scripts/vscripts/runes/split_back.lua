@@ -15,7 +15,7 @@ end
 function split_back:OnProjectileHitFinishExtra(vLocation, extraData)
 	local splitCount = 0
 	local runeName = "split_back"
-	local varName = "SplitCount".."_"..runeName
+	local varName = "SplitCount"..runeName
 	if extraData[varName] then
 		splitCount = extraData[varName]
 	end
@@ -26,12 +26,13 @@ function split_back:OnProjectileHitFinishExtra(vLocation, extraData)
 		return
 	end
 
-	local newData = {}
+	local newData = extraData
 	newData[varName] = splitCount + 1
-	local direction1 = RotateVector2D(extraData.direction, math.rad(-160))
-	local direction2 = RotateVector2D(extraData.direction, math.rad(160))
-	self:DoLinearProjectile(vLocation, direction1, extraData.speed, extraData.distance * 0.75, extraData.width, extraData.visionRadius, newData)
-	self:DoLinearProjectile(vLocation, direction2, extraData.speed, extraData.distance * 0.75, extraData.width, extraData.visionRadius, newData)
+	local direction1 = RotateVector2D(extraData.direction, math.rad(-135))
+	local direction2 = RotateVector2D(extraData.direction, math.rad(135))
+	local newDistance = extraData.distance * 0.75
+	self:DoLinearProjectile(vLocation, direction1, extraData.speed, newDistance, extraData.width, extraData.visionRadius, newData)
+	self:DoLinearProjectile(vLocation, direction2, extraData.speed, newDistance, extraData.width, extraData.visionRadius, newData)
 end
 
 function RotateVector2D(v, theta)

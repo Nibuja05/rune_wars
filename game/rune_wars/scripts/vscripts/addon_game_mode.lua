@@ -13,7 +13,8 @@ require('libs/element_manager')
 require('libs/util')
 require('libs/generic_ability')
 require('libs/rune_builder')
-require('libs/hero_stats')
+-- require('libs/hero_stats')
+require('libs/creep_manager')
 
 function Precache( context )
 	--[[
@@ -35,6 +36,9 @@ function GameMode:InitGameMode()
 	print( "Rune Wars is loaded." )
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 2 )
 	ListenToGameEvent('npc_spawned', Dynamic_Wrap(GameMode, 'OnNPCSpawned'), self)
+
+	GameRules:GetGameModeEntity():SetItemAddedToInventoryFilter(Dynamic_Wrap(ItemManager, "OnItemAddedToInventory"), ItemManager)
+
 	-- self:StartEventTest() --Spams console!
 end
 
@@ -46,6 +50,16 @@ function GameMode:OnNPCSpawned(event)
 		local player = PlayerResource:GetPlayer(playerID)
 	  	CustomGameEventManager:Send_ServerToPlayer(player, "init_tooltips", {})
 	  	GenericAbility:InitHero(npc)
+	  	for i=0,12 do
+	  		local ability = npc:GetAbilityByIndex(i)
+	  		if ability then
+	  			if ability:GetLevel() < 1 then
+	  				if ability:IsInnate() then
+	  					ability:SetLevel(1)
+	  				end
+	  			end
+	  		end
+	  	end
    	end
 end
 
@@ -57,4 +71,8 @@ function GameMode:OnThink()
 		return nil
 	end
 	return 1
+end
+
+function CDOTABaseAbility:IsInnate()
+	return false
 end

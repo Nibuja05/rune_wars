@@ -1,0 +1,19 @@
+"item_ability_rune_rare_cascade" 
+{
+	"RuneName"				"cascade"
+	"KeyRequirements"		"SPECIAL_ABILITY_KEY_TRACKING_PROJECTILE"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"cascade_count"		"1"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"cascade_radius"			"250"
+		}
+	}
+} 

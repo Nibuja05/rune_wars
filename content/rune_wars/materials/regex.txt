@@ -1,0 +1,11 @@
+MaterialParamInt_t\s+{\s+.* = (\d)\s+.* = "(\w+)"\s+}
+$2 $1
+
+MaterialParamFloat_t\s+{\s+.* = ([\w|.]+)\s+.* = "(\w+)"\s+}
+$2 "$1"
+
+MaterialParamVector_t\s+{\s+.*\s+{\s+.* = ([\w|.]+)\s+.* = ([\w|.]+)\s+.* = ([\w|.]+)\s+.* = ([\w|.]+)\s+}\s+.* = "(\w+)"\s+}
+$5 "[$1 $2 $3 $4]"
+
+MaterialParamTexture_t\s+{\s+.*: ([/\w.]+)\s+.* = "g_t(\w+)"\s+}
+Texture$2 "$1"

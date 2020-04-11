@@ -1,0 +1,8 @@
+preview_map
+{
+	material materials/overviews/preview_map.vmat
+	pos_x -4453
+	pos_y 1302
+	scale 7.349
+}
+

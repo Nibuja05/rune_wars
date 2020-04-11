@@ -1,0 +1,102 @@
+"npc_dota_neutral_kobold_basic"
+{
+	// General
+	//----------------------------------------------------------------
+	"BaseClass"					"npc_dota_creature"	// Class of entity of link to.
+	"Model"						"models/creeps/neutral_creeps/n_creep_kobold/kobold_c/n_creep_kobold_c.vmdl"	// Model.
+	// "SoundSet"					"Hero_VenomancerWard"					// Name of sound set.
+	// "GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_venomancer.vsndevts"
+	"Level"						"1"
+	"ModelScale" 				"1"
+
+	// Precache
+	//----------------------------------------------------------------
+	// "precache"
+	// {
+	// 	"model"				"models/heroes/venomancer/venomancer_ward.vmdl"
+	// }
+
+	// Abilities
+	//----------------------------------------------------------------
+	"Ability1"					"neutral_elemental_attack"			// Ability 1.
+	"Ability2"					"neutral_elemental_defense"			// Ability 2.
+	"Ability3"					""			// Ability 3.
+	"Ability4"					""			// Ability 4.
+	"Ability5"					""			// Ability 5.
+
+	// Armor
+	//----------------------------------------------------------------
+	"ArmorPhysical"				"0"			// Physical protection.
+	"MagicalResistance"				"0"			// Magical protection.
+
+	// Attack
+	//----------------------------------------------------------------
+	"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+	"AttackDamageMin"			"16"			// Damage range min.
+	"AttackDamageMax"			"20"		// Damage range max.
+	"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+	"AttackRate"				"1.5"		// Speed of attack.
+	"AttackAnimationPoint"		"0.3"		// Normalized time in animation cycle to attack.
+	"AttackAcquisitionRange"	"600"		// Range within a target can be acquired.
+	"AttackRange"				"128"		// Range within a target can be attacked.
+	// "ProjectileModel"			"particles/units/heroes/hero_venomancer/venomancer_plague_ward_projectile.vpcf" // Particle system model for projectile.
+	// "ProjectileSpeed"			"1900"		// Speed of projectile.
+
+	// Bounds
+	//----------------------------------------------------------------
+	"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"			// Hull type used for navigation/locomotion.
+	"HealthBarOffset"			"170"
+
+	// Movement
+	//----------------------------------------------------------------
+	"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"			// Type of locomotion - ground, air
+	"MovementSpeed"				"250"			// Speed
+	"MovementTurnRate"			"0.5"		// Turning rate.
+	
+	// Bounty
+	//----------------------------------------------------------------
+	"BountyXP"					"0"		// Experience earn.
+	"BountyGoldMin"				"0"		// Gold earned min.
+	"BountyGoldMax"				"0"		// Gold earned max.
+
+	// Status
+	//----------------------------------------------------------------
+	"StatusHealth"				"175"		// Base health.
+	"StatusHealthRegen"			"0.25"		// Health regeneration rate.
+	"StatusMana"				"0"			// Base mana.
+	"StatusManaRegen"			"0"			// Mana regeneration rate.
+		
+	// Vision
+	//----------------------------------------------------------------
+	"VisionDaytimeRange"		"600"		// Range of vision during day light.
+	"VisionNighttimeRange"		"400"		// Range of vision at night time.
+
+	//Inventory
+	"HasInventory"				"0"
+
+	"DropChances"
+	{
+		"01"
+		{
+			"rarity"			"0"
+			"chance"			"15"
+		}
+		"02"
+		{
+			"rarity"			"10"
+			"chance"			"5"
+		}
+	}
+
+	"Resistances"
+	{
+		"SPECIAL_DAMAGE_TYPE_FIRE"			"10"
+		"SPECIAL_DAMAGE_TYPE_WATER"			"10"
+		"SPECIAL_DAMAGE_TYPE_EARTH"			"10"
+		"SPECIAL_DAMAGE_TYPE_STORM"			"10"
+		"SPECIAL_DAMAGE_TYPE_ORDER"			"0"
+		"SPECIAL_DAMAGE_TYPE_CHAOS"			"0"
+	}
+
+	"AttackType"		"SPECIAL_DAMAGE_TYPE_NONE"
+}

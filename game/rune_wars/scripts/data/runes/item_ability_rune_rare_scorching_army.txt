@@ -1,0 +1,19 @@
+"item_ability_rune_rare_scorching_army" 
+{
+	"RuneName"				"scorching_army"
+	"KeyRequirements"		"SPECIAL_ABILITY_KEY_SUMMON"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"radius"			"250"
+		}
+		"02"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"damage_per_second"		"50"
+		}
+	}
+} 

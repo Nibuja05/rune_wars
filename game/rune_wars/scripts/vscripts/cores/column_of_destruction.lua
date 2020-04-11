@@ -52,6 +52,7 @@ function column_of_destruction:DelayedAction(caster, loc, radius, targetTeam,tar
 		self:DealDamage(self:GetSpecialValueFor("damage"), caster, enemy, self:GetAbilitySpecialDamageType())
 	end
 end
+
 function column_of_destruction:OnSpellStart()
 	local caster = self:GetCaster()
 	local loc = self:GetCursorPosition()
@@ -68,6 +69,5 @@ function column_of_destruction:OnSpellStart()
 	Timers:CreateTimer(delay, function()
 		self:DelayedAction(caster, loc, radius, targetTeam, targetType, targetFlags, duration, delay)
 		end)	
-
 	
 end

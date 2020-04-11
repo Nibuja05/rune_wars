@@ -7,7 +7,7 @@ end
 
 function RuneBuilder:Init()
 	self.started = true
-	print("[RB] Initializing...")
+	print("[RB] Initializing Rune Builder...")
 	ListenToGameEvent('npc_spawned', Dynamic_Wrap(RuneBuilder, 'OnNPCSpawned'), self)
 	CustomGameEventManager:RegisterListener("delete_inv_item", Dynamic_Wrap(RuneBuilder, "DeleteInventoryItem"))
 	CustomGameEventManager:RegisterListener("add_inv_item", Dynamic_Wrap(RuneBuilder, "AddInventoryItem"))
@@ -25,23 +25,23 @@ function RuneBuilder:OnNPCSpawned(event)
 	    	CustomGameEventManager:Send_ServerToPlayer(player, "init_tooltips", {})
 			CustomGameEventManager:Send_ServerToPlayer(player, "init_stat_tooltips", {})
 	        CustomGameEventManager:Send_ServerToPlayer(player, "init_rune_slots", {})
+	        CustomGameEventManager:Send_ServerToPlayer(player, "init_item_tooltips", {})
 	        CustomNetTables:SetTableValue("rune_slots", tostring(npc:entindex()), {})
 	    end
 	end
 end
 
-function RuneBuilder:SetRuneDisabled(ability, index)
+function RuneBuilder:SetRuneDisabled(ability, index, markType)
 	-- print("[RB] Set a rune disabled!")
 	local className = ability:GetAbilityClassName()
 	local suffix = className:gsub("generic_ability", "")
 	local slotName = "rune"..index.."_slot"..suffix
 
-	print(index)
-
 	local caster = ability:GetCaster()
 	local playerID = caster:GetPlayerID()
 	local player = PlayerResource:GetPlayer(playerID)
-	CustomGameEventManager:Send_ServerToPlayer(player, "mark_rune_slot", {slotName = slotName, markType = "disabled"})
+	if not markType then markType = "disabled" end
+	CustomGameEventManager:Send_ServerToPlayer(player, "mark_rune_slot", {slotName = slotName, markType = markType})
 end
 
 function RuneBuilder:DeleteInventoryItem(event)

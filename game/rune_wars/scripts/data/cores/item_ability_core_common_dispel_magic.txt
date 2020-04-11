@@ -1,0 +1,30 @@
+"item_ability_core_common_dispel_magic" 
+{
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_NONE"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_SELF | SPECIAL_ABILITY_KEY_SINGLE_TARGET | SPECIAL_ABILITY_KEY_BUFF"
+	"SpecialSpellName"		"dispel_magic"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"bonus_resistance"	"20 +3"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"duration_flag_dur"	"5"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"cooldown_flag_inv"	"25"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"manacost_flag_inv"	"40"
+		}
+	}
+} 

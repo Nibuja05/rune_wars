@@ -15,6 +15,7 @@
 		"ScriptFile"    					"abilities/generic_ability_e"
 		"FightRecapLevel"    				"1"
 		"AbilityTextureName"				"rubick_empty1"
+		"MaxLevel"							"1"
 	}
 	
 	
@@ -58,6 +59,7 @@
 		"ScriptFile"    					"abilities/generic_ability_q"
 		"FightRecapLevel"    				"1"
 		"AbilityTextureName"				"rubick_empty1"
+		"MaxLevel"							"1"
 	}
 	
 	"generic_ability_w"
@@ -66,6 +68,7 @@
 		"ScriptFile"    					"abilities/generic_ability_w"
 		"FightRecapLevel"    				"1"
 		"AbilityTextureName"				"rubick_empty1"
+		"MaxLevel"							"1"
 	}
 	"hero_stat"
 	{
@@ -325,6 +328,18 @@
 				}
 			}				
 		}
+	}
+	
+	"neutral_elemental_attack"
+	{
+		"BaseClass"     					"ability_lua"
+		"ScriptFile"    					"abilities/neutral_elemental_attack"
+		"FightRecapLevel"    				"1"
+		"AbilityTextureName"				"modifier_invulnerable"
+	
+		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityType"						"DOTA_ABILITY_TYPE_BASIC"
+		"MaxLevel"							"1"
 	}
 	"rune"
 	{
