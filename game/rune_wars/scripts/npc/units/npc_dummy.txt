@@ -1,0 +1,30 @@
+"dummy_unit"
+{
+"BaseClass"	"npc_dota_creature"// Class of entity of link to.
+"Model"		"models/development/invisiblebox.vmdl"
+
+
+
+// Attack
+    //----------------------------------------------------------------
+    "AttackCapabilities"  "DOTA_UNIT_CAP_NO_ATTACK"
+
+    // Movement
+    //----------------------------------------------------------------
+    "MovementCapabilities"  "DOTA_UNIT_CAP_MOVE_NONE"
+
+    "UnitRelationshipClass" "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_WARD"
+    
+
+    // invulnerability
+    "ArmorPhysical""1000"// Physical protection.
+	"MagicalResistance""1000"// Magical protection.
+
+
+"Duration"	"15"
+// Vision
+//----------------------------------------------------------------
+"VisionDaytimeRange""250"// Range of vision during day light.
+"VisionNighttimeRange""250"// Range of vision at night time.
+"WakesNeutrals""0"
+}

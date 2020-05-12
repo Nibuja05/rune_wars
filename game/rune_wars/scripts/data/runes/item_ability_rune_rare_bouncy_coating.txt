@@ -1,0 +1,19 @@
+"item_ability_rune_rare_bouncy_coating" 
+{
+	"RuneName"				"bouncy_coating"
+	"KeyRequirements"		"SPECIAL_ABILITY_KEY_BOMB"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"bounce_count"		"2"
+		}
+		"02"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"min_bounce_distance"	"250"
+		}
+	}
+} 

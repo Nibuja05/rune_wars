@@ -1,0 +1,55 @@
+"item_ability_core_uncommon_water_bomb" 
+{
+	"SpecialDamageType"		"SPECIAL_DAMAGE_TYPE_WATER"
+	"SpecialAbilityType"	"SPECIAL_ABILITY_KEY_POINT | SPECIAL_ABILITY_KEY_BOMB | SPECIAL_ABILITY_KEY_AOE | SPECIAL_ABILITY_KEY_DAMAGE"
+	"SpecialSpellName"		"water_bomb"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"damage_flag_dmg"				"30 +5"
+		}
+		"02"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"range"							"1200"
+		}
+		"03"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"attach_range"					"300"
+		}
+		"04"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"projectile_speed_flag_non"		"900"
+		}
+		"05"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"radius"						"150 +5"
+		}
+		"06"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"max_attach_flag_non"			"3"
+		}
+		"07"
+		{
+			"var_type"						"FIELD_FLOAT"
+			"cooldown_flag_inv"				"4.0 -0.05"
+		}
+		"08"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"manacost_flag_inv"				"30 +2"
+		}
+		"09"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"duration_flag_dur"				"6"
+		}
+	}
+} 

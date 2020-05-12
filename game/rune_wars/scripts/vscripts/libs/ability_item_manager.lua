@@ -32,13 +32,37 @@ function ItemManager:CreateNewValuesForItem(item)
 
 	local itemTable = {}
 
+	print("?")
+
 	if itemName:find("ability_core") then
+		print("core!")
 		local itemKVs = item:GetAbilityKeyValues()
 		local damageType = itemKVs.SpecialDamageType
 		if damageType == "SPECIAL_DAMAGE_TYPE_RANDOM" then
 			itemTable.specialDamageType = 2^RandomInt(0, 5)
 		else
 			itemTable.specialDamageType = DOTA_EXTRA_ENUMS[damageType]
+		end
+		local specialTypes = itemKVs.SpecialAbilityType
+		specialTypesTable = self:ExtractKeys(specialTypes)
+		itemTable.specialKeys = specialTypesTable
+	else
+		print("rune!")
+		local itemKVs = item:GetAbilityKeyValues()
+		local requirements = itemKVs.KeyRequirements
+		if requirements then
+			local requirementTable = self:ExtractKeys(requirements)
+			itemTable.keyRequirements = requirementTable
+		else
+			itemTable.keyRequirements = {}
+		end
+
+		local additions = itemKVs.KeyAddition
+		if additions then
+			local additionTable = self:ExtractKeys(additions)
+			itemTable.keyAdditions = additionTable
+		else
+			itemTable.keyAdditions = {}
 		end
 	end
 
@@ -57,6 +81,16 @@ function ItemManager:ExtractRarity(name)
 	return rarity
 end
 
+function ItemManager:ExtractKeys(keyString)
+	local keys = StringSplit(keyString, "|")
+	local newKeys = {}
+	for _,key in pairs(keys) do
+		local newKey = key:match("[%a_]+")
+		table.insert(newKeys, newKey)
+	end
+	return newKeys
+end
+
 --==============================
 -- Other functions
 --==============================
@@ -67,6 +101,13 @@ function GetTableLength(table)
 		index = index + 1
 	end
 	return index
+end
+
+function StringSplit(str, sep)
+   local sep, fields = sep or ":", {}
+   local pattern = string.format("([^%s]+)", sep)
+   str:gsub(pattern, function(c) fields[#fields+1] = c end)
+   return fields
 end
 
 

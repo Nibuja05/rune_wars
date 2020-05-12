@@ -5,6 +5,26 @@ var DOTA_ABILITY_DISPEL_TYPE_NO = 1;
 var DOTA_ABILITY_DISPEL_TYPE_YES = 2;
 var DOTA_ABILITY_DISPEL_TYPE_STRONG = 4;
 
+var SPECIAL_KEY_ENUMS = {
+	SPECIAL_ABILITY_KEY_UNIT: 0,
+	SPECIAL_ABILITY_KEY_SELF: 1,
+	SPECIAL_ABILITY_KEY_POINT: 2,
+	SPECIAL_ABILITY_KEY_PASSIVE: 4,
+	SPECIAL_ABILITY_KEY_LINEAR_PROJECTILE: 8,
+	SPECIAL_ABILITY_KEY_TRACKING_PROJECTILE: 16,
+	SPECIAL_ABILITY_KEY_SINGLE_TARGET: 32,
+	SPECIAL_ABILITY_KEY_MULTI_TARGET: 64,
+	SPECIAL_ABILITY_KEY_AOE: 128,
+	SPECIAL_ABILITY_KEY_SUMMON: 256,
+	SPECIAL_ABILITY_KEY_DAMAGE: 512,
+	SPECIAL_ABILITY_KEY_HEAL: 1024,
+	SPECIAL_ABILITY_KEY_BUFF: 2048,
+	SPECIAL_ABILITY_KEY_EFFECTIVE: 4096,
+	SPECIAL_ABILITY_KEY_DURATION: 8192,
+	SPECIAL_ABILITY_KEY_DEBUFF: 16384,
+	SPECIAL_ABILITY_KEY_BOMB: 32768
+}
+
 // need to change them, so it works properly
 SPELL_IMMUNITY_ENEMIES_YES	= 4;
 SPELL_IMMUNITY_ENEMIES_NO = 8;
@@ -295,6 +315,26 @@ function ChangeTooltip(index, show) {
 		GetAbilityLabelFromName("DispelType").text = dispelType;
 	}
 
+	var abilityKeys = GetAbilityLabelFromName("SpecialKeys");
+	if (abilityKeys == null) {
+		var abilityTarget = tooltipManager.FindChildTraverse('AbilityTarget');
+		abilityKeys = $.CreatePanel("Label", $.GetContextPanel(), "AbilitySpecialKeys");
+		abilityKeys.html = true;
+		abilityKeys.SetParent(abilityTarget);
+	}
+	if (abilityTable["behavior"] !== undefined) {
+		var keys = abilityTable["specialkeys"];
+		var specialKeys = GetSpecialKeys(keys);
+		var specialKeyNames = [];
+		for (var i = 0; i < specialKeys.length; i++) {
+			var key = specialKeys[i];
+			specialKeyNames.push("<i>" + GetKeyName(key) + "</i>");
+		}
+		abilityKeys.text = "KEYS: " + specialKeyNames.join(" | ");
+	} else {
+		abilityKeys.DeleteAsync(0);
+	}
+
 	// TODO:
 	// On Level up an ability, make it refresh the tooltip!
 
@@ -303,6 +343,15 @@ function ChangeTooltip(index, show) {
 		$.CancelScheduled(resetSchedule, {});
 	}
 	resetSchedule = $.Schedule(1 / 6, AllowReset);
+}
+
+function GetSpecialKeys(keys) {
+	var selected = [];
+	for (var flag in SPECIAL_KEY_ENUMS) {
+		var val = SPECIAL_KEY_ENUMS[flag];
+		if ((keys & val) === val) selected.push(flag);
+	}
+	return selected;
 }
 
 function GenerateAbilityRuneLabels(descriptionPanel, abilityTable) {
@@ -329,34 +378,6 @@ function GenerateAbilityRuneLabels(descriptionPanel, abilityTable) {
 		abilityRuneHeaderLabel.style.textShadow = "2px 2px 0px 1.0 #00000090";
 		// abilityRuneHeaderLabel.text = $.Localize("DOTA_Tooltip_ability_" + runeName);
 		abilityRuneHeaderLabel.text = header[1];
-
-		// var cooldown = 10;
-		// if (cooldown > 0) {
-		// 	var abilityRuneCooldown = $.CreatePanel("Panel", $.GetContextPanel(), "RuneCosts")
-		// 	abilityRuneCooldown.SetParent(abilityRuneContainer);
-		// 	abilityRuneCooldown.style.flowChildren = "left";
-		// 	abilityRuneCooldown.style.width = "100%";
-		// 	abilityRuneCooldown.style.marginTop = "4px";
-		// 	abilityRuneCooldown.style.marginBottom = "5px";
-		// 	abilityRuneCooldown.style.marginRight = "8px";
-		// 	abilityRuneCooldown.style.zIndex = "1";
-
-		// 	var abilityRuneCooldownLabel = $.CreatePanel("Label", $.GetContextPanel(), "");
-		// 	abilityRuneCooldownLabel.SetParent(abilityRuneCooldown);
-		// 	abilityRuneCooldownLabel.AddClass("Cooldown");
-		// 	abilityRuneCooldownLabel.style.visibility = "visible";
-		// 	abilityRuneCooldownLabel.style.backgroundPosition = "0% 50%";
-		// 	abilityRuneCooldownLabel.style.backgroundRepeat = "no-repeat";
-		// 	abilityRuneCooldownLabel.style.paddingLeft = "25px";
-		// 	abilityRuneCooldownLabel.style.marginLeft = "10px";
-		// 	abilityRuneCooldownLabel.style.textShadow = "2px 2px 0px 1.0 #00000088";
-		// 	abilityRuneCooldownLabel.style.paddingTop = "2px";
-		// 	abilityRuneCooldownLabel.style.fontWeight = "semi-bold";
-		// 	abilityRuneCooldownLabel.style.color = "#e1e1e1";
-		// 	abilityRuneCooldownLabel.style.position = "258.0px 0.0px 0.0px";
-		// 	// abilityRuneCooldownLabel.style.horizontalAlign = "right";
-		// 	abilityRuneCooldownLabel.text = "10";
-		// }
 
 		var abilityRuneLabel = $.CreatePanel("Label", $.GetContextPanel(), "");
 		abilityRuneLabel.SetParent(abilityRuneDescriptionContainer);
@@ -491,6 +512,44 @@ function GetAbilityTargetString(key, val, opt) {
 			break;
 	}
 	return text;
+}
+
+function GetKeyName(key) {
+	switch (key) {
+		case "SPECIAL_ABILITY_KEY_UNIT":
+			return "Unit Target";
+		case "SPECIAL_ABILITY_KEY_SELF":
+			return "Self Target";
+		case "SPECIAL_ABILITY_KEY_POINT":
+			return "Point Target";
+		case "SPECIAL_ABILITY_KEY_PASSIVE":
+			return "Passive";
+		case "SPECIAL_ABILITY_KEY_LINEAR_PROJECTILE":
+			return "Linear Projectile";
+		case "SPECIAL_ABILITY_KEY_TRACKING_PROJECTILE":
+			return "Tracking Projectile";
+		case "SPECIAL_ABILITY_KEY_SINGLE_TARGET":
+			return "Single Target";
+		case "SPECIAL_ABILITY_KEY_MULTI_TARGET":
+			return "Multiple Targets";
+		case "SPECIAL_ABILITY_KEY_AOE":
+			return "AoE";
+		case "SPECIAL_ABILITY_KEY_SUMMON":
+			return "Summon";
+		case "SPECIAL_ABILITY_KEY_DAMAGE":
+			return "Damage";
+		case "SPECIAL_ABILITY_KEY_HEAL":
+			return "Heal";
+		case "SPECIAL_ABILITY_KEY_BUFF":
+			return "Buff";
+		case "SPECIAL_ABILITY_KEY_DURATION":
+			return "Has Duration";
+		case "SPECIAL_ABILITY_KEY_DEBUFF":
+			return "Debuff";
+		case "SPECIAL_ABILITY_KEY_BOMB":
+			return "Bomb";	
+	}
+	return "";
 }
 
 function GenerateAttributeText(abilityTable) {
@@ -741,6 +800,11 @@ function ResetAbilityTooltip() {
 	GetAbilityLabelFromName("Extra").text = "#DOTA_AbilityTooltip_ExtraDescription";
 	GetAbilityLabelFromName("Cooldown").text = "#DOTA_AbilityTooltip_Cooldown";
 	GetAbilityLabelFromName("ManaCost").text = "#DOTA_AbilityTooltip_ManaCost";
+
+	var specialKeys = GetAbilityLabelFromName("SpecialKeys");
+	if (specialKeys != null) {
+		specialKeys.DeleteAsync(0);
+	}
 }
 
 function GetAbilityTooltipPanel() {
@@ -792,6 +856,9 @@ function GetAbilityLabelFromName(name) {
 		case "DispelType":
 			x = x.FindChildTraverse('AbilityTarget');
 			return x.FindChildTraverse('AbilityDispelType');
+		case "SpecialKeys":
+			x = x.FindChildTraverse('AbilityTarget');
+			return x.FindChildTraverse('AbilitySpecialKeys');
 		case "ExtraAttributes":
 			x = x.FindChildTraverse('AbilityCoreDetails');
 			return x.FindChildTraverse('AbilityExtraAttributes');

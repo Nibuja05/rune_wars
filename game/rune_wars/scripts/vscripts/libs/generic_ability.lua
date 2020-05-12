@@ -360,14 +360,18 @@ function generic_ability:DoTrackingProjectile(startLoc, startUnit, endUnit, spee
 	local projectile = ProjectileManager:CreateTrackingProjectile(info)
 end
 
-function generic_ability:SummonUnit(name, location, modifiers)
+function generic_ability:SummonUnit(name, location, modifiers, isDummy)
+	if not isDummy then isDummy = false end
 	local caster = self:GetCaster()
 	local unit = CreateUnitByName(name, location, true, caster, caster, caster:GetTeam())
-	-- unit:SetAbsOrigin(location)
-	unit:SetControllableByPlayer(caster:GetPlayerID(), true)
+	unit:SetAbsOrigin(location)
 	unit:SetOwner(caster)
 
-	if self["GetSummonModifiers"] then
+	if not isDummy then
+		unit:SetControllableByPlayer(caster:GetPlayerID(), true)
+	end
+
+	if self["GetSummonModifiers"] and not isDummy then
 		modifiers = CombineTables(modifiers, self:GetSummonModifiers())
 	end
 
@@ -385,6 +389,49 @@ function generic_ability:SummonUnit(name, location, modifiers)
 			unit:AddNewModifier(caster, self, modifier.name, modifierTable)
 		end
 	end
+	return unit
+end
+
+function generic_ability:FireBomb(startLoc, startUnit, endLoc, speed, visionRadius, extraData)
+	local caster = self:GetCaster()
+	if not visionRadius then visionRadius = 0 end
+
+	local modifiers = {}
+	modifiers.dummy = {name = "modifier_invis_dummy"}
+	modifiers.kill = {name = "modifier_kill", duration = 5}
+	local endUnit = self:SummonUnit("dummy_unit", endLoc, modifiers, true)
+	endUnit:SetModelScale(0.001)
+
+	if not extraData then extraData = {} end
+	extraData.startX = startLoc.x
+	extraData.startY = startLoc.y
+	extraData.startZ = startLoc.z
+	extraData.speed = speed
+	extraData.targetID = endUnit:entindex()
+	extraData.sourceID = startUnit:entindex()
+	extraData.visionRadius = visionRadius
+
+	extraData.isBomb = true
+
+	local info = {
+		Source = startUnit,
+		Target = endUnit,
+		Ability = self,	
+		EffectName = self:GetProjectileParticle(),
+		iMoveSpeed = speed,
+		vSourceLoc= startLoc,
+		bDrawsOnMinimap = false,
+		bDodgeable = (extraData.dodgeable == true),
+		bIsAttack = (extraData.isAttack == true),
+		bVisibleToEnemies = (extraData.visibleToEnemies == true),
+		bReplaceExisting = (extraData.replaceExisting == true),
+		bProvidesVision = (visionRadius > 0),
+		iVisionRadius = visionRadius,
+		iVisionTeamNumber = caster:GetTeamNumber(),
+		ExtraData = extraData,
+	}	
+	
+	local projectile = ProjectileManager:CreateTrackingProjectile(info)
 end
 
 --=================================================================================================
@@ -869,11 +916,27 @@ function generic_ability:OnProjectileHit_ExtraData(hTarget, vLocation, extraData
 			extraData.source = EntIndexToHScript(extraData.sourceID)
 			extraData.sourceID = nil
 		end
-	end
-	if hTarget then
-		if self["OnProjectileHitUnitExtra"] then return self:OnProjectileHitUnitExtra(hTarget, extraData) end
+		if hTarget then
+			if extraData.isBomb then
+				local targetLoc = hTarget:GetAbsOrigin()
+				hTarget:ForceKill(false)
+				if self["OnBombHit"] then return self:OnBombHit(targetLoc, extraData) end
+			else
+				if self["OnProjectileHitUnitExtra"] then return self:OnProjectileHitUnitExtra(hTarget, extraData) end
+			end
+		else
+			if extraData.isBomb then
+				if self["OnBombHit"] then return self:OnBombHit(vLocation, extraData) end
+			else
+				if self["OnProjectileHitFinishExtra"] then return self:OnProjectileHitFinishExtra(vLocation, extraData) end
+			end
+		end
 	else
-		if self["OnProjectileHitFinishExtra"] then return self:OnProjectileHitFinishExtra(vLocation, extraData) end
+		if hTarget then
+			if self["OnProjectileHitUnit"] then return self:OnProjectileHitUnit(hTarget) end
+		else
+			if self["OnProjectileFinish"] then return self:OnProjectileFinish(vLocation) end
+		end
 	end
 	return false
 end

@@ -29,11 +29,11 @@ def getBaseHTML(insert, short=False, optHeader=""):
 				<li class="nav-item"><a href="index.html" title="">Home</a></li>
 
 				<li class="nav-item has-dropdown">
-					<a href="server.html#Overview" title="">Server</a>
+					<a href="server_overview.html" title="">Server</a>
 					<div class="dropdown">
-						<a href="server.html#Overview">Overview</a>
-						<a href="server.html#Classes">Classes</a>
-						<a href="server.html#Modifiers">Modifiers</a>
+						<a href="server_overview.html">Overview</a>
+						<a href="server_classes.html">Classes</a>
+						<a href="server_modifiers.html">Modifiers</a>
 					</div>
 				</li>
 				<li class="nav-item has-dropdown">
@@ -104,7 +104,7 @@ def tag(text, tag, optID="", optClasses=[], optStyle=[], optArgs={}):
 def addClass(text, className="", classNames=[]):
 	if len(classNames) > 0:
 		className = " ".join(classNames)
-	return '<span class="%s">%s</span>' % (className, text)
+	return tag(text, "span", optClasses=[className])
 
 def getIcon(iconType, size=50, color=""):
 	if color != "":

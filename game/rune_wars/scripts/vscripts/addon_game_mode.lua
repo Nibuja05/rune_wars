@@ -17,6 +17,7 @@ require('libs/generic_ability')
 require('libs/rune_builder')
 -- require('libs/hero_stats')
 require('libs/creep_manager')
+require('libs/general_modifiers')
 
 --- Precache
 local function Precache( context )
@@ -29,6 +30,8 @@ local function Precache( context )
 	]]
 end
 
+---
+--@ignore
 function Activate()
 	GameRules.AddonTemplate = GameMode()
 	GameRules.AddonTemplate:InitGameMode()
@@ -50,7 +53,8 @@ end
 -- Gets executed when a unit spawns
 -- Used for initial panorama events and innate abilities
 -- @param table: OnNPCSpawned event
-function GameMode:OnNPCSpawned(event)
+-- @field entindex int: entity index of the unit spawned
+function GameMode:OnNPCSpawned(event, ev)
 	local npc = EntIndexToHScript(event.entindex)
 
 	if npc:IsRealHero() then

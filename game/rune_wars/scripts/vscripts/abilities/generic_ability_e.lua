@@ -1,6 +1,8 @@
 require("libs/generic_ability")
 LinkLuaModifier("modifier_base_events_generic_ability_e", "abilities/generic_ability_e.lua", LUA_MODIFIER_MOTION_NONE)
 
+--- Generic Ability E
+-- some explanation here
 generic_ability_e = class(generic_ability)
 
 function generic_ability_e:GetAbilityClassName()
@@ -11,7 +13,7 @@ end
 --MODIFIER
 --=================================================================================================
 
-
+--- Base event modifier
 modifier_base_events_generic_ability_e = class({})
 
 function modifier_base_events_generic_ability_e:IsHidden()

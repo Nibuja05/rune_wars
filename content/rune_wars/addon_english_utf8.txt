@@ -223,5 +223,26 @@
 		"DOTA_Tooltip_ability_item_ability_rune_rare_scorching_army_Description"          "<h1>Scorching Army</h1>All units summoned from this ability deal damage over time to all enemies nearby."
 		"DOTA_Tooltip_ability_item_ability_rune_rare_scorching_army_radius"               "RADIUS:"
 		"DOTA_Tooltip_ability_item_ability_rune_rare_scorching_army_damage_per_second"    "DAMAGE PER SECOND:"
+
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_memory_bomb"                     "Ability Core: Memory Bomb"
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_memory_bomb_Description"         "Fires a bomb of dark energy at target location, which instantly explodes there and leaves a memory marker. Additionally it fires two additional bombs at the last marked positions. Marks expire, if the caster gets too far away."
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_memory_bomb_damage_flag_dmg"     "DAMAGE:"
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_memory_bomb_range"               "RANGE:"
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_memory_bomb_max_range"           "MAX RANGE:"
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_memory_bomb_radius"              "RADIUS:"
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_memory_bomb_saved_locations_flag_non"		"SAVED LOCATIONS:"
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_memory_bomb_cooldown_flag_inv"   "COOLDOWN:"
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_memory_bomb_manacost_flag_inv"   "MANACOST:"
+
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_water_bomb"                      "Ability Core: Water Bomb"
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_water_bomb_Description"          "Fires a bomb of concentrated water energy at target location. The bomb hovers there until an enemy unit approaches and attaches to that unit. When three bombs are attached to a unit or the maximum duration is reached, the bomb explodes and deals damage to all enemies around."
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_water_bomb_damage_flag_dmg"      "DAMAGE:"
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_water_bomb_range"                "RANGE:"
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_water_bomb_attach_range"         "ATTACH RANGE:"
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_water_bomb_radius"     "EXPLOSION RADIUS:"
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_water_bomb_max_attach_flag_non"		"MAX ATTACHMENTS:"
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_water_bomb_cooldown_flag_inv"    "COOLDOWN:"
+		"DOTA_Tooltip_ability_item_ability_core_uncommon_water_bomb_manacost_flag_inv"    "MANACOST:"
+
 	}
 }

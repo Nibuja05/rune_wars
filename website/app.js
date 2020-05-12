@@ -41,6 +41,10 @@ function openCloseIcon(event) {
 	targetElem = event.currentTarget;
 	dirDiv = targetElem.parentElement.parentElement.getElementsByClassName("sub-dirs")[0];
 	
+	if (targetElem.classList.contains("no-click")) {
+		return;
+	}
+	
 	if (targetElem.classList.contains("tri-icon-active")) {
 		targetElem.classList.remove("tri-icon-active");
 		dirDiv.classList.remove("sub-dirs-active");
@@ -62,8 +66,9 @@ function setTriIcons() {
 
 function openCloseCode(event) {
 	"use strict";
-	var codeBlock, block, i;
-	codeBlock = event.currentTarget.parentElement.parentElement.getElementsByTagName("div");
+	var rootElem, codeBlock, triIcon, block, i;
+	rootElem = event.currentTarget.parentElement.parentElement.parentElement;
+	codeBlock = rootElem.getElementsByTagName("div");
 	for (i = 0; i < codeBlock.length; i += 1) {
 		block = codeBlock[i];
 		if (block.classList.contains("func-block-active")) {
@@ -71,6 +76,12 @@ function openCloseCode(event) {
 		} else {
 			block.classList.add("func-block-active");
 		}
+	}
+	triIcon = rootElem.getElementsByClassName("tri-icon")[0];
+	if (triIcon.classList.contains("tri-icon-active")) {
+		triIcon.classList.remove("tri-icon-active");
+	} else {
+		triIcon.classList.add("tri-icon-active");
 	}
 }
 

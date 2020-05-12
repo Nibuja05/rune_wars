@@ -62,7 +62,7 @@ function CreepManager:SpawnCreeps(spawner, spawnType)
 		local spawnerLoc = spawner:GetAbsOrigin()
 		for i=1,count do
 			local unit = CreateUnitByName("npc_dota_neutral_kobold_basic", spawnerLoc, true, nil, nil, DOTA_TEAM_NEUTRALS)
-			unit:AddNewModifier(spawner, nil, "modifier_kill", {Duration = 60})
+			-- unit:AddNewModifier(spawner, nil, "modifier_kill", {Duration = 60})
 			unit:AddNewModifier(spawner, nil, "modifier_creep_death", {spawnerID = spawner:entindex()})
 			table.insert(spawner.units, unit)
 		end

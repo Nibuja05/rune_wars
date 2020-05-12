@@ -1,5 +1,7 @@
 
 if not GenericAbility then
+---Generic Ability Manager
+-- This class manages the creation and management of generic_ability
 	GenericAbility = class({})
 end
 

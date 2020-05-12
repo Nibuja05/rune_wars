@@ -15,6 +15,8 @@ def CheckItems():
 	rootPath = str(rootPath) + "\\scripts"
 	pathList = ['cores', 'runes']
 
+	cores, runes = [],[]
+
 	for pathName in pathList:
 		path = rootPath + "\\data\\" +  pathName
 		completeText = ""
@@ -41,6 +43,12 @@ def CheckItems():
 					kvPattern = r'((.?|\s)*?){\s((.|\s)*)'
 					kvMatch = re.search(kvPattern, text)
 					itemType = rarityMatch.group(1)
+					itemName = kvMatch.group(1)
+
+					if itemType == "core":
+						cores.append(itemName)
+					else:
+						runes.append((rarity, itemName))
 
 					cooldown = ""
 					cdPattern = r'"AbilityCooldown"\s*.*'
@@ -49,13 +57,18 @@ def CheckItems():
 						cooldown = "\n\n\t" + cdMatch.group()
 
 					runeText = GetItemText(startID, itemType, rarity, cooldown)
-					runeText = kvMatch.group(1) + "{" + runeText + "\n" + kvMatch.group(3)
+					runeText = itemName + "{" + runeText + "\n" + kvMatch.group(3)
 					completeText += runeText + "\n\n\n"
 
 		fileName = rootPath + "\\npc\\items\\complete_" + pathName + "_data.txt"
 		file = open(fileName, 'w+', encoding="utf8")
 		file.write(completeText)
 		file.close()
+
+	print("Updating Shop...")
+	with open(rootPath + "\\shops.txt", 'w+', encoding="utf8") as file:
+		shopText = BuildShop(cores, runes)
+		file.write(shopText)
 	print("Done!")
 
 
@@ -87,6 +100,54 @@ def GetItemText(itemId, itemType, quality, cooldown):
 	"ItemDisplayCharges"	"0"
 	"ItemRequiresCharges"	"0"%s
 	""" % (str(itemId), itemType, quality, quality, cooldown)
+	return text
+
+def BuildShop(cores, runes):
+	abilityCoresStr, commonRunesStr, uncommonRunesStr, rareRunesStr, mythicalRunesStr = "","","","",""
+	for core in cores:
+		abilityCoresStr += "\t\t\"item\"\t\t" + core
+	for rarity, rune in runes:
+		if rarity == "common":
+			commonRunesStr += "\t\t\"item\"\t\t" + rune
+		if rarity == "uncommon":
+			uncommonRunesStr += "\t\t\"item\"\t\t" + rune
+		if rarity == "rare":
+			rareRunesStr += "\t\t\"item\"\t\t" + rune
+		if rarity == "mythical":
+			mythicalRunesStr += "\t\t\"item\"\t\t" + rune
+
+	text = """"dota_shops"
+{
+	"misc"
+	{
+%s
+	}	
+	
+	// Level 1 - Green Recipes
+	"basics"
+	{
+%s
+	}
+
+	// Level 2 - Blue Recipes
+	"magics"
+	{
+%s
+	}
+	
+	// Level 3 - Purple Recipes	
+	"weapons"
+	{
+%s
+	}
+	
+	// Level 4 - Orange / Orb / Artifacts
+	"artifacts"
+	{
+%s
+	}
+}
+	""" % (abilityCoresStr[:-1], commonRunesStr[:-1], uncommonRunesStr[:-1], rareRunesStr[:-1], mythicalRunesStr[:-1])
 	return text
 
 # Aufrufen der Main mit Paramtern.

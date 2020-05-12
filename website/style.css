@@ -379,8 +379,26 @@ main {
 	overflow: hidden;
 }
 
+.func-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.func-header p{
+	margin-left: 0.3em;
+	margin-block-start: 0.7em;
+	margin-block-end: 0.7em;
+}
+
+.func-header .tri-icon:hover .click-icon{
+	cursor: default;
+	fill: var(--text);
+}
+
 .func-block {
 	display: none;
+	flex-direction: column;
 }
 
 .func-block p {
@@ -389,9 +407,37 @@ main {
 }
 
 .func-block-active {
-	display: block;
+	display: flex;
+}
+
+.func-description {
+	flex-direction: column;
+	font-size: 14px;
+	padding: 1em;
 }
 
 .show-code:hover {
 	cursor: pointer;
+}
+
+.table-table {
+	border: 1px solid var(--text);
+	border-collapse: collapse;
+	font-size: 12px;
+	font-style: normal;
+	font-family: 'Share Tech Mono', monospace;
+	margin-bottom: 0.5em;
+	margin-top: 0.5em;
+	margin-left: 2rem;
+	width: 50%;
+}
+
+.table-table th{
+	border: 1px solid var(--text);
+	padding: 0.6em;
+}
+
+.table-table tr{
+	border: 1px solid var(--text);
+	padding: 0.6em;
 }

@@ -1,6 +1,6 @@
 "item_ability_rune_common_critical" 
 {
-	"ID"                    "3014"
+	"ID"                    "3016"
 	"BaseClass"             "item_datadriven"
 	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	"AbilityTextureName"    "item_rune"
@@ -45,9 +45,56 @@
 } 
 
 
+"item_ability_rune_rare_bouncy_coating" 
+{
+	"ID"                    "3017"
+	"BaseClass"             "item_datadriven"
+	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityTextureName"    "item_rune"
+	"Model"                 "models/props_gameplay/gem01.vmdl" 
+	"Effect"                "particles/world/dropped_item_rare.vpcf"
+	"ItemQuality"           "rare"
+
+	"ItemDisassembleRule"	"DOTA_ITEM_DISASSEMBLE_NEVER"
+	"ItemCost"				"0"
+	"ItemKillable"			"1" 
+	"ItemSellable"			"1"
+	"ItemPurchasable"		"1"
+	"ItemDroppable"			"1"
+	"ItemShareability"		"ITEM_FULLY_SHAREABLE_STACKING"
+
+	"SideShop"				"1" 
+	"SecretShop"			"0"
+
+	"ItemStackable"			"0"
+	"ItemPermanent"			"0"
+
+	"ItemInitialCharges"	"0"
+	"ItemDisplayCharges"	"0"
+	"ItemRequiresCharges"	"0"
+	
+	"RuneName"				"bouncy_coating"
+	"KeyRequirements"		"SPECIAL_ABILITY_KEY_BOMB"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"bounce_count"		"2"
+		}
+		"02"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"min_bounce_distance"	"250"
+		}
+	}
+} 
+
+
 "item_ability_rune_rare_cascade" 
 {
-	"ID"                    "3015"
+	"ID"                    "3018"
 	"BaseClass"             "item_datadriven"
 	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	"AbilityTextureName"    "item_rune"
@@ -94,7 +141,7 @@
 
 "item_ability_rune_rare_scorching_army" 
 {
-	"ID"                    "3016"
+	"ID"                    "3019"
 	"BaseClass"             "item_datadriven"
 	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	"AbilityTextureName"    "item_rune"
@@ -141,7 +188,7 @@
 
 "item_ability_rune_uncommon_corpse_control" 
 {
-	"ID"                    "3017"
+	"ID"                    "3020"
 	"BaseClass"             "item_datadriven"
 	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	"AbilityTextureName"    "item_rune"
@@ -199,7 +246,7 @@
 
 "item_ability_rune_uncommon_split" 
 {
-	"ID"                    "3018"
+	"ID"                    "3021"
 	"BaseClass"             "item_datadriven"
 	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	"AbilityTextureName"    "item_rune"
@@ -241,7 +288,7 @@
 
 "item_ability_rune_uncommon_split_back" 
 {
-	"ID"                    "3019"
+	"ID"                    "3022"
 	"BaseClass"             "item_datadriven"
 	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	"AbilityTextureName"    "item_rune"
@@ -287,7 +334,7 @@
 
 "item_ability_rune_uncommon_time_drain" 
 {
-	"ID"                    "3020"
+	"ID"                    "3023"
 	"BaseClass"             "item_datadriven"
 	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	"AbilityTextureName"    "item_rune"

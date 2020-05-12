@@ -45,6 +45,12 @@ local values = {
 }
 ```
 
+You can also modify all values of the ability at once. For this use:
+
+- `ModifyValuesGlobal()` - returns a float value, that all values get multiplied with
+
+The global value modifications follow the special value flags, so some might not get modified or divided instead of multiplied. Multiple sources of global value modification stack properly.
+
 ### Custom events
 
 The rest of the file can be filled with your functions as you like. Be aware that runes feature a ton of unique events that are called on every ability. A proper explenation about these events follows:
@@ -61,6 +67,7 @@ The rest of the file can be filled with your functions as you like. Be aware tha
 	- `width` (Number): collision width (linear only)
 	- `visionRadius` (Number): projectile vision radius
 - `OnProjectileHitFinishExtra(vLocation, extraData)` - gets called when a projectile gets destroyed (linear only). Contains same additional data as described above.
+- `OnBombHit(vLocation, extrData)` - same as above, but only for bomb projectiles
 - `OnAttackStart(eventData)` - gets called when an attack of the ability owner is about to start. Usual event paramater as in modifier events.
 - `OnAttack(eventData)` - gets called when the ability owner attacks. Usual event paramater as in modifier events.
 - `OnAttackLanded(eventData)` - gets called when the ability owner attack lands. Usual event paramater as in modifier events.

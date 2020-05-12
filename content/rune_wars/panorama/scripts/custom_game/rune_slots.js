@@ -710,17 +710,36 @@ function CheckItemTooltip(hoverPanel) {
 
 	var netTable = CustomNetTables.GetTableValue("item_extras", itemID.toString());
 	if (netTable) {
-		var realItemName = hoverPanel.itemname;
+		var realItemName = "";
+		if (hoverPanel != null) {realItemName = hoverPanel.itemname}
 		var damageType = "Element: ";
+
+		var rarity = netTable.rarity;
+		itemNameLabel.text = ColorText(itemName, GetRarityColor(rarity));
+
+		var abilityTarget = itemTooltip.FindChildTraverse("AbilityTarget");
+
 		if (realItemName.indexOf("ability_core") >= 0) {
+			abilityTarget.style.visibility = null;
+
 			var elementName = GetElementName(netTable.specialDamageType);
 			damageType += elementName;
 			CreateSubtitle(itemTooltip, damageType, GetElementColor(elementName));
 
-			var rarity = netTable.rarity;
-			itemNameLabel.text = ColorText(itemName, GetRarityColor(rarity));
+		} else {
+			abilityTarget.style.visibility = "visible";
+			var targetChilds = abilityTarget.Children()
+			for (var i = 0; i < targetChilds.length; i++) {
+				var containerChild = targetChilds[i];
+				containerChild.style.visibility = "collapse";
+			}
 
-			reset = false;
+			DeleteSubtitle(itemTooltip);
+			var requirements = netTable.keyRequirements
+			var additions = netTable.keyAdditions
+			CreateKeyRequirements(itemTooltip, requirements, additions);
+		}
+		reset = false;
 			if (resetSchedule) {
 				$.CancelScheduled(resetSchedule, {});
 			}
@@ -728,8 +747,7 @@ function CheckItemTooltip(hoverPanel) {
 				resetSchedule = undefined;
 				reset = true;
 			});
-			return;
-		}
+		return;
 	}
 
 	ResetItemTooltip();
@@ -759,6 +777,78 @@ function DeleteSubtitle(itemTooltip) {
 	}
 }
 
+function CreateKeyRequirements(itemTooltip, requirements, additions) {
+	var abilityTarget = itemTooltip.FindChildTraverse("AbilityTarget");
+
+	if (requirements) {
+		var requirementList = [];
+		for (var i = 0; i < Object.values(requirements).length; i++) {
+			var requirement = Object.values(requirements)[i];
+			requirementList.push(GetKeyName(requirement));
+		}
+
+		if (requirementList.length > 0) {
+			var requirementLabel = $.CreatePanel("Label", $.GetContextPanel(), "rune_requirements");
+			requirementLabel.html = true;
+			requirementLabel.text = "REQUIRES: " + ColorText(requirementList.join(" | "), "#CC0000");
+			requirementLabel.SetParent(abilityTarget);
+		}
+	}
+
+	if (additions) {
+		var additionList = [];
+		for (var i = 0; i < Object.values(additions).length; i++) {
+			var addition = Object.values(additions)[i];
+			additionList.push(GetKeyName(addition));
+		}
+
+		if (additionList.length > 0) {
+			var additionLabel = $.CreatePanel("Label", $.GetContextPanel(), "rune_additions");
+			additionLabel.html = true;
+			additionLabel.text = "ADDS: " + ColorText(additionList.join(" | "),"#6FE971");
+			additionLabel.SetParent(abilityTarget);
+		}
+	}
+}
+
+function GetKeyName(key) {
+	switch (key) {
+		case "SPECIAL_ABILITY_KEY_UNIT":
+			return "Unit Target";
+		case "SPECIAL_ABILITY_KEY_SELF":
+			return "Self Target";
+		case "SPECIAL_ABILITY_KEY_POINT":
+			return "Point Target";
+		case "SPECIAL_ABILITY_KEY_PASSIVE":
+			return "Passive";
+		case "SPECIAL_ABILITY_KEY_LINEAR_PROJECTILE":
+			return "Linear Projectile";
+		case "SPECIAL_ABILITY_KEY_TRACKING_PROJECTILE":
+			return "Tracking Projectile";
+		case "SPECIAL_ABILITY_KEY_SINGLE_TARGET":
+			return "Single Target";
+		case "SPECIAL_ABILITY_KEY_MULTI_TARGET":
+			return "Multiple Targets";
+		case "SPECIAL_ABILITY_KEY_AOE":
+			return "AoE";
+		case "SPECIAL_ABILITY_KEY_SUMMON":
+			return "Summon";
+		case "SPECIAL_ABILITY_KEY_DAMAGE":
+			return "Damage";
+		case "SPECIAL_ABILITY_KEY_HEAL":
+			return "Heal";
+		case "SPECIAL_ABILITY_KEY_BUFF":
+			return "Buff";
+		case "SPECIAL_ABILITY_KEY_DURATION":
+			return "Has Duration";
+		case "SPECIAL_ABILITY_KEY_DEBUFF":
+			return "Debuff";
+		case "SPECIAL_ABILITY_KEY_BOMB":
+			return "Bomb";	
+	}
+	return "";
+}
+
 function CheckItemTooltipEnd(hoverPanel) {
 	var itemTooltip = GetItemTooltip();
 	if (!itemTooltip) { $.Msg("No Tooltip!"); return; }
@@ -774,6 +864,17 @@ function ResetItemTooltip() {
 	itemNameLabel.text = "#DOTA_AbilityTooltip_Name";
 
 	DeleteSubtitle(itemTooltip);
+
+	var abilityTarget = itemTooltip.FindChildTraverse("AbilityTarget");
+	abilityTarget.style.visibility = null;
+	var targetChilds = abilityTarget.Children()
+	for (var i = 0; i < targetChilds.length; i++) {
+		var containerChild = targetChilds[i];
+		containerChild.style.visibility = null;
+		if (containerChild.id == "rune_additions" || containerChild.id == "rune_requirements") {
+			containerChild.DeleteAsync(0)
+		}
+	}
 }
 
 function GetItemTooltip() {
